@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="myuv">
+<head>
+    <title>Myuv: Quick Movie Ratings</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+    <script src="https://rawgithub.com/lodash/lodash/2.2.0/dist/lodash.min.js"></script>
+
+    <script src="scripts/app.js"></script>
+
+    <!-- <link rel="stylesheet" type="text/css" href="styles/styles.css"> -->
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans' rel='stylesheet' type='text/css'>
+
+</head>
+<body ng-controller="PageController">
+
+    <h1 class='title'>Myuv</h1>
+
+    <div class="container">
+        <p>{{ hello }}</p>
+        <p>IMDB: {{imdb}}</p>
+        <p>RT: {{rt}}</p>
+        <p>TMDB: {{tmdb}}</p>
+        <p>Meta: {{meta}}</p>
+        <p>IMDB backup: {{imdb_backup}}</p>
+
+    </div>
+
+
+</body>
+</html>
