@@ -37,14 +37,14 @@ app.controller('PageController',
         $scope.movieSearchResults = [];
 
         $scope.hello = "hi";
-        $scope.fetch = function() {
+        $scope.fetch = function(title) {
 
             var config = {
-                query: 'inception'
+                query: title
                 // id: 'tt1375666'
             };
 
-            getResultsWithTitle('inception', $scope);
+            getResultsWithTitle(title, $scope);
 
             // rottenService(config)
             // .success(function(data, status) {
@@ -76,6 +76,9 @@ app.controller('PageController',
         };
 
         $window.fetch = $scope.fetch;
+        $window.show = function() {
+            console.log(JSON.stringify($scope.movieSearchResults, null, 4));
+        }
 
     });
 
@@ -85,60 +88,60 @@ app.factory('updateScope', function() {
     }
 });
 
-app.factory('getResultsWithTitle', function($q, rottenService, imdbService, tmdbService, metacriticService) {
+/** getResultsWithTitle
 
+Given a movie title query, get the ratings from all sources and update the scope with it.
 
-    /**
-    Given a movie title query, get the ratings from all sources and update the scope with it.
-
-    $scope.movieSearchResults = [
-        {
-            searchKey: 123,
-            title: 'Inception',
-            runtime: 148, //minutes,
-            mpaaRating: 'PG-13',
-            rtId: '770805418',
-            imdbId: 'tt1375666',
-            rtCritics: {
-                rating: 86,
-                outOf: '%',
-                link: 'http://www.rottentomatoes.com/m/inception/'
-            },
-            rtAudience: {
-                rating: 91,
-                outOf: '%',
-                link: 'http://www.rottentomatoes.com/m/inception/'
-            },
-            imdb: {
-                rating: '8.8',
-                outOf: '10',
-                link: 'http://www.imdb.com/title/tt1375666/'
-            },
-            tmdb: {
-                rating: '7.4',
-                outOf: '10',
-                link: 'http://www.themoviedb.org/movie/27205-inception'
-            },
-            metaCritics: {
-                rating: '74',
-                outOf: '100',
-                link: 'http://www.metacritic.com/movie/inception'
-            },
-            metaUsers: {
-                rating: '8.6',
-                outOf: '10',
-                link: 'http://www.metacritic.com/movie/inception'
-            }
+$scope.movieSearchResults = [
+    {
+        searchKey: 123,
+        title: 'Inception',
+        runtime: 148, //minutes,
+        mpaaRating: 'PG-13',
+        rtId: '770805418',
+        imdbId: 'tt1375666',
+        rtCritics: {
+            rating: 86,
+            outOf: '%',
+            link: 'http://www.rottentomatoes.com/m/inception/'
         },
-        {movie1...},
-        {movie2...}
-    ]
+        rtAudience: {
+            rating: 91,
+            outOf: '%',
+            link: 'http://www.rottentomatoes.com/m/inception/'
+        },
+        imdb: {
+            rating: '8.8',
+            outOf: '10',
+            link: 'http://www.imdb.com/title/tt1375666/'
+        },
+        tmdb: {
+            rating: '7.4',
+            outOf: '10',
+            link: 'http://www.themoviedb.org/movie/27205-inception'
+        },
+        metaCritics: {
+            rating: '74',
+            outOf: '100',
+            link: 'http://www.metacritic.com/movie/inception'
+        },
+        metaUsers: {
+            rating: '8.6',
+            outOf: '10',
+            link: 'http://www.metacritic.com/movie/inception'
+        }
+    },
+    {movie1...},
+    {movie2...}
+]
 
-    @param title {string} Movie title.
-    @param scope {Object} The angular $scope.
+@param title {string} Movie title.
+@param scope {Object} The angular $scope.
 
-    @returns null
-    **/
+@returns null
+**/
+
+app.factory('getResultsWithTitle', function($q, rottenService, imdbService, tmdbService, metacriticService) {
 
     return function getResultsWithTitle(title, scope) {
         // _.find(movies, {searchKey:2})
@@ -148,27 +151,74 @@ app.factory('getResultsWithTitle', function($q, rottenService, imdbService, tmdb
         };
 
         rottenService({query: title})
-        .success(function(data, status) {
+        .success(function(data) {
 
-            var movieObj = data.movies[0];
+            var rtMovieObj = data.movies[0];
 
-            resultObj.title = movieObj.title;
-            resultObj.runtime = movieObj.runtime;
-            resultObj.mpaaRating = movieObj.mpaa_rating;
-            resultObj.rtId = movieObj.id;
-            resultObj.imdbId = movieObj.alternate_ids.imdb;
+            resultObj.title = rtMovieObj.title;
+            resultObj.runtime = rtMovieObj.runtime;
+            resultObj.mpaaRating = rtMovieObj.mpaa_rating;
+            resultObj.rtId = rtMovieObj.id;
+            resultObj.imdbId = 'tt' + rtMovieObj.alternate_ids.imdb;
 
             var rtDefaultObj = {
                 outOf: '%',
-                link: movieObj.links.alternate
+                link: rtMovieObj.links.alternate
             };
-            resultObj.rtCritics = _.merge(rtDefaultObj, {rating: movieObj.ratings.critics_score});
-            resultObj.rtAudience = _.merge(rtDefaultObj, {rating: movieObj.ratings.audience_score});
+
+            resultObj.rtCritics = _.merge({}, rtDefaultObj, {rating: rtMovieObj.ratings.critics_score});
+            resultObj.rtAudience = _.merge({}, rtDefaultObj, {rating: rtMovieObj.ratings.audience_score});
 
             scope.movieSearchResults.unshift(resultObj);
 
+
+            var imdbId = resultObj.imdbId;
+            imdbService({id: imdbId})
+            .success(function(data) {
+
+                resultObj.imdb = {
+                    outOf: '10',
+                    link: 'http://www.imdb.com/title/' + imdbId,
+                    rating: data.imdbRating
+                };
+
+            });
+
+            tmdbService({id: imdbId})
+            .success(function(data) {
+
+                resultObj.tmdb = {
+                    outOf: '10',
+                    // http://www.themoviedb.org/movie/25523-shrek-4-d
+                    link: 'http://www.themoviedb.org/movie/' + data.id + '-' + data.title.replace(/\W+/g,'-'),
+                    rating: data.vote_average
+                };
+
+            });
+
+            // TODO: Find the right movie out of the results. Use lodash or something.
+            // fetch('batman begins') returns 'dark knight' as first result.
+            metacriticService({query: resultObj.title})
+            .success(function(data) {
+
+                var metaMovieObj = data.results[0];
+
+                resultObj.metaCritics = {
+                    rating: metaMovieObj.score,
+                    outOf: '100',
+                    link: metaMovieObj.url
+                };
+
+                resultObj.metaUsers = {
+                    rating: metaMovieObj.avguserscore,
+                    outOf: '10',
+                    link: metaMovieObj.url
+                };
+
+            });
+
         });
-    };
+};
 
 });
 
@@ -242,7 +292,7 @@ app.factory('tmdbService', function($http, TMDB_API_KEY) {
     Retrieves a JSON object from TMDB.
 
     @param config {Object} Must have either the 'id' or 'query' key.
-    @param config.id {string} IMDB movie id. For example, "770805418" is Inception.
+    @param config.id {string} IMDB movie id. For example, "tt1375666" is Inception.
     @param config.query {string} URL-friendly search query. For example, "incepti"...
 
     @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
