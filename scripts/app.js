@@ -100,36 +100,44 @@ $scope.movieSearchResults = [
         mpaaRating: 'PG-13',
         rtId: '770805418',
         imdbId: 'tt1375666',
-        rtCritics: {
-            rating: 86,
-            outOf: '%',
-            link: 'http://www.rottentomatoes.com/m/inception/'
-        },
-        rtAudience: {
-            rating: 91,
-            outOf: '%',
-            link: 'http://www.rottentomatoes.com/m/inception/'
-        },
-        imdb: {
-            rating: '8.8',
-            outOf: '10',
-            link: 'http://www.imdb.com/title/tt1375666/'
-        },
-        tmdb: {
-            rating: '7.4',
-            outOf: '10',
-            link: 'http://www.themoviedb.org/movie/27205-inception'
-        },
-        metaCritics: {
-            rating: '74',
-            outOf: '100',
-            link: 'http://www.metacritic.com/movie/inception'
-        },
-        metaUsers: {
-            rating: '8.6',
-            outOf: '10',
-            link: 'http://www.metacritic.com/movie/inception'
-        }
+        sources: [
+            {
+                label: 'RT Critics',
+                rating: 86,
+                outOf: '%',
+                link: 'http://www.rottentomatoes.com/m/inception/'
+            },
+            {
+                label: 'RT Audience',
+                rating: 91,
+                outOf: '%',
+                link: 'http://www.rottentomatoes.com/m/inception/'
+            },
+            {
+                label: 'IMDB'
+                rating: '8.8',
+                outOf: '10',
+                link: 'http://www.imdb.com/title/tt1375666/'
+            },
+            {
+                label: 'TMDB',
+                rating: '7.4',
+                outOf: '10',
+                link: 'http://www.themoviedb.org/movie/27205-inception'
+            },
+            {
+                label: 'Metacritics'
+                rating: '74',
+                outOf: '100',
+                link: 'http://www.metacritic.com/movie/inception'
+            },
+            {
+                label: 'Metacritic Users'
+                rating: '8.6',
+                outOf: '10',
+                link: 'http://www.metacritic.com/movie/inception'
+            }
+        ]
     },
     {movie1...},
     {movie2...}
@@ -147,7 +155,8 @@ app.factory('getResultsWithTitle', function($q, rottenService, imdbService, tmdb
         // _.find(movies, {searchKey:2})
 
         var resultObj = {
-            searchKey: Date.now()
+            searchKey: Date.now(),
+            sources: []
         };
 
         rottenService({query: title})
@@ -166,8 +175,23 @@ app.factory('getResultsWithTitle', function($q, rottenService, imdbService, tmdb
                 link: rtMovieObj.links.alternate
             };
 
-            resultObj.rtCritics = _.merge({}, rtDefaultObj, {rating: rtMovieObj.ratings.critics_score});
-            resultObj.rtAudience = _.merge({}, rtDefaultObj, {rating: rtMovieObj.ratings.audience_score});
+            resultObj.sources.push(
+                _.merge({}, rtDefaultObj,
+                    {
+                        label: 'RT Critics',
+                        rating: rtMovieObj.ratings.critics_score
+                    }
+                )
+            );
+
+            resultObj.sources.push(
+                _.merge({}, rtDefaultObj,
+                    {
+                        label: 'RT Audience',
+                        rating: rtMovieObj.ratings.audience_score
+                    }
+                )
+            );
 
             scope.movieSearchResults.unshift(resultObj);
 
@@ -176,23 +200,24 @@ app.factory('getResultsWithTitle', function($q, rottenService, imdbService, tmdb
             imdbService({id: imdbId})
             .success(function(data) {
 
-                resultObj.imdb = {
+                resultObj.sources.push({
+                    label: 'IMDB',
                     outOf: '10',
                     link: 'http://www.imdb.com/title/' + imdbId,
                     rating: data.imdbRating
-                };
+                });
 
             });
 
             tmdbService({id: imdbId})
             .success(function(data) {
 
-                resultObj.tmdb = {
+                resultObj.sources.push({
+                    label: 'TMDB',
                     outOf: '10',
-                    // http://www.themoviedb.org/movie/25523-shrek-4-d
                     link: 'http://www.themoviedb.org/movie/' + data.id + '-' + data.title.replace(/\W+/g,'-'),
                     rating: data.vote_average
-                };
+                });
 
             });
 
@@ -203,17 +228,19 @@ app.factory('getResultsWithTitle', function($q, rottenService, imdbService, tmdb
 
                 var metaMovieObj = data.results[0];
 
-                resultObj.metaCritics = {
+                resultObj.sources.push({
+                    label: 'Metacritics',
                     rating: metaMovieObj.score,
                     outOf: '100',
                     link: metaMovieObj.url
-                };
+                });
 
-                resultObj.metaUsers = {
+                resultObj.sources.push({
+                    label: 'Metacritic Users',
                     rating: metaMovieObj.avguserscore,
                     outOf: '10',
                     link: metaMovieObj.url
-                };
+                });
 
             });
 
