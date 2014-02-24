@@ -1,12 +1,40 @@
+/**
+
+app.controller('PageController'
+app.factory('getResultsWithTitle'
+app.factory('rottenService'
+app.factory('imdbService'
+app.factory('tmdbService'
+app.factory('metacriticService'
+app.factory('imdbBackupService'
+
+
+    **/
+/**
+Notes:
+
+- use _.debounce for autocomplete stuff
+- https://code.google.com/p/crypto-js/
+**/
+
+
 var app = angular.module('myuv', []);
 
 app.constant('RT_API_KEY', 'f278acux2dr8vmmueege9bfv');
 app.constant('TMDB_API_KEY' ,'bb0d9620f620e8097998203a8af18aec');
 app.constant('METACRITIC_API_KEY' ,'iR4qVOE5vZSwTxgEfqalscz1ycR8G21K');
 
+app.value('testing', function() {
+    return {
+        searchKey: Date.now()
+    };
+});
+
 
 app.controller('PageController',
-    function($scope, rottenService, imdbService, tmdbService, metacriticService, imdbBackupService, $window) {
+    function($scope, rottenService, imdbService, tmdbService, metacriticService, imdbBackupService, $window, getResultsWithTitle) {
+
+        $scope.movieSearchResults = [];
 
         $scope.hello = "hi";
         $scope.fetch = function() {
@@ -14,41 +42,135 @@ app.controller('PageController',
             var config = {
                 query: 'inception'
                 // id: 'tt1375666'
-            }
+            };
 
-            rottenService(config)
-            .success(function(data, status) {
-                $scope.rt = data;
-            });
+            getResultsWithTitle('inception', $scope);
 
-            imdbService(config)
-            .success(function(data, status) {
-                $scope.imdb = data;
-            });
+            // rottenService(config)
+            // .success(function(data, status) {
+            //     $scope.rt = data;
+            // });
 
-            tmdbService(config)
-            .success(function(data, status) {
-                $scope.tmdb = data;
-            });
+            // imdbService(config)
+            // .success(function(data, status) {
+            //     $scope.imdb = data;
+            // });
 
-            metacriticService(config)
-            .success(function(data, status) {
-                $scope.meta = data;
-            });
+            // tmdbService(config)
+            // .success(function(data, status) {
+            //     $scope.tmdb = data;
+            // });
+
+            // metacriticService(config)
+            // .success(function(data, status) {
+            //     $scope.meta = data;
+            // });
 
             // imdbBackupService(config)
             // .success(function(data, status) {
+            //     console.log("success!!!!!!!!");
             //     $scope.imdb_backup = data;
             // });
-
-
-
+            //
 
         };
 
         $window.fetch = $scope.fetch;
 
     });
+
+app.factory('updateScope', function() {
+    return function updateScope(resultObj, rating, scope) {
+
+    }
+});
+
+app.factory('getResultsWithTitle', function($q, rottenService, imdbService, tmdbService, metacriticService) {
+
+
+    /**
+    Given a movie title query, get the ratings from all sources and update the scope with it.
+
+    $scope.movieSearchResults = [
+        {
+            searchKey: 123,
+            title: 'Inception',
+            runtime: 148, //minutes,
+            mpaaRating: 'PG-13',
+            rtId: '770805418',
+            imdbId: 'tt1375666',
+            rtCritics: {
+                rating: 86,
+                outOf: '%',
+                link: 'http://www.rottentomatoes.com/m/inception/'
+            },
+            rtAudience: {
+                rating: 91,
+                outOf: '%',
+                link: 'http://www.rottentomatoes.com/m/inception/'
+            },
+            imdb: {
+                rating: '8.8',
+                outOf: '10',
+                link: 'http://www.imdb.com/title/tt1375666/'
+            },
+            tmdb: {
+                rating: '7.4',
+                outOf: '10',
+                link: 'http://www.themoviedb.org/movie/27205-inception'
+            },
+            metaCritics: {
+                rating: '74',
+                outOf: '100',
+                link: 'http://www.metacritic.com/movie/inception'
+            },
+            metaUsers: {
+                rating: '8.6',
+                outOf: '10',
+                link: 'http://www.metacritic.com/movie/inception'
+            }
+        },
+        {movie1...},
+        {movie2...}
+    ]
+
+    @param title {string} Movie title.
+    @param scope {Object} The angular $scope.
+
+    @returns null
+    **/
+
+    return function getResultsWithTitle(title, scope) {
+        // _.find(movies, {searchKey:2})
+
+        var resultObj = {
+            searchKey: Date.now()
+        };
+
+        rottenService({query: title})
+        .success(function(data, status) {
+
+            var movieObj = data.movies[0];
+
+            resultObj.title = movieObj.title;
+            resultObj.runtime = movieObj.runtime;
+            resultObj.mpaaRating = movieObj.mpaa_rating;
+            resultObj.rtId = movieObj.id;
+            resultObj.imdbId = movieObj.alternate_ids.imdb;
+
+            var rtDefaultObj = {
+                outOf: '%',
+                link: movieObj.links.alternate
+            };
+            resultObj.rtCritics = _.merge(rtDefaultObj, {rating: movieObj.ratings.critics_score});
+            resultObj.rtAudience = _.merge(rtDefaultObj, {rating: movieObj.ratings.audience_score});
+
+            scope.movieSearchResults.unshift(resultObj);
+
+        });
+    };
+
+});
 
 app.factory('rottenService', function($http, RT_API_KEY) {
 
@@ -174,6 +296,14 @@ app.factory('metacriticService', function($http, METACRITIC_API_KEY) {
 
 });
 
+
+
+function imdbBackupCallback(json) {
+    console.log("callback!!!!!!!!!!!!");
+    console.log(json);
+    return json;
+}
+
 app.factory('imdbBackupService', function($http) {
 
     /**
@@ -187,10 +317,11 @@ app.factory('imdbBackupService', function($http) {
     @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
     **/
 
+
     return function imdbBackupService(config) {
         var params = {};
-        // params.callback = 'JSON_CALLBACK';
-        params.type = 'jsonp';
+        params.callback = 'JSON_CALLBACK';
+        params.type = 'json';
 
         var url = 'http://deanclatworthy.com/imdb/';
         if (angular.isString(config.id)) {
@@ -206,7 +337,16 @@ app.factory('imdbBackupService', function($http) {
         }
         // application/json
         // Content-Type
-        return $http.jsonp(url, {params: params, headers: headers});
+        var response = $http.jsonp(url, {params: params, headers: headers});
+
+        response.then(function(data) {
+            console.log("then data!!!!!!!!!!!!!");
+            console.log(data);
+        });
+        console.log("!!!!!!!!!!!!!");
+        console.log(response);
+        return response;
+
 
         /**********
         **************
@@ -216,6 +356,7 @@ app.factory('imdbBackupService', function($http) {
         2) if i take that out but keep int the json stuff,
             it looks for some callback called 'imdbapi'. it works if i make the function globally available.
         3) if i take out the json and callback stuff, it has the old failure of "Uncaught SyntaxError: Unexpected token : "
+        .
         */
 
     };
