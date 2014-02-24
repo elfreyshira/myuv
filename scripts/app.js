@@ -249,18 +249,17 @@ app.factory('getResultsWithTitle', function($q, rottenService, imdbService, tmdb
 
 });
 
+/**
+Retrieves a JSON object from Rotten Tomatoes.
+
+@param config {Object} Must have either the 'id' or 'query' key.
+@param config.id {string} RT movie id. For example, "770805418" is Inception.
+@param config.query {string} URL-friendly search query. For example, "incepti"...
+@param? config.limit {string || "1"} Number of movie results.
+
+@returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
+**/
 app.factory('rottenService', function($http, RT_API_KEY) {
-
-    /**
-    Retrieves a JSON object from Rotten Tomatoes.
-
-    @param config {Object} Must have either the 'id' or 'query' key.
-    @param config.id {string} RT movie id. For example, "770805418" is Inception.
-    @param config.query {string} URL-friendly search query. For example, "incepti"...
-    @param? config.limit {string || "1"} Number of movie results.
-
-    @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
-    **/
 
     return function rottenService(config) {
 
@@ -283,17 +282,16 @@ app.factory('rottenService', function($http, RT_API_KEY) {
 
 });
 
+/**
+Retrieves a JSON object from IMDB.
+
+@param config {Object} Must have either the 'id' or 'query' key.
+@param config.id {string} IMDB movie id. For example, "tt1375666" is Inception.
+@param config.query {string} URL-friendly full movie title query. For example, "inception".
+
+@returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
+**/
 app.factory('imdbService', function($http) {
-
-    /**
-    Retrieves a JSON object from IMDB.
-
-    @param config {Object} Must have either the 'id' or 'query' key.
-    @param config.id {string} IMDB movie id. For example, "tt1375666" is Inception.
-    @param config.query {string} URL-friendly full movie title query. For example, "inception".
-
-    @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
-    **/
 
     return function imdbService(config) {
         var params = {};
@@ -313,17 +311,17 @@ app.factory('imdbService', function($http) {
 });
 
 
+
+/**
+Retrieves a JSON object from TMDB.
+
+@param config {Object} Must have either the 'id' or 'query' key.
+@param config.id {string} IMDB movie id. For example, "tt1375666" is Inception.
+@param config.query {string} URL-friendly search query. For example, "incepti"...
+
+@returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
+**/
 app.factory('tmdbService', function($http, TMDB_API_KEY) {
-
-    /**
-    Retrieves a JSON object from TMDB.
-
-    @param config {Object} Must have either the 'id' or 'query' key.
-    @param config.id {string} IMDB movie id. For example, "tt1375666" is Inception.
-    @param config.query {string} URL-friendly search query. For example, "incepti"...
-
-    @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
-    **/
 
     return function tmdbService(config) {
 
@@ -346,17 +344,16 @@ app.factory('tmdbService', function($http, TMDB_API_KEY) {
 });
 
 
+/**
+Retrieves a JSON object from Metacritic using mashape.
+
+@param config {Object} Must have the 'query' key.
+@param config.query {string} URL-friendly full movie search query. For example, "inception".
+@param? config.limit {string || "1"} Maximum search result pages to crawl. (Not sure what this means.)
+
+@returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
+**/
 app.factory('metacriticService', function($http, METACRITIC_API_KEY) {
-
-    /**
-    Retrieves a JSON object from Metacritic using mashape.
-
-    @param config {Object} Must have the 'query' key.
-    @param config.query {string} URL-friendly full movie search query. For example, "inception".
-    @param? config.limit {string || "1"} Maximum search result pages to crawl. (Not sure what this means.)
-
-    @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
-    **/
 
     return function metacriticService(config) {
 
@@ -386,19 +383,17 @@ function imdbBackupCallback(json) {
 // DO THIS!!!!!!!!! http://jsfiddle.net/Xbf6C/1/
 // *************
 
+/**
+Used only when the imdbService doesn't work. Retrieves a JSON object from IMDB.
+
+@param config {Object} Must have either the 'id' or 'query' key.
+@param config.id {string} IMDB movie id. For example, "tt1375666" is Inception.
+@param config.query {string} URL-friendly search query. For example, "inceptio"...
+@param config.year? {string} 4-digit year
+
+@returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
+**/
 app.factory('imdbBackupService', function($http) {
-
-    /**
-    Used only when the imdbService doesn't work. Retrieves a JSON object from IMDB.
-
-    @param config {Object} Must have either the 'id' or 'query' key.
-    @param config.id {string} IMDB movie id. For example, "tt1375666" is Inception.
-    @param config.query {string} URL-friendly search query. For example, "inceptio"...
-    @param config.year? {string} 4-digit year
-
-    @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
-    **/
-
 
     return function imdbBackupService(config) {
         var params = {};
