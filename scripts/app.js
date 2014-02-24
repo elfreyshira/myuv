@@ -381,6 +381,11 @@ function imdbBackupCallback(json) {
     return json;
 }
 
+// *************
+// *************
+// DO THIS!!!!!!!!! http://jsfiddle.net/Xbf6C/1/
+// *************
+
 app.factory('imdbBackupService', function($http) {
 
     /**
