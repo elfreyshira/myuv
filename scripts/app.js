@@ -15,6 +15,7 @@ Notes:
 
 - use _.debounce for autocomplete stuff
 - https://code.google.com/p/crypto-js/
+- https://github.com/ded/script.js/
 **/
 
 
