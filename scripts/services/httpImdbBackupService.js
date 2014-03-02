@@ -19,7 +19,7 @@ Used only when the httpImdbService doesn't work. Retrieves a JSON object from IM
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-app.factory('httpImdbBackupService', function($http) {
+angular.module('myuv').factory('httpImdbBackupService', function($http) {
 
     return function httpImdbBackupService(config) {
         var params = {};

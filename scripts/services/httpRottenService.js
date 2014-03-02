@@ -8,7 +8,7 @@ Retrieves a JSON object from Rotten Tomatoes.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-app.factory('httpRottenService', function($http, RT_API_KEY) {
+angular.module('myuv').factory('httpRottenService', function($http, RT_API_KEY) {
 
     return function httpRottenService(config) {
 

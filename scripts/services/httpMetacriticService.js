@@ -7,7 +7,7 @@ Retrieves a JSON object from Metacritic using mashape.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-app.factory('httpMetacriticService', function($http, METACRITIC_API_KEY) {
+angular.module('myuv').factory('httpMetacriticService', function($http, METACRITIC_API_KEY) {
 
     return function httpMetacriticService(config) {
 

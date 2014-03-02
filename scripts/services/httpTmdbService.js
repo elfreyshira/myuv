@@ -7,7 +7,7 @@ Retrieves a JSON object from TMDB.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-app.factory('httpTmdbService', function($http, TMDB_API_KEY) {
+angular.module('myuv').factory('httpTmdbService', function($http, TMDB_API_KEY) {
 
     return function httpTmdbService(config) {
 

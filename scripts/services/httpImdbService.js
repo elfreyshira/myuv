@@ -7,7 +7,7 @@ Retrieves a JSON object from IMDB.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-app.factory('httpImdbService', function($http) {
+angular.module('myuv').factory('httpImdbService', function($http) {
 
     return function httpImdbService(config) {
         var params = {};
