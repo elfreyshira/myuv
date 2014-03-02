@@ -1,0 +1,12 @@
+/*.col-6 {
+    width: 16%;
+    background-color: red;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}*/
+
+div.row.movie-result div.columns {
+    padding-left: 0;
+    padding-right: 0;
+}
