@@ -3,16 +3,8 @@ $script([
     'https://rawgithub.com/lodash/lodash/2.2.0/dist/lodash.min.js'
     ], function() {
         $script('scripts/app.js', function() {
-            $script(
-                [
-                    'scripts/services/getResultsWithTitle.js',
-                    'scripts/services/httpImdbBackupService.js',
-                    'scripts/services/httpImdbService.js',
-                    'scripts/services/httpMetacriticService.js',
-                    'scripts/services/httpRottenService.js',
-                    'scripts/services/httpTmdbService.js'
-                ], function() {
-                    $script('scripts/controllers/MainController.js');
-                });
+            $script(['scripts/services.js'], function() {
+                $script(['scripts/controllers.js']);
+            });
         });
     });
