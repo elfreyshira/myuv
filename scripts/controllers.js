@@ -1,6 +1,6 @@
 angular.module('myuv').controller('MainController',
     function($scope, httpRottenService, httpImdbService, httpTmdbService, httpMetacriticService, httpImdbBackupService,
-        $window, getResultsWithTitle, getRotten) {
+        $window, getResultsWithTitle, getRottenByTitle, getImdbById, getTmdbById, getMetacriticByTitle) {
 
         $scope.movieSearchResults = [];
 
@@ -48,10 +48,34 @@ angular.module('myuv').controller('MainController',
 
         $scope.fetch = function() {
 
-            getRotten({query: $scope.query}).then(function(data) {
-                console.log('it is finished');
-                console.log(data);
-                $scope.movieSearchResults.unshift(data);
+            // After getting rotten, get the other sources
+            function getOtherSources(movieSearchResult) {
+
+                var imdbId = movieSearchResult.imdbId;
+                getImdbById(imdbId).then(function(data) {
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                });
+
+                getTmdbById(imdbId).then(function(data){
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                });
+
+                var title = movieSearchResult.title;
+                var releaseDate = movieSearchResult.date;
+                getMetacriticByTitle(title, releaseDate).then(function(data){
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+
+                });
+
+            }
+
+            getRottenByTitle($scope.query).then(function(data) {
+
+                var movieSearchResult = data;
+                $scope.movieSearchResults.unshift(movieSearchResult);
+
+                getOtherSources(movieSearchResult);
+
             });
         };
 
