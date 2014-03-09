@@ -1,15 +1,19 @@
 angular.module('myuv').controller('MainController',
-    function($scope, httpRottenService, httpImdbService, httpTmdbService, httpMetacriticService, httpImdbBackupService, $window, getResultsWithTitle) {
+    function($scope, httpRottenService, httpImdbService, httpTmdbService, httpMetacriticService, httpImdbBackupService,
+        $window, getResultsWithTitle, getRotten) {
 
         $scope.movieSearchResults = [];
 
         $scope.hello = "hi";
-        $scope.fetch = function(title) {
+        $scope.nothing = function() {
+
 
             var config = {
-                query: title
+                query: $scope.query
                 // id: 'tt1375666'
             };
+
+            var title = $scope.query;
 
             getResultsWithTitle(title, $scope);
 
@@ -40,6 +44,15 @@ angular.module('myuv').controller('MainController',
             // });
             //
 
+        };
+
+        $scope.fetch = function() {
+
+            getRotten({query: $scope.query}).then(function(data) {
+                console.log('it is finished');
+                console.log(data);
+                $scope.movieSearchResults.unshift(data);
+            });
         };
 
         $window.fetch = $scope.fetch;

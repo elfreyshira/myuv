@@ -12,6 +12,12 @@
 <body ng-app="myuv" ng-controller="MainController">
 
     <h1 class='title'>Myuv</h1>
+    <form ng-submit="fetch()">
+        
+        <input type="text" ng-model="query"></input>
+    </form>
+
+    <pre>{{movieSearchResults | json}}</pre>
 
     <!-- <div class="container">
         <p>{{ hello }}</p>
@@ -54,11 +60,13 @@
 
     <!-- <p>{{movieSearchResults}}</p> -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
-    <script src="https://rawgithub.com/lodash/lodash/2.2.0/dist/lodash.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-animate.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/httpServices.js"></script>
     <script src="scripts/utilServices.js"></script>
+    <script src="scripts/getServices.js"></script>
     <script src="scripts/controllers.js"></script>
 </body>
 </html>
