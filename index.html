@@ -14,10 +14,10 @@
     <h1 class='title'>Myuv</h1>
     <form ng-submit="fetch()">
         
-        <input type="text" ng-model="query"></input>
+        <input type="text" ng-model="query" placeholder="Type movie and submit"></input>
     </form>
 
-    <pre>{{movieSearchResults | json}}</pre>
+    <!-- <pre>{{movieSearchResults | json}}</pre> -->
 
     <!-- <div class="container">
         <p>{{ hello }}</p>
@@ -29,34 +29,58 @@
 
     </div> -->
 
-    <div class="row">
-        <div class="large-10 medium-11 small-12 column small-centered medium-centered large-centered">
+    <div class="row" ng-repeat="movie in movieSearchResults">
+        <!-- figure out how to do this for 2nd repeat: 'small-offset-{{6-$parent.movie.sources.length}}': $first -->
+        <div class="large-8 medium-10 small-12 column small-centered medium-centered large-centered">
             
             <div class="row movie-result">
-                <div class="small-2 columns small-offset-1" style="background-color: red">
-                    hello world
+                <div ng-repeat="source in movie.sources"
+                    class="small-2 columns"
+                    ng-class="{
+                        'end': $last
+                    }"
+                    result-bar rating="{{source.rating}}" out-of="{{source.outOf}}">
+                    {{source.label}}
                 </div>
-                <div class="small-2 columns" style="background-color: green">
-                    <div style="background-color: yellow">
-                        *
-                    </div>
-                    hello world
+
+            </div>
+            <div class="row">{{movie.title}} ({{movie.year}})</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="large-8 medium-10 small-12 column small-centered medium-centered large-centered">
+            
+            <div class="row movie-result">
+                <div
+                    class="small-2 columns small-offset-1"
+                    result-bar rating="100" out-of="%">
+                    <!-- hello world -->
                 </div>
-                <div class="small-2 columns">
-                    hello world
+                <div class="small-2 columns"
+                    result-bar rating="76" out-of="100">
+                    <!-- hello world -->
                 </div>
-                <div class="small-2 columns">
+                <div class="small-2 columns"
+                    result-bar rating="50" out-of="%">
+                    <!-- hello world -->
+                </div>
+                <div class="small-2 columns"
+                    result-bar rating="3.2" out-of="10">
                     hello world
                 </div>
                 <!-- <div class="small-2 columns">
                     hello world
                 </div> -->
-                <div class="small-2 columns end" style="background-color: red">
+                <div class="small-2 columns end"
+                    result-bar rating="0.4" out-of="10">
                 hello world
                 </div>
             </div>
         </div>
     </div>
+
+    <p>hello wrold</p>
 
     <!-- <p>{{movieSearchResults}}</p> -->
 
@@ -67,6 +91,7 @@
     <script src="scripts/httpServices.js"></script>
     <script src="scripts/utilServices.js"></script>
     <script src="scripts/getServices.js"></script>
+    <script src="scripts/resultBar.js"></script>
     <script src="scripts/controllers.js"></script>
 </body>
 </html>

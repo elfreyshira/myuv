@@ -34,7 +34,7 @@ angular.module('myuv').factory('getRottenByTitle', function($q, httpRottenServic
             // The object to return that contains only the important information
             var dataObj = {
                 title: movieObj.title,
-                date: movieObj.release_dates.theater,
+                year: movieObj.year.toString(),
                 rtId: movieObj.id,
                 imdbId: 'tt' + movieObj.alternate_ids.imdb,
                 runtime: movieObj.runtime,
@@ -125,7 +125,7 @@ angular.module('myuv').factory('getTmdbById', function($q, httpTmdbService) {
 });
 
 angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacriticService) {
-    return function(title, releaseDate) {
+    return function(title, releaseYear) {
         var deferred = $q.defer();
         var promise = deferred.promise;
         var urlFriendlyTitle = title.replace(/\W/g,'+');
@@ -140,8 +140,11 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
             }
 
             // Since we're searching by title and not an absolute id, we have to make sure we have the right movie
-            // by ensuring that the release date is the same as the one given by RT
-            var movieObjArray = _.where(data.results, {rlsdate: releaseDate});
+            // by ensuring that the release date year is the same as the one given by RT
+            var movieObjArray = _.filter(data.results, function(result) {
+                return releaseYear === result.rlsdate.split('-')[0];
+            });
+
             if (movieObjArray.length < 1) {
                 deferred.resolve({});
                 return;

@@ -10,3 +10,17 @@ div.row.movie-result div.columns {
     padding-left: 0;
     padding-right: 0;
 }
+
+
+div.movie-result {
+}
+
+div.movie-result div.columns {
+    /*background-color: red;*/
+    /*margin-left: 1px;*/
+    /*margin-right: 1px;*/
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    word-wrap: break-word;
+
+}

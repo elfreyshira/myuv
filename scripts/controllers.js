@@ -61,10 +61,9 @@ angular.module('myuv').controller('MainController',
                 });
 
                 var title = movieSearchResult.title;
-                var releaseDate = movieSearchResult.date;
-                getMetacriticByTitle(title, releaseDate).then(function(data){
+                var releaseYear = movieSearchResult.year;
+                getMetacriticByTitle(title, releaseYear).then(function(data){
                     movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-
                 });
 
             }
@@ -72,9 +71,9 @@ angular.module('myuv').controller('MainController',
             getRottenByTitle($scope.query).then(function(data) {
 
                 var movieSearchResult = data;
-                $scope.movieSearchResults.unshift(movieSearchResult);
 
                 getOtherSources(movieSearchResult);
+                $scope.movieSearchResults.unshift(movieSearchResult);
 
             });
         };
