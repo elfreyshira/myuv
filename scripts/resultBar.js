@@ -23,7 +23,7 @@ angular.module('myuv')
 */
 .factory('barColor', function(maxBarHeight, greenColor, yellowColor, redColor) {
 
-    var min = redColor
+    var min = redColor;
     var mid = yellowColor;
     var max = greenColor;
 
@@ -49,12 +49,13 @@ angular.module('myuv')
 
     return function(percentage) {
 
+        var newPercent;
         if (percentage < 0.5) {
-            var newPercent = percentage * 2;
+            newPercent = percentage * 2;
             return rgbColor(min, mid, newPercent);
         }
         else {
-            var newPercent = (percentage - 0.5) * 2;
+            newPercent = (percentage - 0.5) * 2;
             return rgbColor(mid, max, newPercent);
         }
     };
@@ -89,6 +90,6 @@ angular.module('myuv')
             );
 
         }
-    }
+    };
 
 });

@@ -39,7 +39,7 @@ angular.module('myuv').factory('httpImdbBackupService', function($http) {
         var headers = {
             // 'Content-Type': 'application/json'
             'Content-Type': 'application/javascript'
-        }
+        };
         // application/json
         // Content-Type
         var response = $http.jsonp(url, {params: params, headers: headers});

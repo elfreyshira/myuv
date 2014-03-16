@@ -81,6 +81,6 @@ angular.module('myuv').controller('MainController',
         $window.fetch = $scope.fetch;
         $window.show = function() {
             console.log(JSON.stringify($scope.movieSearchResults, null, 4));
-        }
+        };
 
     });
