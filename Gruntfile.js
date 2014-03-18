@@ -15,9 +15,14 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: allJsFiles,
-                tasks: ['jshint'],
+                tasks: ['jshint']
+            }
+        },
+        connect: {
+            server: {
                 options: {
-                    // spawn: false
+                    keepalive: true,
+                    open: true,
                 }
             }
         }
@@ -28,4 +33,5 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 };
