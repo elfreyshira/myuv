@@ -12,10 +12,13 @@
 <body ng-app="myuv" ng-controller="MainController">
 
     <h1 class='title'>Myuv</h1>
-    <form ng-submit="fetch()">
-        
-        <input type="text" ng-model="query" placeholder="Type movie and submit"></input>
-    </form>
+    <div class="row">
+
+        <form ng-submit="fetch()">
+
+            <input type="text" ng-model="query" placeholder="Type movie and submit"></input>
+        </form>
+    </div>
 
     <!-- <pre>{{movieSearchResults | json}}</pre> -->
 
@@ -31,14 +34,12 @@
 
     <div class="row" ng-repeat="movie in movieSearchResults">
         <!-- figure out how to do this for 2nd repeat: 'small-offset-{{6-$parent.movie.sources.length}}': $first -->
-        <div class="large-8 medium-10 small-12 column small-centered medium-centered large-centered">
+        <div class="large-8 medium-9 small-11 column small-centered medium-centered large-centered">
             
             <div class="row movie-result">
                 <div ng-repeat="source in movie.sources"
-                    class="small-2 columns"
-                    ng-class="{
-                        'end': $last
-                    }"
+                    class="small-2 columns {{columnOffset(movie.sources.length, $first)}}"
+                    ng-class="{'end': $last}"
                     result-bar rating="{{source.rating}}" out-of="{{source.outOf}}">
                     {{source.label}}
                 </div>
@@ -79,8 +80,6 @@
             </div>
         </div>
     </div>
-
-    <p>hello wrold</p>
 
     <!-- <p>{{movieSearchResults}}</p> -->
 

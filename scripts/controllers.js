@@ -4,46 +4,16 @@ angular.module('myuv').controller('MainController',
 
         $scope.movieSearchResults = [];
 
-        $scope.hello = "hi";
-        $scope.nothing = function() {
+        /**
+            Returns a Foundation column offset depending on the length of the results,
+            and only if it's the first column.
 
-
-            var config = {
-                query: $scope.query
-                // id: 'tt1375666'
-            };
-
-            var title = $scope.query;
-
-            getResultsWithTitle(title, $scope);
-
-            // httpRottenService(config)
-            // .success(function(data, status) {
-            //     $scope.rt = data;
-            // });
-
-            // httpImdbService(config)
-            // .success(function(data, status) {
-            //     $scope.imdb = data;
-            // });
-
-            // httpTmdbService(config)
-            // .success(function(data, status) {
-            //     $scope.tmdb = data;
-            // });
-
-            // httpMetacriticService(config)
-            // .success(function(data, status) {
-            //     $scope.meta = data;
-            // });
-
-            // httpImdbBackupService(config)
-            // .success(function(data, status) {
-            //     console.log("success!!!!!!!!");
-            //     $scope.imdb_backup = data;
-            // });
-            //
-
+            @param {number} resultLength
+            @param {boolean} $first
+            @return {string}
+        */
+        $scope.columnOffset = function(resultLength, $first) {
+            return $first ? 'small-offset-' + (6 - resultLength) : '';
         };
 
         $scope.fetch = function() {
@@ -70,11 +40,12 @@ angular.module('myuv').controller('MainController',
 
             getRottenByTitle($scope.query).then(function(data) {
 
-                var movieSearchResult = data;
+                $scope.query = '';
 
-                getOtherSources(movieSearchResult);
+                var movieSearchResult = data;
                 $scope.movieSearchResults.unshift(movieSearchResult);
 
+                getOtherSources(movieSearchResult);
             });
         };
 
