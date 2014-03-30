@@ -39,13 +39,21 @@ module.exports = function(grunt) {
                     ]
                 }
             }
+        },
+        sass: {
+            client: {
+                files: {
+                    'build/style.css': 'styles/main.scss'
+                }
+            }
         }
 
     });
 
     grunt.registerTask('test', ['jshint']);
-    grunt.registerTask('default', ['jshint', 'browserify', 'connect']);
+    grunt.registerTask('default', ['jshint', 'browserify', 'sass', 'connect']);
 
+    grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');

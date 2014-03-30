@@ -6787,6 +6787,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 }.call(this));
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],"ng-animate":[function(require,module,exports){
+module.exports=require('Oz+eEu');
 },{}],"Oz+eEu":[function(require,module,exports){
 /*
  AngularJS v1.2.15
@@ -6816,10 +6818,6 @@ c,d,e){var g=f(d,"-remove")+" "+f(c,"-add"),h=a("setClass",b,g,function(a){var e
 c,d){return b("addClass",a,f(c,"-add"),d)},beforeRemoveClass:function(b,c,d){var e=a("removeClass",b,f(c,"-remove"),function(a){var d=b.attr("class");b.removeClass(c);a=a();b.attr("class",d);return a});if(e)return E(b,function(){N(b,c);O(b);d()}),e;d()},removeClass:function(a,c,d){return b("removeClass",a,f(c,"-remove"),d)}}}])}])})(window,window.angular);
 //# sourceMappingURL=angular-animate.min.js.map
 
-},{}],"ng-animate":[function(require,module,exports){
-module.exports=require('Oz+eEu');
-},{}],"angular":[function(require,module,exports){
-module.exports=require('ED34Nf');
 },{}],"ED34Nf":[function(require,module,exports){
 /*
  AngularJS v1.2.15
@@ -7029,6 +7027,8 @@ function(a){var c={addOption:B,removeOption:B};return{restrict:"E",priority:100,
 Q.angular.bootstrap?console.log("WARNING: Tried to load angular more than once."):((Ea=Q.jQuery)?(w=Ea,v(Ea.fn,{scope:Ha.scope,isolateScope:Ha.isolateScope,controller:Ha.controller,injector:Ha.injector,inheritedData:Ha.inheritedData}),zb("remove",!0,!0,!1),zb("empty",!1,!1,!1),zb("html",!1,!1,!0)):w=L,Ca.element=w,Xc(Ca),w(T).ready(function(){Uc(T,Yb)}))})(window,document);!angular.$$csp()&&angular.element(document).find("head").prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}</style>');
 //# sourceMappingURL=angular.min.js.map
 
+},{}],"angular":[function(require,module,exports){
+module.exports=require('ED34Nf');
 },{}],"BlreWs":[function(require,module,exports){
 /*
  * angular-ui-bootstrap
