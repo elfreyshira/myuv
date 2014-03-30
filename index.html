@@ -53,7 +53,11 @@
                 </div>
 
             </div>
-            <div class="row movie-title">{{movie.title}} ({{movie.year}})</div>
+            <div class="row">
+                <div class="movie-title small-centered small-{{movie.sources.length * 2}} columns">
+                    {{movie.title}} ({{movie.year}})
+                </div>
+            </div>
         </div>
     </div>
 
