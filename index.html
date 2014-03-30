@@ -33,25 +33,34 @@
 
     <div class="row" ng-repeat="movie in movieSearchResults">
         <!-- figure out how to do this for 2nd repeat: 'small-offset-{{6-$parent.movie.sources.length}}': $first -->
-        <div class="large-8 medium-9 small-11 column small-centered medium-centered large-centered">
+        <div class="movie-result large-8 medium-9 small-11 column small-centered medium-centered large-centered">
             
-            <div class="row movie-result">
+            <div class="movie-ratings row">
                 <div ng-repeat="source in movie.sources"
                     class="small-2 columns {{columnOffset(movie.sources.length, $first)}}"
                     ng-class="{'end': $last}"
                     result-bar rating="{{source.rating}}" out-of="{{source.outOf}}">
-                    {{source.label}}
+                    <div class="source-rating-container">
+                        <span class="source-rating">{{source.rating}}</span>
+                        <span class="source-out-of">
+                            {{source.outOf === '%' ?
+                                '%' : ('/ ' + source.outOf) }}
+                        </span>
+                    </div>
+                    <span class="source-label">
+                        <a ng-href="{{source.link}}">{{source.label}}</a>
+                    </span>
                 </div>
 
             </div>
-            <div class="row">{{movie.title}} ({{movie.year}})</div>
+            <div class="row movie-title">{{movie.title}} ({{movie.year}})</div>
         </div>
     </div>
 
     <div class="row">
         <div class="large-8 medium-10 small-12 column small-centered medium-centered large-centered">
             
-            <div class="row movie-result">
+            <div class="row movie-ratings">
                 <div
                     class="small-2 columns small-offset-1"
                     result-bar rating="100" out-of="%">

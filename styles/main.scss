@@ -4,23 +4,60 @@
     margin: 0;
     padding: 0;
     display: inline-block;
-}*/
+    }*/
 
-div.row.movie-result div.columns {
-    padding-left: 0;
-    padding-right: 0;
+$movie-title-color: #aaa;
+$background: #eee;
+$font-color: #333;
+
+body {
+    background-color: $background;
+    color: $font-color;
 }
-
 
 div.movie-result {
-}
 
-div.movie-result div.columns {
-    /*background-color: red;*/
-    /*margin-left: 1px;*/
-    /*margin-right: 1px;*/
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    word-wrap: break-word;
+    margin: 40px auto;
 
+    div.movie-title {
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: $movie-title-color;
+        border-left: 1px solid $background;
+        border-right: 1px solid $background;
+
+    }
+
+    div.movie-ratings div.columns {
+        /*background-color: red;*/
+        /*margin-left: 1px;*/
+        /*margin-right: 1px;*/
+        padding-left: 0;
+        padding-right: 0;
+        text-align: center;
+        word-break: break-word;
+        border-left: 1px solid $background;
+        border-right: 1px solid $background;
+        word-wrap: break-word;
+        position: relative;
+
+        .source-label {
+
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-size: .8em;
+        }
+
+        .source-rating-container {
+            margin-top: -1em;
+
+            .source-out-of {
+                color: lighten($font-color, 50%);
+            }
+        }
+
+    }
 }

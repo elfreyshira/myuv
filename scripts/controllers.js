@@ -1,10 +1,12 @@
 require('angular');
+var fixtures = require('./fixtures');
 
 angular.module('myuv').controller('MainController',
     function($scope, httpRottenService, httpImdbService, httpTmdbService, httpMetacriticService, httpImdbBackupService,
         $window, getResultsWithTitle, getRottenByTitle, getImdbById, getTmdbById, getMetacriticByTitle) {
 
-        $scope.movieSearchResults = [];
+        $scope.movieSearchResults = fixtures.startingResults;
+        // $scope.movieSearchResults = [];
 
         /**
             Returns a Foundation column offset depending on the length of the results,

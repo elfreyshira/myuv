@@ -13,7 +13,7 @@ angular.module('myuv').factory('getRottenByTitle', function($q, httpRottenServic
         httpRottenService(config).success(function(data) {
 
             if (!data.total) {
-                deferred.resolve({});
+                deferred.reject();
                 return;
             }
 
@@ -24,13 +24,13 @@ angular.module('myuv').factory('getRottenByTitle', function($q, httpRottenServic
                     label: 'RT Critics',
                     rating: movieObj.ratings.critics_score,
                     outOf: '%',
-                    link: movieObj.links.alternate
+                    link: movieObj.links.alternate + '#contentReviews'
                 },
                 {
                     label: 'RT Audience',
                     rating: movieObj.ratings.audience_score,
                     outOf: '%',
-                    link: movieObj.links.alternate
+                    link: movieObj.links.alternate + '#audience_reviews'
                 }
             ];
 
@@ -62,7 +62,7 @@ angular.module('myuv').factory('getImdbById', function($q, httpImdbService) {
         httpImdbService(config).success(function(data) {
 
             if (data.Response === "False") {
-                deferred.resolve({});
+                deferred.reject();
                 return;
             }
 
@@ -99,7 +99,7 @@ angular.module('myuv').factory('getTmdbById', function($q, httpTmdbService) {
         httpTmdbService(config).success(function(data) {
 
             if (data.status_code === 6) {
-                deferred.resolve({});
+                deferred.reject();
                 return;
             }
 
@@ -138,7 +138,7 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
         httpMetacriticService(config).success(function(data) {
 
             if (data.count < 1) {
-                deferred.resolve({});
+                deferred.reject();
                 return;
             }
 
@@ -148,8 +148,11 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
                 return releaseYear === result.rlsdate.split('-')[0];
             });
 
+            console.log(data.results);
+            console.log(movieObjArray);
+
             if (movieObjArray.length < 1) {
-                deferred.resolve({});
+                deferred.reject();
                 return;
             }
             var movieObj = movieObjArray[0];
@@ -159,13 +162,13 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
                     label: 'Metacritics',
                     rating: parseInt(movieObj.score),
                     outOf: '100',
-                    link: movieObj.url
+                    link: movieObj.url + '/critic-reviews'
                 },
                 {
                     label: 'Metacritic Users',
                     rating: parseFloat(movieObj.avguserscore),
                     outOf: '10',
-                    link: movieObj.url
+                    link: movieObj.url + '/user-reviews'
                 }
             ];
 

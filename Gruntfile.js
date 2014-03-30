@@ -3,6 +3,7 @@
 module.exports = function(grunt) {
 
     var allJsFiles = ['**/*.js', '!node_modules/**', '!resources/**', '!build/**'];
+    var allSassFiles = ['styles/**/*.scss'];
 
     grunt.initConfig({
 
@@ -15,7 +16,11 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: allJsFiles,
-                tasks: ['jshint']
+                tasks: ['jshint', 'browserify']
+            },
+            sass: {
+                files: allSassFiles,
+                tasks: ['sass']
             }
         },
         connect: {
