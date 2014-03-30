@@ -1,3 +1,5 @@
+require('angular');
+
 angular.module('myuv').controller('MainController',
     function($scope, httpRottenService, httpImdbService, httpTmdbService, httpMetacriticService, httpImdbBackupService,
         $window, getResultsWithTitle, getRottenByTitle, getImdbById, getTmdbById, getMetacriticByTitle) {

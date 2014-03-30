@@ -1,4 +1,4 @@
-
+require('angular');
 
 function imdbBackupCallback(json) {
     console.log("callback!!!!!!!!!!!!");

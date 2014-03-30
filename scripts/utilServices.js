@@ -1,3 +1,5 @@
+require('angular');
+
 /** getResultsWithTitle
 
 Given a movie title query, get the ratings from all sources and update the scope with it.

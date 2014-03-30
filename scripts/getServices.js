@@ -1,3 +1,6 @@
+require('angular');
+var _ = require('lodash');
+
 angular.module('myuv').factory('getRottenByTitle', function($q, httpRottenService) {
 
 

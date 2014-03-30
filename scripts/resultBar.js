@@ -1,3 +1,5 @@
+require('angular');
+
 angular.module('myuv')
 
 .constant('maxBarHeight', 200)
