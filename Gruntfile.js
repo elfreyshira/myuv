@@ -39,7 +39,7 @@ module.exports = function(grunt) {
                     // require: ['angular'],
                     alias: [
                         './resources/angular.min.js:angular',
-                        './resources/angular-animate.min.js:ng-animate',
+                        // './resources/angular-animate.min.js:ng-animate',
                         './resources/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.min.js:ng-bootstrap'
                     ]
                 }
