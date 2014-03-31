@@ -9,7 +9,10 @@ module.exports = function(grunt) {
 
         jshint: {
             options: {
-                node: true
+                node: true,
+                globals: {
+                    angular: true
+                }
             },
             all: allJsFiles
         },

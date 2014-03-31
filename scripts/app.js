@@ -1,21 +1,17 @@
 /**
-
-app.controller('PageController'
-app.factory('getResultsWithTitle'
-app.factory('httpRottenService'
-app.factory('httpImdbService'
-app.factory('httpTmdbService'
-app.factory('httpMetacriticService'
-app.factory('httpImdbBackupService'
-
-
-    **/
-/**
 Notes:
 
 - use _.debounce for autocomplete stuff
 - https://code.google.com/p/crypto-js/
 - https://github.com/ded/script.js/
+
+
+edge case searches:
+alien, taken: Metacritic year doesn't match somehow. perhaps use runtime instead.
+super size me: RT doesn't give the IMDB id. WHY?!
+
+TODO: switch rating and source text position.
+
 **/
 
 require('angular');
