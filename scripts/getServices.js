@@ -1,3 +1,9 @@
+/*
+edge case searchs:
+alien: Metacritic year doesn't match somehow
+super size me: RT doesn't give the IMDB id. WHY?!
+*/
+
 require('angular');
 var _ = require('lodash');
 
@@ -19,20 +25,23 @@ angular.module('myuv').factory('getRottenByTitle', function($q, httpRottenServic
 
             var movieObj = data.movies[0];
 
-            var sources = [
-                {
+            var sources = [];
+            if (movieObj.ratings.critics_score >= 0) {
+                sources.push({
                     label: 'RT Critics',
                     rating: movieObj.ratings.critics_score,
                     outOf: '%',
                     link: movieObj.links.alternate + '#contentReviews'
-                },
-                {
+                });
+            }
+            if (movieObj.ratings.audience_score >= 0) {
+                sources.push({
                     label: 'RT Audience',
                     rating: movieObj.ratings.audience_score,
                     outOf: '%',
                     link: movieObj.links.alternate + '#audience_reviews'
-                }
-            ];
+                });
+            }
 
             // The object to return that contains only the important information
             var dataObj = {
