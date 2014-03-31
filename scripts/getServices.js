@@ -39,7 +39,7 @@ angular.module('myuv').factory('getRottenByTitle', function($q, httpRottenServic
                 title: movieObj.title,
                 year: movieObj.year.toString(),
                 rtId: movieObj.id,
-                imdbId: 'tt' + movieObj.alternate_ids.imdb,
+                imdbId: movieObj.alternate_ids ? ('tt' + movieObj.alternate_ids.imdb) : undefined,
                 runtime: movieObj.runtime,
                 mpaaRating: movieObj.mpaa_rating,
                 sources: sources
@@ -66,23 +66,50 @@ angular.module('myuv').factory('getImdbById', function($q, httpImdbService) {
                 return;
             }
 
-            var movieObj = data;
-
             var sources = [
                 {
                     label: 'IMDB',
-                    rating: parseFloat(movieObj.imdbRating),
+                    rating: parseFloat(data.imdbRating),
                     outOf: '10',
                     link: 'http://www.imdb.com/title/' + imdbId
                 }
             ];
 
-            // The object to return that contains only the important information
-            var dataObj = {
+            deferred.resolve({
                 sources: sources
-            };
+            });
+        });
 
-            deferred.resolve(dataObj);
+        return promise;
+
+    };
+});
+
+angular.module('myuv').factory('getImdbByTitle', function($q, httpImdbService) {
+    return function(title, releaseYear) {
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+        var config = {query: title};
+
+        httpImdbService(config).success(function(data) {
+
+            if (data.Response === "False" || data.Year !== releaseYear) {
+                deferred.reject();
+                return;
+            }
+
+            var sources = [
+                {
+                    label: 'IMDB',
+                    rating: parseFloat(data.imdbRating),
+                    outOf: '10',
+                    link: 'http://www.imdb.com/title/' + data.imdbID
+                }
+            ];
+
+            deferred.resolve({
+                sources: sources
+            });
         });
 
         return promise;
@@ -103,23 +130,18 @@ angular.module('myuv').factory('getTmdbById', function($q, httpTmdbService) {
                 return;
             }
 
-            var movieObj = data;
-
             var sources = [
                 {
                     label: 'TMDB',
                     outOf: '10',
-                    link: 'http://www.themoviedb.org/movie/' + movieObj.id + '-' + movieObj.title.replace(/\W+/g,'-'),
-                    rating: movieObj.vote_average
+                    link: 'http://www.themoviedb.org/movie/' + data.id + '-' + data.title.replace(/\W+/g,'-'),
+                    rating: data.vote_average
                 }
             ];
 
-            // The object to return that contains only the important information
-            var dataObj = {
+            deferred.resolve({
                 sources: sources
-            };
-
-            deferred.resolve(dataObj);
+            });
         });
 
         return promise;
@@ -148,9 +170,6 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
                 return releaseYear === result.rlsdate.split('-')[0];
             });
 
-            console.log(data.results);
-            console.log(movieObjArray);
-
             if (movieObjArray.length < 1) {
                 deferred.reject();
                 return;
@@ -172,12 +191,9 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
                 }
             ];
 
-            // The object to return that contains only the important information
-            var dataObj = {
+            deferred.resolve({
                 sources: sources
-            };
-
-            deferred.resolve(dataObj);
+            });
         });
 
         return promise;
