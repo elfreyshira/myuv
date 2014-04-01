@@ -9,6 +9,7 @@ Notes:
 edge case searches:
 alien, taken: Metacritic year doesn't match somehow. perhaps use runtime instead.
 super size me: RT doesn't give the IMDB id. WHY?!
+castaway (1986): for tmdb, ratings exist, but it's 0 because nobody has rated it. check for # of ratings.
 
 TODO: switch rating and source text position.
 
