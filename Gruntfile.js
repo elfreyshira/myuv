@@ -2,7 +2,7 @@
 
 module.exports = function(grunt) {
 
-    var allJsFiles = ['**/*.js', '!node_modules/**', '!resources/**', '!build/**'];
+    var allJsFiles = ['**/*.js', '!node_modules/**', '!bower_components/**', '!resources/**', '!build/**'];
     var allSassFiles = ['styles/**/*.scss'];
 
     grunt.initConfig({
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: allJsFiles,
-                tasks: ['jshint', 'browserify']
+                tasks: ['test', 'browserify']
             },
             sass: {
                 files: allSassFiles,
@@ -39,14 +39,22 @@ module.exports = function(grunt) {
                 src: ['scripts/**/*.js'],
                 dest: 'build/script.js',
                 options: {
-                    // require: ['angular'],
                     alias: [
-                        './resources/angular.min.js:angular',
-                        // './resources/angular-animate.min.js:ng-animate',
+                        './bower_components/angular/angular.min.js:angular',
+                        './bower_components/angular-animate/angular-animate.min.js:ng-animate',
                         './resources/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.min.js:ng-bootstrap'
                     ]
                 }
             }
+        },
+        copy: {
+            mapping: {
+                src: './bower_components/angular*/*.map',
+                dest: './build/',
+                flatten: true,
+                expand: true,
+                filter: 'isFile'
+            },
         },
         sass: {
             client: {
@@ -59,11 +67,12 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('test', ['jshint']);
-    grunt.registerTask('default', ['jshint', 'browserify', 'sass', 'connect']);
+    grunt.registerTask('default', ['test', 'browserify', 'copy', 'sass', 'connect']);
 
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 };

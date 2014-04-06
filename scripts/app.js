@@ -16,11 +16,11 @@ TODO: switch rating and source text position.
 **/
 
 require('angular');
-// require('ng-animate');
+require('ng-animate');
 require('ng-bootstrap');
 
 var myApp = angular.module('myuv', [
-        // 'ngAnimate',
+        'ngAnimate',
         'ui.bootstrap'
 ]);
 
