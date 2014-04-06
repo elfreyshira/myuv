@@ -49,12 +49,12 @@ module.exports = function(grunt) {
         },
         copy: {
             mapping: {
-                src: './bower_components/angular*/*.map',
+                src: './bower_components/**/*.map',
                 dest: './build/',
                 flatten: true,
                 expand: true,
                 filter: 'isFile'
-            },
+            }
         },
         sass: {
             client: {
@@ -62,12 +62,13 @@ module.exports = function(grunt) {
                     'build/style.css': 'styles/main.scss'
                 }
             }
-        }
+        },
+        clean: ['./build']
 
     });
 
     grunt.registerTask('test', ['jshint']);
-    grunt.registerTask('default', ['test', 'browserify', 'copy', 'sass', 'connect']);
+    grunt.registerTask('default', ['clean', 'test', 'browserify', 'copy', 'sass', 'connect']);
 
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-browserify');
@@ -75,4 +76,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+
 };

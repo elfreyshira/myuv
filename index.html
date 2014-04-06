@@ -7,32 +7,53 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.1.1/css/foundation.min.css" rel='stylesheet' type='text/css'>
     <link href="build/style.css" rel='stylesheet' type='text/css'>
 
+    <meta name="description" content="Quickly search and find movie ratings across the web. Myuv uses average ratings from reliable sources such as Rotten Tomatoes, IMDB, and The Movie Database." />
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="shortcut icon" href="http://elfreyshira.com/images/favicon.ico" />
+
 </head>
 <body ng-app="myuv" ng-controller="MainController">
 
-    <h1 class='title'>Myuv</h1>
-    <div class="row">
+    
 
-        <form ng-submit="fetch()">
-
-            <input type="text" ng-model="query" placeholder="Type movie and submit"></input>
-        </form>
+    <div class="row header">
+        <h1 class='title'>Myuv</h1>
+        <span>by <a href="http://elfreyshira.com">Elfrey</a></span>
     </div>
 
-    <!-- <pre>{{movieSearchResults | json}}</pre> -->
+    <!-- Autocomplete template -->
+    <script type="text/ng-template" id="templates/autocomplete.html">
+      <a>
+          <span> {{match.label.title}} ({{match.label.year}}) </span>
+      </a>
+    </script>
 
-    <!-- <div class="container">
-        <p>{{ hello }}</p>
-        <p>IMDB: {{imdb}}</p>
-        <p>RT: {{rt}}</p>
-        <p>TMDB: {{tmdb}}</p>
-        <p>Meta: {{meta}}</p>
-        <p>IMDB backup: {{imdb_backup}}</p>
+    <div class="row">
 
-    </div> -->
+        <div class="medium-9 medium-centered columns">
+
+            <form ng-submit="fetch(queryObj.title)">
+
+                <input type="text" placeholder="Type movie and submit"
+                    ng-model="queryObj"
+                    typeahead="movie for movie in autocomplete($viewValue)"
+                    typeahead-input-formatter="$model.title"
+                    typeahead-on-select="fetchAutocomplete(queryObj)"
+                    typeahead-wait-ms="100"
+                    typeahead-template-url="templates/autocomplete.html">
+                </input>
+
+                <!-- <input type="text" placeholder="Type movie and submit"
+                    ng-model="query">
+                </input> -->
+            </form>
+        </div>
+
+    </div>
+
 
     <div class="row" ng-repeat="movie in movieSearchResults">
-        <!-- figure out how to do this for 2nd repeat: 'small-offset-{{6-$parent.movie.sources.length}}': $first -->
         <div class="movie-result large-8 medium-9 small-11 column small-centered medium-centered large-centered">
             
             <div class="movie-ratings row">
@@ -61,51 +82,27 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="large-8 medium-10 small-12 column small-centered medium-centered large-centered">
-            
-            <div class="row movie-ratings">
-                <div
-                    class="small-2 columns small-offset-1"
-                    result-bar rating="100" out-of="%">
-                    <!-- hello world -->
-                </div>
-                <div class="small-2 columns"
-                    result-bar rating="76" out-of="100">
-                    <!-- hello world -->
-                </div>
-                <div class="small-2 columns"
-                    result-bar rating="50" out-of="%">
-                    <!-- hello world -->
-                </div>
-                <div class="small-2 columns"
-                    result-bar rating="3.2" out-of="10">
-                    hello world
-                </div>
-                <!-- <div class="small-2 columns">
-                    hello world
-                </div> -->
-                <div class="small-2 columns end"
-                    result-bar rating="0.4" out-of="10">
-                hello world
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- <p>{{movieSearchResults}}</p> -->
     <script src="build/script.js"></script>
-    <!-- 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-animate.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
-    <script src="resources/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/httpServices.js"></script>
-    <script src="scripts/utilServices.js"></script>
-    <script src="scripts/getServices.js"></script>
-    <script src="scripts/resultBar.js"></script>
-    <script src="scripts/controllers.js"></script>
-     -->
+
+    <!-- frame breaker -->
+    <script language='JavaScript' type='text/javascript'>
+        if(parent.frames.length>=1) {
+            window.top.location.href="" 
+        }
+    </script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-29830971-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
 </body>
 </html>

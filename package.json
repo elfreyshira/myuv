@@ -23,7 +23,8 @@
     "browserify": "^3",
     "grunt-browserify": "^2",
     "grunt-sass": "^0",
-    "grunt-contrib-copy": "^0.5.0"
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-clean": "^0.5.0"
   },
   "dependencies": {
     "lodash": "^2"

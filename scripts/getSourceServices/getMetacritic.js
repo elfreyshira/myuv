@@ -19,9 +19,12 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
                 return;
             }
 
+
             // Since we're searching by title and not an absolute id, we have to make sure we have the right movie
             // by ensuring that the release date year is the same as the one given by RT
             var movieObjArray = _.filter(data.results, function(result) {
+                console.log(releaseYear);
+                console.log(result.rlsdate);
                 return releaseYear === result.rlsdate.split('-')[0];
             });
 
