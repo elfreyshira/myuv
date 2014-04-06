@@ -68,7 +68,9 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('test', ['jshint']);
-    grunt.registerTask('default', ['clean', 'test', 'browserify', 'copy', 'sass', 'connect']);
+    grunt.registerTask('build', ['test', 'clean', 'browserify', 'copy', 'sass']);
+
+    grunt.registerTask('default', ['build', 'connect']);
 
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-browserify');
