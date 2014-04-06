@@ -1,0 +1,55 @@
+body {
+  background-color: #eee;
+  color: #333; }
+
+div.header {
+  text-align: center;
+  margin-bottom: 20px; }
+
+ul.dropdown-menu {
+  position: absolute;
+  z-index: 1000;
+  list-style: none;
+  list-style-type: none;
+  padding: 0px;
+  margin-left: 0px;
+  margin-right: 15px; }
+  ul.dropdown-menu li {
+    background-color: #ccc;
+    opacity: 0.9;
+    padding: 10px 15px 10px 15px; }
+    ul.dropdown-menu li.active {
+      background-color: #fff;
+      opacity: 1; }
+
+div.movie-result {
+  margin: 20px auto; }
+  div.movie-result div.movie-title {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #aaa;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee; }
+  div.movie-result div.movie-ratings div.columns {
+    /*background-color: red;*/
+    /*margin-left: 1px;*/
+    /*margin-right: 1px;*/
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    word-break: break-word;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    word-wrap: break-word;
+    position: relative; }
+    div.movie-result div.movie-ratings div.columns .source-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      font-size: 0.8em; }
+    div.movie-result div.movie-ratings div.columns .source-rating-container {
+      margin-top: -1em; }
+      div.movie-result div.movie-ratings div.columns .source-rating-container .source-out-of {
+        color: #b3b3b3; }
