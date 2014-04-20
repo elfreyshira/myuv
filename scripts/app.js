@@ -10,8 +10,8 @@ edge case searches:
 FIXED: alien, taken: Metacritic year doesn't match somehow. perhaps use runtime instead.
 FIXED: super size me: RT doesn't give the IMDB id. WHY?!
 FIXED: castaway (1986): for tmdb, ratings exist, but it's 0 because nobody has rated it. check for # of ratings.
-incredibles: doesn't have imdb id. sigh, again.
-twilight: the imdbid doesn't seem to exist on tmdb. i guess use a title search.
+FIXED: incredibles: doesn't have imdb id. sigh, again.
+FIXED?: twilight: the imdbid doesn't seem to exist on tmdb. i guess use a title search.
 
 TODO: switch rating and source text position.
 

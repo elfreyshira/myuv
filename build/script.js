@@ -7045,8 +7045,8 @@ edge case searches:
 FIXED: alien, taken: Metacritic year doesn't match somehow. perhaps use runtime instead.
 FIXED: super size me: RT doesn't give the IMDB id. WHY?!
 FIXED: castaway (1986): for tmdb, ratings exist, but it's 0 because nobody has rated it. check for # of ratings.
-incredibles: doesn't have imdb id. sigh, again.
-twilight: the imdbid doesn't seem to exist on tmdb. i guess use a title search.
+FIXED: incredibles: doesn't have imdb id. sigh, again.
+FIXED?: twilight: the imdbid doesn't seem to exist on tmdb. i guess use a title search.
 
 TODO: switch rating and source text position.
 
@@ -7344,7 +7344,7 @@ angular.module('myuv').factory('getRottenData', function() {
     return function getRottenData(movieObj) {
 
         var sources = [];
-        if (movieObj.ratings.critics_score >= 0) {
+        if (movieObj.ratings.critics_score > 0) {
             sources.push({
                 label: 'RT Critics',
                 rating: movieObj.ratings.critics_score,
@@ -7352,7 +7352,7 @@ angular.module('myuv').factory('getRottenData', function() {
                 link: movieObj.links.alternate + '#contentReviews'
             });
         }
-        if (movieObj.ratings.audience_score >= 0) {
+        if (movieObj.ratings.audience_score > 0) {
             sources.push({
                 label: 'RT Audience',
                 rating: movieObj.ratings.audience_score,

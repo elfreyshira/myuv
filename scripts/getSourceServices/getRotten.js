@@ -7,7 +7,7 @@ angular.module('myuv').factory('getRottenData', function() {
     return function getRottenData(movieObj) {
 
         var sources = [];
-        if (movieObj.ratings.critics_score >= 0) {
+        if (movieObj.ratings.critics_score > 0) {
             sources.push({
                 label: 'RT Critics',
                 rating: movieObj.ratings.critics_score,
@@ -15,7 +15,7 @@ angular.module('myuv').factory('getRottenData', function() {
                 link: movieObj.links.alternate + '#contentReviews'
             });
         }
-        if (movieObj.ratings.audience_score >= 0) {
+        if (movieObj.ratings.audience_score > 0) {
             sources.push({
                 label: 'RT Audience',
                 rating: movieObj.ratings.audience_score,
