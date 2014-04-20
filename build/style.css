@@ -1,6 +1,12 @@
 body {
-  background-color: #eee;
-  color: #333; }
+  background-color: #333;
+  color: #ddd; }
+
+h1 {
+  color: #ddd; }
+
+input[typeahead] {
+  background-color: #808080; }
 
 div.header {
   text-align: center;
@@ -28,9 +34,9 @@ div.movie-result {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: #aaa;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee; }
+    background-color: #666666;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333; }
   div.movie-result div.movie-ratings div.columns {
     /*background-color: red;*/
     /*margin-left: 1px;*/
@@ -39,8 +45,8 @@ div.movie-result {
     padding-right: 0;
     text-align: center;
     word-break: break-word;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
     word-wrap: break-word;
     position: relative; }
     div.movie-result div.movie-ratings div.columns .source-label {
@@ -52,4 +58,4 @@ div.movie-result {
     div.movie-result div.movie-ratings div.columns .source-rating-container {
       margin-top: -1em; }
       div.movie-result div.movie-ratings div.columns .source-rating-container .source-out-of {
-        color: #b3b3b3; }
+        color: #919191; }

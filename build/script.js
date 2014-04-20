@@ -7128,9 +7128,9 @@ angular.module('myuv').controller('MainController',
             });
         };
 
-        $scope.fetch = function(query) {
+        $scope.fetch = function(queryObj) {
 
-            getRottenByTitle(query).then(function(data) {
+            getRottenByTitle(queryObj).then(function(data) {
                 resetInput();
                 $scope.movieSearchResults.unshift(data);
                 getOtherSources(data);
@@ -7287,8 +7287,6 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
             // Since we're searching by title and not an absolute id, we have to make sure we have the right movie
             // by ensuring that the release date year is the same as the one given by RT
             var movieObjArray = _.filter(data.results, function(result) {
-                console.log(releaseYear);
-                console.log(result.rlsdate);
                 return releaseYear === result.rlsdate.split('-')[0];
             });
 

@@ -52,7 +52,6 @@ angular.module('myuv').controller('MainController',
         };
 
         $scope.fetchAutocomplete = function(query) {
-
             getRottenById(query.id).then(function(data) {
                 resetInput();
                 $scope.movieSearchResults.unshift(data);
@@ -60,9 +59,8 @@ angular.module('myuv').controller('MainController',
             });
         };
 
-        $scope.fetch = function(query) {
-
-            getRottenByTitle(query).then(function(data) {
+        $scope.fetch = function(queryObj) {
+            getRottenByTitle(queryObj).then(function(data) {
                 resetInput();
                 $scope.movieSearchResults.unshift(data);
                 getOtherSources(data);
