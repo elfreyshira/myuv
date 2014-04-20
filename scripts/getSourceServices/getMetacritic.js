@@ -31,20 +31,23 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
             }
             var movieObj = movieObjArray[0];
 
-            var sources = [
-                {
+            var sources = [];
+            if (movieObj.score) {
+                sources.push({
                     label: 'Metacritics',
                     rating: parseInt(movieObj.score),
                     outOf: '100',
                     link: movieObj.url + '/critic-reviews'
-                },
-                {
+                });
+            }
+            if (movieObj.avguserscore) {
+                sources.push({
                     label: 'Metacritic Users',
                     rating: parseFloat(movieObj.avguserscore),
                     outOf: '10',
                     link: movieObj.url + '/user-reviews'
-                }
-            ];
+                });
+            }
 
             deferred.resolve({
                 sources: sources

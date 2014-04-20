@@ -7047,6 +7047,7 @@ FIXED: super size me: RT doesn't give the IMDB id. WHY?!
 FIXED: castaway (1986): for tmdb, ratings exist, but it's 0 because nobody has rated it. check for # of ratings.
 FIXED: incredibles: doesn't have imdb id. sigh, again.
 FIXED?: twilight: the imdbid doesn't seem to exist on tmdb. i guess use a title search.
+FIXED: amazing spider-man 2. user reviews didn't exist yet.
 
 TODO: switch rating and source text position.
 
@@ -7208,7 +7209,13 @@ module.exports = {
 
 require('angular');
 
-angular.module('myuv').factory('getImdbById', function($q, httpImdbService) {
+angular.module('myuv').factory('imdbDataIsBad', function() {
+    return function imdbDataIsBad(data) {
+        return !parseFloat(data.imdbRating) || data.Response === "False";
+    };
+});
+
+angular.module('myuv').factory('getImdbById', function($q, httpImdbService, imdbDataIsBad) {
 
     return function getImdbById(imdbId) {
         var deferred = $q.defer();
@@ -7217,7 +7224,7 @@ angular.module('myuv').factory('getImdbById', function($q, httpImdbService) {
 
         httpImdbService(config).success(function(data) {
 
-            if (data.Response === "False") {
+            if (imdbDataIsBad(data)) {
                 deferred.reject();
                 return;
             }
@@ -7241,7 +7248,7 @@ angular.module('myuv').factory('getImdbById', function($q, httpImdbService) {
     };
 });
 
-angular.module('myuv').factory('getImdbByTitle', function($q, httpImdbService) {
+angular.module('myuv').factory('getImdbByTitle', function($q, httpImdbService, imdbDataIsBad) {
 
     return function getImdbByTitle(title, releaseYear) {
         var deferred = $q.defer();
@@ -7250,7 +7257,7 @@ angular.module('myuv').factory('getImdbByTitle', function($q, httpImdbService) {
 
         httpImdbService(config).success(function(data) {
 
-            if (data.Response === "False" || data.Year !== releaseYear) {
+            if (imdbDataIsBad(data) || data.Year !== releaseYear) {
                 deferred.reject();
                 return;
             }
@@ -7310,20 +7317,23 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
             }
             var movieObj = movieObjArray[0];
 
-            var sources = [
-                {
+            var sources = [];
+            if (movieObj.score) {
+                sources.push({
                     label: 'Metacritics',
                     rating: parseInt(movieObj.score),
                     outOf: '100',
                     link: movieObj.url + '/critic-reviews'
-                },
-                {
+                });
+            }
+            if (movieObj.avguserscore) {
+                sources.push({
                     label: 'Metacritic Users',
                     rating: parseFloat(movieObj.avguserscore),
                     outOf: '10',
                     link: movieObj.url + '/user-reviews'
-                }
-            ];
+                });
+            }
 
             deferred.resolve({
                 sources: sources
