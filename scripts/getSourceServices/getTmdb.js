@@ -11,7 +11,7 @@ angular.module('myuv').factory('getTmdbById', function($q, httpTmdbService) {
 
         httpTmdbService(config).success(function(data) {
 
-            if (data.status_code === 6) {
+            if (data.status_code === 6 || !data.vote_count) {
                 deferred.reject();
                 return;
             }
