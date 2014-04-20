@@ -1,5 +1,6 @@
 $background: #333;
 $font-color: #ddd;
+$mobile-font-size: 0.6em;
 
 body {
     background-color: $background;
@@ -51,9 +52,6 @@ div.movie-result {
     }
 
     div.movie-ratings div.columns {
-        /*background-color: red;*/
-        /*margin-left: 1px;*/
-        /*margin-right: 1px;*/
         padding-left: 0;
         padding-right: 0;
         text-align: center;
@@ -70,14 +68,22 @@ div.movie-result {
             left: 0;
             right: 0;
             font-size: .8em;
+
+            @media only screen and (max-width: 40em) {
+                font-size: $mobile-font-size;
+            } /* max-width 640px, mobile-only styles, use when QAing mobile issues */
         }
 
         .source-rating-container {
-            margin-top: -1em;
+            margin-top: -1.1em;
 
             .source-out-of {
                 color: darken($font-color, 30%);
             }
+
+            @media only screen and (max-width: 40em) {
+                font-size: $mobile-font-size;
+            } /* max-width 640px, mobile-only styles, use when QAing mobile issues */
         }
 
     }
