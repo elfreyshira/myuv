@@ -7042,8 +7042,8 @@ Notes:
 
 
 edge case searches:
-alien, taken: Metacritic year doesn't match somehow. perhaps use runtime instead.
-super size me: RT doesn't give the IMDB id. WHY?!
+FIXED: alien, taken: Metacritic year doesn't match somehow. perhaps use runtime instead.
+FIXED: super size me: RT doesn't give the IMDB id. WHY?!
 castaway (1986): for tmdb, ratings exist, but it's 0 because nobody has rated it. check for # of ratings.
 incredibles: doesn't have imdb id. sigh, again.
 twilight: the imdbid doesn't seem to exist on tmdb. i guess use a title search.
@@ -7071,7 +7071,7 @@ var fixtures = require('./fixtures');
 
 angular.module('myuv').controller('MainController',
     function($scope, httpRottenService, httpImdbService, httpTmdbService, httpMetacriticService, httpImdbBackupService,
-        $window, getRottenByTitle, getImdbById, getTmdbById, getMetacriticByTitle, 
+        $window, getRottenByTitle, getImdbById, getImdbByTitle, getTmdbById, getMetacriticByTitle, 
         getRottenListByTitle, getRottenById) {
 
         // $scope.movieSearchResults = fixtures.startingResults;
@@ -7081,17 +7081,31 @@ angular.module('myuv').controller('MainController',
         function getOtherSources(movieSearchResult) {
 
             var imdbId = movieSearchResult.imdbId;
-            getImdbById(imdbId).then(function(data) {
-                movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-            });
-
-            getTmdbById(imdbId).then(function(data){
-                movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-            });
-
             var title = movieSearchResult.title;
             var releaseYear = movieSearchResult.year;
-            getMetacriticByTitle(title, releaseYear).then(function(data){
+            var runtime = movieSearchResult.runtime;
+
+            if (imdbId) {
+                getImdbById(imdbId).then(function(data) {
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                });
+
+                getTmdbById(imdbId).then(function(data){
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                });
+            }
+            else {
+                getImdbByTitle(movieSearchResult.title, releaseYear).then(function(data) {
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+
+                    var imdbId = data.imdbId;
+                    getTmdbById(imdbId).then(function(data) {
+                        movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                    });
+                });
+            }
+
+            getMetacriticByTitle(title, releaseYear, runtime).then(function(data){
                 movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
             });
 
@@ -7120,7 +7134,6 @@ angular.module('myuv').controller('MainController',
         };
 
         $scope.fetchAutocomplete = function(query) {
-
             getRottenById(query.id).then(function(data) {
                 resetInput();
                 $scope.movieSearchResults.unshift(data);
@@ -7129,7 +7142,6 @@ angular.module('myuv').controller('MainController',
         };
 
         $scope.fetch = function(queryObj) {
-
             getRottenByTitle(queryObj).then(function(data) {
                 resetInput();
                 $scope.movieSearchResults.unshift(data);
@@ -7243,17 +7255,20 @@ angular.module('myuv').factory('getImdbByTitle', function($q, httpImdbService) {
                 return;
             }
 
+            var imdbId = data.imdbID;
+
             var sources = [
                 {
                     label: 'IMDB',
                     rating: parseFloat(data.imdbRating),
                     outOf: '10',
-                    link: 'http://www.imdb.com/title/' + data.imdbID
+                    link: 'http://www.imdb.com/title/' + imdbId
                 }
             ];
 
             deferred.resolve({
-                sources: sources
+                sources: sources,
+                imdbId: imdbId
             });
         });
 
@@ -7269,7 +7284,7 @@ var _ = require('lodash');
 
 angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacriticService) {
 
-    return function getMetacriticByTitle(title, releaseYear) {
+    return function getMetacriticByTitle(title, releaseYear, runtime) {
         var deferred = $q.defer();
         var promise = deferred.promise;
         var urlFriendlyTitle = title.replace(/\W/g,'+');
@@ -7282,12 +7297,11 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
                 deferred.reject();
                 return;
             }
-
-
+            
             // Since we're searching by title and not an absolute id, we have to make sure we have the right movie
             // by ensuring that the release date year is the same as the one given by RT
             var movieObjArray = _.filter(data.results, function(result) {
-                return releaseYear === result.rlsdate.split('-')[0];
+                return releaseYear === result.rlsdate.split('-')[0] || runtime === parseInt(result.runtime);
             });
 
             if (movieObjArray.length < 1) {
@@ -7411,7 +7425,7 @@ angular.module('myuv').factory('getRottenByTitle', function($q, httpRottenServic
 
 angular.module('myuv').factory('getRottenListByTitle', function($q, httpRottenService) {
 
-    /**
+    /** For autocomplete.
     [
         {
             title: 'Inception',

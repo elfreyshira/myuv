@@ -88,7 +88,7 @@ angular.module('myuv').factory('getRottenByTitle', function($q, httpRottenServic
 
 angular.module('myuv').factory('getRottenListByTitle', function($q, httpRottenService) {
 
-    /**
+    /** For autocomplete.
     [
         {
             title: 'Inception',

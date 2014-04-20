@@ -49,17 +49,20 @@ angular.module('myuv').factory('getImdbByTitle', function($q, httpImdbService) {
                 return;
             }
 
+            var imdbId = data.imdbID;
+
             var sources = [
                 {
                     label: 'IMDB',
                     rating: parseFloat(data.imdbRating),
                     outOf: '10',
-                    link: 'http://www.imdb.com/title/' + data.imdbID
+                    link: 'http://www.imdb.com/title/' + imdbId
                 }
             ];
 
             deferred.resolve({
-                sources: sources
+                sources: sources,
+                imdbId: imdbId
             });
         });
 

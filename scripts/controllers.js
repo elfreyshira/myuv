@@ -3,7 +3,7 @@ var fixtures = require('./fixtures');
 
 angular.module('myuv').controller('MainController',
     function($scope, httpRottenService, httpImdbService, httpTmdbService, httpMetacriticService, httpImdbBackupService,
-        $window, getRottenByTitle, getImdbById, getTmdbById, getMetacriticByTitle, 
+        $window, getRottenByTitle, getImdbById, getImdbByTitle, getTmdbById, getMetacriticByTitle, 
         getRottenListByTitle, getRottenById) {
 
         // $scope.movieSearchResults = fixtures.startingResults;
@@ -13,17 +13,31 @@ angular.module('myuv').controller('MainController',
         function getOtherSources(movieSearchResult) {
 
             var imdbId = movieSearchResult.imdbId;
-            getImdbById(imdbId).then(function(data) {
-                movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-            });
-
-            getTmdbById(imdbId).then(function(data){
-                movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-            });
-
             var title = movieSearchResult.title;
             var releaseYear = movieSearchResult.year;
-            getMetacriticByTitle(title, releaseYear).then(function(data){
+            var runtime = movieSearchResult.runtime;
+
+            if (imdbId) {
+                getImdbById(imdbId).then(function(data) {
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                });
+
+                getTmdbById(imdbId).then(function(data){
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                });
+            }
+            else {
+                getImdbByTitle(movieSearchResult.title, releaseYear).then(function(data) {
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+
+                    var imdbId = data.imdbId;
+                    getTmdbById(imdbId).then(function(data) {
+                        movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                    });
+                });
+            }
+
+            getMetacriticByTitle(title, releaseYear, runtime).then(function(data){
                 movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
             });
 

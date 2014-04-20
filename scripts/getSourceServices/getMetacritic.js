@@ -5,7 +5,7 @@ var _ = require('lodash');
 
 angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacriticService) {
 
-    return function getMetacriticByTitle(title, releaseYear) {
+    return function getMetacriticByTitle(title, releaseYear, runtime) {
         var deferred = $q.defer();
         var promise = deferred.promise;
         var urlFriendlyTitle = title.replace(/\W/g,'+');
@@ -18,12 +18,11 @@ angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacrit
                 deferred.reject();
                 return;
             }
-
-
+            
             // Since we're searching by title and not an absolute id, we have to make sure we have the right movie
             // by ensuring that the release date year is the same as the one given by RT
             var movieObjArray = _.filter(data.results, function(result) {
-                return releaseYear === result.rlsdate.split('-')[0];
+                return releaseYear === result.rlsdate.split('-')[0] || runtime === parseInt(result.runtime);
             });
 
             if (movieObjArray.length < 1) {
