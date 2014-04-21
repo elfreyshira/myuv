@@ -7048,6 +7048,7 @@ FIXED: castaway (1986): for tmdb, ratings exist, but it's 0 because nobody has r
 FIXED: incredibles: doesn't have imdb id. sigh, again.
 FIXED?: twilight: the imdbid doesn't seem to exist on tmdb. i guess use a title search.
 FIXED: amazing spider-man 2. user reviews didn't exist yet.
+ama, doesn't show any results, just a blank title bar.
 
 TODO: switch rating and source text position.
 
@@ -7830,4 +7831,4 @@ angular.module('myuv')
     };
 
 });
-},{"angular":"NyiU0/"}]},{},[8,9,10,11,12,13,14,15,16,17,18,19,20]);
+},{"angular":"NyiU0/"}]},{},[8,9,10,11,12,13,14,15,16,17,18,19,20])
