@@ -1,6 +1,6 @@
 'use strict';
 
-require('angular');
+var angularModule = require('../app');
 
 /**
 Retrieves a JSON object from TMDB.
@@ -11,7 +11,7 @@ Retrieves a JSON object from TMDB.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angular.module('myuv').factory('httpTmdbService', function($http, TMDB_API_KEY) {
+angularModule.factory('httpTmdbService', function($http, TMDB_API_KEY) {
 
     return function httpTmdbService(config) {
 

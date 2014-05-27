@@ -1,9 +1,9 @@
 'use strict';
 
-var _ = require('lodash');
-require('angular');
+var angularModule = require('../app'),
+    _ = require('lodash');
 
-angular.module('myuv').factory('getRottenData', function() {
+angularModule.factory('getRottenData', function() {
     return function getRottenData(movieObj) {
 
         var sources = [];
@@ -39,7 +39,7 @@ angular.module('myuv').factory('getRottenData', function() {
     };
 });
 
-angular.module('myuv').factory('getRottenById', function($q, httpRottenService, getRottenData) {
+angularModule.factory('getRottenById', function($q, httpRottenService, getRottenData) {
 
     return function getRottenById(rtId) {
 
@@ -62,7 +62,7 @@ angular.module('myuv').factory('getRottenById', function($q, httpRottenService, 
     };
 });
 
-angular.module('myuv').factory('getRottenByTitle', function($q, httpRottenService, getRottenData) {
+angularModule.factory('getRottenByTitle', function($q, httpRottenService, getRottenData) {
 
     return function getRottenByTitle(title) {
 
@@ -113,7 +113,7 @@ angular.module('myuv').factory('getRottenListByTitle', function($q, httpRottenSe
         var promise = deferred.promise;
         var config = {
             query: title,
-            limit: 5
+            limit: 6
         };
 
         httpRottenService(config).success(function(data) {

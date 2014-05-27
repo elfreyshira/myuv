@@ -1,14 +1,12 @@
 'use strict';
 
-require('angular');
+var angularModule = require('../app');
 
-angular.module('myuv').factory('imdbDataIsBad', function() {
-    return function imdbDataIsBad(data) {
-        return !parseFloat(data.imdbRating) || data.Response === "False";
-    };
-});
+function imdbDataIsBad(data) {
+    return !parseFloat(data.imdbRating) || data.Response === "False";
+}
 
-angular.module('myuv').factory('getImdbById', function($q, httpImdbService, imdbDataIsBad) {
+angularModule.factory('getImdbById', function($q, httpImdbService) {
 
     return function getImdbById(imdbId) {
         var deferred = $q.defer();
@@ -41,7 +39,7 @@ angular.module('myuv').factory('getImdbById', function($q, httpImdbService, imdb
     };
 });
 
-angular.module('myuv').factory('getImdbByTitle', function($q, httpImdbService, imdbDataIsBad) {
+angularModule.factory('getImdbByTitle', function($q, httpImdbService) {
 
     return function getImdbByTitle(title, releaseYear) {
         var deferred = $q.defer();

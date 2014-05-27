@@ -1,6 +1,6 @@
 'use strict';
 
-require('angular');
+var angularModule = require('../app');
 
 /**
 Retrieves a JSON object from Rotten Tomatoes.
@@ -12,7 +12,7 @@ Retrieves a JSON object from Rotten Tomatoes.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angular.module('myuv').factory('httpRottenService', function($http, RT_API_KEY) {
+angularModule.factory('httpRottenService', function($http, RT_API_KEY) {
 
     return function httpRottenService(config) {
 

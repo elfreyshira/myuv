@@ -1,9 +1,9 @@
 'use strict';
 
-require('angular');
-var _ = require('lodash');
+var angularModule = require('../app'),
+    _ = require('lodash');
 
-angular.module('myuv').factory('getMetacriticByTitle', function($q, httpMetacriticService) {
+angularModule.factory('getMetacriticByTitle', function($q, httpMetacriticService) {
 
     return function getMetacriticByTitle(title, releaseYear, runtime) {
         var deferred = $q.defer();

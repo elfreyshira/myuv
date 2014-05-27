@@ -1,8 +1,8 @@
 'use strict';
 
-require('angular');
+var angularModule = require('../app');
 
-angular.module('myuv').factory('getTmdbById', function($q, httpTmdbService) {
+angularModule.factory('getTmdbById', function($q, httpTmdbService) {
 
     return function getTmdbById(imdbId) {
         var deferred = $q.defer();
