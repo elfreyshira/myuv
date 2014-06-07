@@ -1,29 +1,30 @@
-require('angular');
+'use strict';
 
-angular.module('myuv')
+var angularModule = require('./app');
 
-.constant('maxBarHeight', 200)
-.constant('redColor', {
-    red: 255,
-    green: 51,
-    blue: 51
-})
-.constant('yellowColor', {
-    red: 255,
-    green: 239,
-    blue: 0
-})
-.constant('greenColor', {
-    red: 127,
-    green: 255,
-    blue: 36
-})
+angularModule
+    .constant('maxBarHeight', 200)
+    .constant('redColor', {
+        red: 255,
+        green: 51,
+        blue: 51
+    })
+    .constant('yellowColor', {
+        red: 255,
+        green: 239,
+        blue: 0
+    })
+    .constant('greenColor', {
+        red: 127,
+        green: 255,
+        blue: 36
+    });
 
 /*
 @param {number <= 1.0} percentage
 @returns {object} with keys "red", "green", "blue". numerical values.
 */
-.factory('barColor', function(maxBarHeight, greenColor, yellowColor, redColor) {
+angularModule.factory('barColor', function(maxBarHeight, greenColor, yellowColor, redColor) {
 
     var min = redColor;
     var mid = yellowColor;
@@ -62,9 +63,9 @@ angular.module('myuv')
         }
     };
 
-})
+});
 
-.directive('resultBar', function(maxBarHeight, barColor) {
+angularModule.directive('resultBar', function(maxBarHeight, barColor) {
 
     /*
         <div result-bar rating="85" out-of="%"></div>

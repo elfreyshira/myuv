@@ -1,6 +1,6 @@
 'use strict';
 
-require('angular');
+var angularModule = require('../app');
 
 /**
 Retrieves a JSON object from Metacritic using mashape.
@@ -11,7 +11,7 @@ Retrieves a JSON object from Metacritic using mashape.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angular.module('myuv').factory('httpMetacriticService', function($http, METACRITIC_API_KEY) {
+angularModule.factory('httpMetacriticService', function($http, METACRITIC_API_KEY) {
 
     return function httpMetacriticService(config) {
 

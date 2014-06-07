@@ -1,6 +1,6 @@
 'use strict';
 
-require('angular');
+var angularModule = require('../app');
 
 /**
 Retrieves a JSON object from IMDB.
@@ -11,7 +11,7 @@ Retrieves a JSON object from IMDB.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angular.module('myuv').factory('httpImdbService', function($http) {
+angularModule.factory('httpImdbService', function($http) {
 
     return function httpImdbService(config) {
         var params = {};

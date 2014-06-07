@@ -1,7 +1,10 @@
-require('angular');
-var fixtures = require('./fixtures');
+'use strict';
 
-angular.module('myuv').controller('MainController',
+var angularModule = require('./app');
+
+// var fixtures = require('./fixtures');
+
+angularModule.controller('MainController',
     function($scope, httpRottenService, httpImdbService, httpTmdbService, httpMetacriticService, httpImdbBackupService,
         $window, getRottenByTitle, getImdbById, getImdbByTitle, getTmdbById, getMetacriticByTitle, 
         getRottenListByTitle, getRottenById) {
@@ -46,8 +49,10 @@ angular.module('myuv').controller('MainController',
         }
 
         function resetInput() {
+            console.log($scope);
             $scope.queryObj = '';
         }
+
 
         /**
             Returns a Foundation column offset depending on the length of the results,

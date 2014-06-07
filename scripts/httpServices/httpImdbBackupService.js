@@ -1,6 +1,6 @@
 'use strict';
 
-require('angular');
+var angularModule = require('../app');
 
 function imdbBackupCallback(json) {
     console.log("callback!!!!!!!!!!!!");
@@ -23,7 +23,7 @@ Used only when the httpImdbService doesn't work. Retrieves a JSON object from IM
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angular.module('myuv').factory('httpImdbBackupService', function($http) {
+angularModule.factory('httpImdbBackupService', function($http) {
 
     return function httpImdbBackupService(config) {
         var params = {};

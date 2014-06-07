@@ -35,13 +35,6 @@
         <span>by <a href="http://elfreyshira.com">Elfrey</a></span>
     </div>
 
-    <!-- Autocomplete template -->
-    <script type="text/ng-template" id="templates/autocomplete.html">
-      <a>
-          <span> {{match.label.title}} ({{match.label.year}}) </span>
-      </a>
-    </script>
-
     <div class="row">
 
         <div class="medium-9 medium-centered columns">
@@ -58,39 +51,14 @@
                 </input>
 
             </form>
+
         </div>
 
     </div>
 
+    <!-- Movie search results -->
+    <div ng-include src="'templates/search-results.html'"></div>
 
-    <div class="row" ng-repeat="movie in movieSearchResults">
-        <div class="movie-result large-8 medium-9 small-11 column small-centered medium-centered large-centered">
-            
-            <div class="movie-ratings row">
-                <div ng-repeat="source in movie.sources"
-                    class="small-2 columns {{columnOffset(movie.sources.length, $first)}}"
-                    ng-class="{'end': $last}"
-                    result-bar rating="{{source.rating}}" out-of="{{source.outOf}}">
-                    <div class="source-rating-container">
-                        <span class="source-rating">{{source.rating}}</span>
-                        <span class="source-out-of">
-                            {{source.outOf === '%' ?
-                                '%' : ('/ ' + source.outOf) }}
-                        </span>
-                    </div>
-                    <span class="source-label">
-                        <a target="_blank" ng-href="{{source.link}}">{{source.label}}</a>
-                    </span>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="movie-title small-centered small-{{movie.sources.length * 2}} columns">
-                    {{movie.title}} ({{movie.year}})
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="build/script.js"></script>
 
