@@ -35,6 +35,10 @@ div.movie-result {
     background-color: #666666;
     border-left: 1px solid #333;
     border-right: 1px solid #333; }
+    div.movie-result div.movie-title span.runtime {
+      padding-left: 10px;
+      font-size: 0.8em;
+      color: #b7b7b7; }
   div.movie-result div.movie-ratings div.columns {
     padding-left: 0;
     padding-right: 0;

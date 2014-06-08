@@ -50,6 +50,12 @@ div.movie-result {
         border-left: 1px solid $background;
         border-right: 1px solid $background;
 
+        span.runtime {
+            padding-left: 10px;
+            font-size: .8em;
+            color: darken($font-color, 15%);
+        }
+
     }
 
     div.movie-ratings div.columns {

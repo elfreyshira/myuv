@@ -3,7 +3,7 @@
 var angularModule = require('../app'),
     _ = require('lodash');
 
-angularModule.factory('getRottenData', function() {
+angularModule.factory('getRottenData', function(readableTime) {
     return function getRottenData(movieObj) {
 
         var sources = [];
@@ -30,7 +30,7 @@ angularModule.factory('getRottenData', function() {
             year: movieObj.release_dates.theater ? movieObj.release_dates.theater.split('-')[0] : movieObj.year,
             rtId: movieObj.id,
             imdbId: movieObj.alternate_ids ? ('tt' + movieObj.alternate_ids.imdb) : undefined,
-            runtime: movieObj.runtime,
+            runtime: readableTime(movieObj.runtime),
             mpaaRating: movieObj.mpaa_rating,
             sources: sources
         };

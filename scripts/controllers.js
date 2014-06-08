@@ -49,7 +49,6 @@ angularModule.controller('MainController',
         }
 
         function resetInput() {
-            console.log($scope);
             $scope.queryObj = '';
         }
 
