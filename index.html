@@ -42,6 +42,8 @@
             <form ng-submit="fetch(queryObj)">
 
                 <input type="text" placeholder="Type movie and submit"
+                    autocomplete="off"
+                    autocorrect="off"
                     ng-model="queryObj"
                     typeahead="movie for movie in autocomplete($viewValue)"
                     typeahead-input-formatter="$model.title"
