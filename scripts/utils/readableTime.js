@@ -1,6 +1,6 @@
 'use strict';
 
-var angularModule = require('./app');
+var angularModule = require('../app');
 
 angularModule.factory('readableTime', function() {
 

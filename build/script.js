@@ -1,6 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"ng-animate":[function(require,module,exports){
-module.exports=require('xl63eE');
-},{}],"xl63eE":[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"xl63eE":[function(require,module,exports){
 /*
  AngularJS v1.2.7
  (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -25,6 +23,10 @@ n="$$ngAnimateCSS3Data",z=3,R=1.5,B=1E3,t=0,H={},Y=0,T=[],U=[],V,P=0;return{allo
 enter:function(c,b){return a(c,"ng-enter",b)},leave:function(c,b){return a(c,"ng-leave",b)},move:function(c,b){return a(c,"ng-move",b)},beforeAddClass:function(a,b,e){if(b=K(a,d(b,"-add")))return s(a,function(){J(a);I(a);e()}),b;e()},addClass:function(a,b,e){return O(a,d(b,"-add"),e)},beforeRemoveClass:function(a,b,e){if(b=K(a,d(b,"-remove")))return s(a,function(){J(a);I(a);e()}),b;e()},removeClass:function(a,b,e){return O(a,d(b,"-remove"),e)}}}])}])})(window,window.angular);
 //# sourceMappingURL=angular-animate.min.js.map
 
+},{}],"ng-animate":[function(require,module,exports){
+module.exports=require('xl63eE');
+},{}],"angular":[function(require,module,exports){
+module.exports=require('NyiU0/');
 },{}],"NyiU0/":[function(require,module,exports){
 /*
  AngularJS v1.2.7
@@ -230,8 +232,6 @@ ngSwitchWhen:Ae,ngSwitchDefault:Be,ngOptions:Fe,ngTransclude:Ce,ngModel:ce,ngLis
 A(Q).ready(function(){Sc(Q,Yb)})})(window,document);!angular.$$csp()&&angular.element(document).find("head").prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\\:form{display:block;}</style>');
 //# sourceMappingURL=angular.min.js.map
 
-},{}],"angular":[function(require,module,exports){
-module.exports=require('NyiU0/');
 },{}],5:[function(require,module,exports){
 (function (global){
 /**
@@ -7078,48 +7078,10 @@ var angularModule = require('./app');
 // var fixtures = require('./fixtures');
 
 angularModule.controller('MainController',
-    function($scope, httpRottenService, httpImdbService, httpTmdbService, httpMetacriticService, httpImdbBackupService,
-        $window, getRottenByTitle, getImdbById, getImdbByTitle, getTmdbById, getMetacriticByTitle, 
-        getRottenListByTitle, getRottenById) {
+    function($scope, getRottenListByTitle, fetchResults, $location, urlManager) {
 
         // $scope.movieSearchResults = fixtures.startingResults;
         $scope.movieSearchResults = [];
-
-        // After getting rotten, get the other sources
-        function getOtherSources(movieSearchResult) {
-
-            var imdbId = movieSearchResult.imdbId;
-            var title = movieSearchResult.title;
-            var releaseYear = movieSearchResult.year;
-            var runtime = movieSearchResult.runtime;
-
-            if (imdbId) {
-                getImdbById(imdbId).then(function(data) {
-                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-                });
-
-                getTmdbById(imdbId).then(function(data){
-                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-                });
-            }
-            else {
-                getImdbByTitle(movieSearchResult.title, releaseYear).then(function(data) {
-                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-
-                    var imdbId = data.imdbId;
-                    getTmdbById(imdbId).then(function(data) {
-                        movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-                    });
-                });
-            }
-
-            getMetacriticByTitle(title, releaseYear, runtime).then(function(data){
-                movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-            });
-
-            return movieSearchResult;
-
-        }
 
         function resetInput() {
             $scope.queryObj = '';
@@ -7142,21 +7104,14 @@ angularModule.controller('MainController',
             return getRottenListByTitle(query);
         };
 
-        $scope.fetchAutocomplete = function(query) {
-            getRottenById(query.id).then(function(data) {
-                resetInput();
-                $scope.movieSearchResults.unshift(data);
-                getOtherSources(data);
-            });
+        $scope.fetchResults = function(queryObj) {
+            return fetchResults($scope, queryObj, resetInput);
         };
 
-        $scope.fetch = function(queryObj) {
-            getRottenByTitle(queryObj).then(function(data) {
-                resetInput();
-                $scope.movieSearchResults.unshift(data);
-                getOtherSources(data);
-            });
-        };
+        var movieHashQueryObj = urlManager.getMovieUrlHash();
+        if (movieHashQueryObj) {
+            $scope.fetchResults(movieHashQueryObj);
+        }
 
     });
 },{"./app":8}],10:[function(require,module,exports){
@@ -7353,8 +7308,8 @@ angularModule.factory('getMetacriticByTitle', function($q, httpMetacriticService
 },{"../app":8,"lodash":5}],13:[function(require,module,exports){
 'use strict';
 
-var angularModule = require('../app'),
-    _ = require('lodash');
+var angularModule = require('../app');
+var _ = require('lodash');
 
 angularModule.factory('getRottenData', function(readableTime) {
     return function getRottenData(movieObj) {
@@ -7743,58 +7698,32 @@ angularModule.factory('httpTmdbService', function($http, TMDB_API_KEY) {
 
 var angularModule = require('./app');
 
-angularModule.factory('readableTime', function() {
-
-    return function(timeInMinutes) {
-        
-        var readableTimeArr = [];
-
-        var hours = Math.floor(timeInMinutes / 60);
-        if (hours) {
-            readableTimeArr.push(hours + ' hour' + (hours > 1 ? 's' : ''));
-        }
-
-        var minutes = (timeInMinutes % 60);
-        if (minutes) {
-            readableTimeArr.push(minutes + ' minute' + (minutes > 1 ? 's' : ''));
-        }
-
-        return readableTimeArr.join(' ');
-    };
-
-});
-},{"./app":8}],21:[function(require,module,exports){
-'use strict';
-
-var angularModule = require('./app');
-
-angularModule
-    .constant('maxBarHeight', 200)
-    .constant('redColor', {
-        red: 255,
-        green: 51,
-        blue: 51
-    })
-    .constant('yellowColor', {
-        red: 255,
-        green: 239,
-        blue: 0
-    })
-    .constant('greenColor', {
-        red: 127,
-        green: 255,
-        blue: 36
-    });
+var MAX_BAR_HEIGHT = 200;
+var RED_COLOR = {
+    red: 255,
+    green: 51,
+    blue: 51
+};
+var YELLOW_COLOR = {
+    red: 255,
+    green: 239,
+    blue: 0
+};
+var GREEN_COLOR = {
+    red: 127,
+    green: 255,
+    blue: 36
+};
 
 /*
 @param {number <= 1.0} percentage
 @returns {object} with keys "red", "green", "blue". numerical values.
 */
-angularModule.factory('barColor', function(maxBarHeight, greenColor, yellowColor, redColor) {
+angularModule.factory('barColor', function() {
 
-    var min = redColor;
-    var mid = yellowColor;
-    var max = greenColor;
+    var min = RED_COLOR;
+    var mid = YELLOW_COLOR;
+    var max = GREEN_COLOR;
 
     function rgbRound(num) {
         return Math.min(255, Math.round(num));
@@ -7831,7 +7760,7 @@ angularModule.factory('barColor', function(maxBarHeight, greenColor, yellowColor
 
 });
 
-angularModule.directive('resultBar', function(maxBarHeight, barColor) {
+angularModule.directive('resultBar', function(barColor) {
 
     /*
         <div result-bar rating="85" out-of="%"></div>
@@ -7843,7 +7772,7 @@ angularModule.directive('resultBar', function(maxBarHeight, barColor) {
             var rating = parseFloat(attrs.rating);
             var outOf = (attrs.outOf === '%') ? 100 : parseInt(attrs.outOf);
             var percentage = rating/outOf;
-            var absoluteHeight = percentage * maxBarHeight;
+            var absoluteHeight = percentage * MAX_BAR_HEIGHT;
 
             function pixel(num) {
                 return num + 'px';
@@ -7852,7 +7781,7 @@ angularModule.directive('resultBar', function(maxBarHeight, barColor) {
             element.css(
                 {
                     height: pixel(absoluteHeight),
-                    marginTop: pixel(maxBarHeight - absoluteHeight),
+                    marginTop: pixel(MAX_BAR_HEIGHT - absoluteHeight),
                     backgroundColor: barColor(percentage)
                     // backgroundColor: 'rgb(' + rating + ', 0, 90)'
                 }
@@ -7862,4 +7791,154 @@ angularModule.directive('resultBar', function(maxBarHeight, barColor) {
     };
 
 });
-},{"./app":8}]},{},[8,9,10,11,12,13,14,15,16,17,18,19,20,21]);
+},{"./app":8}],21:[function(require,module,exports){
+'use strict';
+
+var angularModule = require('../app');
+var _ = require('lodash');
+
+angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, getImdbByTitle,
+    getTmdbById, getMetacriticByTitle, getRottenById, urlManager) {
+
+    // After getting rotten, get the other sources
+    function getOtherSources(movieSearchResult) {
+
+        var imdbId = movieSearchResult.imdbId;
+        var title = movieSearchResult.title;
+        var releaseYear = movieSearchResult.year;
+        var runtime = movieSearchResult.runtime;
+
+        if (imdbId) {
+            getImdbById(imdbId).then(function(data) {
+                movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+            });
+
+            getTmdbById(imdbId).then(function(data){
+                movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+            });
+        }
+        else {
+            getImdbByTitle(movieSearchResult.title, releaseYear).then(function(data) {
+                movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+
+                var imdbId = data.imdbId;
+                getTmdbById(imdbId).then(function(data) {
+                    movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                });
+            });
+        }
+
+        getMetacriticByTitle(title, releaseYear, runtime).then(function(data){
+            movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+        });
+
+        return movieSearchResult;
+
+    }
+
+    /*
+
+    Sets a hash query in the url correlating to a movie search.
+    @param $scope {Object} the angular $scope from the controller
+    @param queryObj {Object}
+    @paramXOR queryObj.id {String}
+    @paramXOR queryObj.q {String}
+    @param resetInput {Function} resets the scope input box
+    */
+    return function fetchResults($scope, queryObj, resetInput) {
+        urlManager.setMovieUrl(queryObj);
+
+        var getRottenByQuery;
+        if (queryObj.id) {
+            getRottenByQuery = _.partial(getRottenById, queryObj.id);
+        }
+        else if (queryObj.q) {
+            getRottenByQuery = _.partial(getRottenByTitle, queryObj.q);
+        }
+        else {
+            return;
+        }
+
+        return getRottenByQuery().then(function(data) {
+            resetInput();
+            $scope.movieSearchResults.unshift(data);
+            getOtherSources(data);
+        });
+
+    };
+
+});
+
+},{"../app":8,"lodash":5}],22:[function(require,module,exports){
+'use strict';
+
+var angularModule = require('../app');
+
+angularModule.factory('readableTime', function() {
+
+    return function(timeInMinutes) {
+        
+        var readableTimeArr = [];
+
+        var hours = Math.floor(timeInMinutes / 60);
+        if (hours) {
+            readableTimeArr.push(hours + ' hour' + (hours > 1 ? 's' : ''));
+        }
+
+        var minutes = (timeInMinutes % 60);
+        if (minutes) {
+            readableTimeArr.push(minutes + ' minute' + (minutes > 1 ? 's' : ''));
+        }
+
+        return readableTimeArr.join(' ');
+    };
+
+});
+},{"../app":8}],23:[function(require,module,exports){
+'use strict';
+
+var angularModule = require('../app');
+var _ = require('lodash');
+
+
+angularModule.factory('urlManager', function($location) {
+
+    function resetHash() {
+        $location.search('');
+    }
+
+    /*
+    Sets a hash query in the url correlating to a movie search.
+    @param queryObj {Object}
+    @param?X queryObj.id {String}
+    @param?X queryObj.q {String}
+    */
+    function setMovieUrl(queryObj) {
+        if (queryObj.id) {
+            resetHash();
+            $location.search('id', queryObj.id);
+        }
+        else if (queryObj.q) {
+            resetHash();
+            $location.search('q', queryObj.q);
+        }
+    }
+
+    function getMovieUrlHash() {
+        var hashObj = $location.search();
+        if (hashObj.id || hashObj.q) {
+            return hashObj;
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    return {
+        setMovieUrl: setMovieUrl,
+        getMovieUrlHash: getMovieUrlHash
+    };
+
+});
+},{"../app":8,"lodash":5}]},{},[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]);

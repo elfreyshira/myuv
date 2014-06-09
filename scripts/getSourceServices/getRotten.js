@@ -1,7 +1,7 @@
 'use strict';
 
-var angularModule = require('../app'),
-    _ = require('lodash');
+var angularModule = require('../app');
+var _ = require('lodash');
 
 angularModule.factory('getRottenData', function(readableTime) {
     return function getRottenData(movieObj) {

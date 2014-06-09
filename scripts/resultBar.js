@@ -2,33 +2,32 @@
 
 var angularModule = require('./app');
 
-angularModule
-    .constant('maxBarHeight', 200)
-    .constant('redColor', {
-        red: 255,
-        green: 51,
-        blue: 51
-    })
-    .constant('yellowColor', {
-        red: 255,
-        green: 239,
-        blue: 0
-    })
-    .constant('greenColor', {
-        red: 127,
-        green: 255,
-        blue: 36
-    });
+var MAX_BAR_HEIGHT = 200;
+var RED_COLOR = {
+    red: 255,
+    green: 51,
+    blue: 51
+};
+var YELLOW_COLOR = {
+    red: 255,
+    green: 239,
+    blue: 0
+};
+var GREEN_COLOR = {
+    red: 127,
+    green: 255,
+    blue: 36
+};
 
 /*
 @param {number <= 1.0} percentage
 @returns {object} with keys "red", "green", "blue". numerical values.
 */
-angularModule.factory('barColor', function(maxBarHeight, greenColor, yellowColor, redColor) {
+angularModule.factory('barColor', function() {
 
-    var min = redColor;
-    var mid = yellowColor;
-    var max = greenColor;
+    var min = RED_COLOR;
+    var mid = YELLOW_COLOR;
+    var max = GREEN_COLOR;
 
     function rgbRound(num) {
         return Math.min(255, Math.round(num));
@@ -65,7 +64,7 @@ angularModule.factory('barColor', function(maxBarHeight, greenColor, yellowColor
 
 });
 
-angularModule.directive('resultBar', function(maxBarHeight, barColor) {
+angularModule.directive('resultBar', function(barColor) {
 
     /*
         <div result-bar rating="85" out-of="%"></div>
@@ -77,7 +76,7 @@ angularModule.directive('resultBar', function(maxBarHeight, barColor) {
             var rating = parseFloat(attrs.rating);
             var outOf = (attrs.outOf === '%') ? 100 : parseInt(attrs.outOf);
             var percentage = rating/outOf;
-            var absoluteHeight = percentage * maxBarHeight;
+            var absoluteHeight = percentage * MAX_BAR_HEIGHT;
 
             function pixel(num) {
                 return num + 'px';
@@ -86,7 +85,7 @@ angularModule.directive('resultBar', function(maxBarHeight, barColor) {
             element.css(
                 {
                     height: pixel(absoluteHeight),
-                    marginTop: pixel(maxBarHeight - absoluteHeight),
+                    marginTop: pixel(MAX_BAR_HEIGHT - absoluteHeight),
                     backgroundColor: barColor(percentage)
                     // backgroundColor: 'rgb(' + rating + ', 0, 90)'
                 }
