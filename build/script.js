@@ -7341,7 +7341,7 @@ angularModule.factory('getRottenData', function(readableTime) {
 
         var genres;
         if (!_.isEmpty(movieObj.genres)) {
-            genres = movieObj.genres.join(', ');
+            genres = movieObj.genres.slice(0, 3).join(', ');
         }
 
         var studio = movieObj.studio;
