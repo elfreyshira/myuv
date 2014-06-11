@@ -39,7 +39,7 @@ angularModule.factory('getRottenData', function(readableTime) {
         var actors;
         if (!_.isEmpty(movieObj.abridged_cast)) {
             // Get only the first 3 actors' names
-            actors = _.pluck(movieObj.abridged_cast, 'name').slice(2);
+            actors = _.pluck(movieObj.abridged_cast, 'name').slice(0, 3);
         }
 
         // The object to return that contains only the important information
