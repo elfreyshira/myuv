@@ -1,28 +1,3 @@
 <div class="row" ng-repeat="movie in movieSearchResults">
-    <div class="movie-result large-8 medium-9 small-11 column small-centered medium-centered large-centered">
-        
-        <div class="movie-ratings row">
-            <div ng-repeat="source in movie.sources"
-                class="small-2 columns {{columnOffset(movie.sources.length, $first)}}"
-                ng-class="{'end': $last}"
-                result-bar rating="{{source.rating}}" out-of="{{source.outOf}}">
-                <div class="source-rating-container">
-                    <span class="source-rating">{{source.rating}}</span>
-                    <span class="source-out-of">
-                        {{source.outOf === '%' ?
-                            '%' : ('/ ' + source.outOf) }}
-                    </span>
-                </div>
-                <span class="source-label">
-                    <a target="_blank" ng-href="{{source.link}}">{{source.label}}</a>
-                </span>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="movie-title small-centered small-{{movie.sources.length * 2}} columns">
-                {{movie.title}} ({{movie.year}}) <span class="runtime">{{movie.runtime}}</span>
-            </div>
-        </div>
-    </div>
+    <div movie-result movie="movie"></div>
 </div>

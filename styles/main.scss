@@ -38,9 +38,22 @@ ul.dropdown-menu {
     }
 }
 
-div.movie-result {
+div[movie-result] {
 
     margin: 20px auto;
+
+    span.arrow-down {
+        $arrow-size: .6em;
+        cursor: pointer;
+        width: 0; 
+        height: 0; 
+        border-left: $arrow-size solid transparent;
+        border-right: $arrow-size solid transparent;
+        border-top: $arrow-size solid white;
+        position: absolute;
+        opacity: 0.5;
+        right: $arrow-size;
+    }
 
     div.movie-title {
         text-align: center;
