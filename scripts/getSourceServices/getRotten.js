@@ -24,11 +24,33 @@ angularModule.factory('getRottenData', function(readableTime) {
             });
         }
 
+        var genres;
+        if (!_.isEmpty(movieObj.genres)) {
+            genres = movieObj.genres.join(', ');
+        }
+
+        var studio = movieObj.studio;
+
+        var director;
+        if (!_.isEmpty(movieObj.abridged_directors)) {
+            director = _(movieObj.abridged_directors).pluck('name').first();
+        }
+
+        var actors;
+        if (!_.isEmpty(movieObj.abridged_cast)) {
+            // Get only the first 3 actors' names
+            actors = _.pluck(movieObj.abridged_cast, 'name').slice(2);
+        }
+
         // The object to return that contains only the important information
         var dataObj = {
             title: movieObj.title,
             year: movieObj.release_dates.theater ? movieObj.release_dates.theater.split('-')[0] : movieObj.year,
             rtId: movieObj.id,
+            genres: genres,
+            studio: studio,
+            director: director,
+            actorsArray: actors,
             imdbId: movieObj.alternate_ids ? ('tt' + movieObj.alternate_ids.imdb) : undefined,
             runtime: readableTime(movieObj.runtime),
             mpaaRating: movieObj.mpaa_rating,

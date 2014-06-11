@@ -29,6 +29,10 @@
             <div class="row more-info" ng-show="showMoreInfo">
                 <span>{{movie.runtime}}</span>
                 <span>{{movie.mpaaRating}}</span>
+                <span>{{movie.director}}</span>
+                <span>{{movie.studio}}</span>
+                <span ng-repeat="actor in movie.actorsArray">{{actor}}</span>
+                <span>{{movie.genres}}</span>
             </div>
         </div>
     </div>
