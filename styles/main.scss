@@ -42,17 +42,20 @@ div[movie-result] {
 
     margin: 20px auto;
 
-    span.arrow-down {
-        $arrow-size: .6em;
-        cursor: pointer;
-        width: 0; 
-        height: 0; 
-        border-left: $arrow-size solid transparent;
-        border-right: $arrow-size solid transparent;
-        border-top: $arrow-size solid white;
-        position: absolute;
-        opacity: 0.5;
-        right: $arrow-size;
+    div.more-info {
+        color: darken($font-color, 60%);
+        font-size: .8em;
+        padding: 5px;
+
+        span {
+            display: inline-block;
+            border-radius: 2px;
+            border: 1px solid lighten($background, 40%);
+            background-color: lighten($background, 80%);
+            margin: 5px;
+            padding: 3px;
+            float: left;
+        }
     }
 
     div.movie-title {
@@ -63,10 +66,27 @@ div[movie-result] {
         border-left: 1px solid $background;
         border-right: 1px solid $background;
 
-        span.runtime {
-            padding-left: 10px;
-            font-size: .8em;
-            color: darken($font-color, 15%);
+        position: relative;
+
+        $arrow-size: .6em;
+        @mixin arrow {
+            cursor: pointer;
+            width: 0; 
+            height: 0; 
+            border-left: $arrow-size solid transparent;
+            border-right: $arrow-size solid transparent;
+            position: absolute;
+            opacity: 0.5;
+            right: $arrow-size;
+            top: $arrow-size;
+        }
+        span.arrow-down {
+            @include arrow;
+            border-top: $arrow-size solid white;
+        }
+        span.arrow-up {
+            @include arrow;
+            border-bottom: $arrow-size solid white;
         }
 
     }

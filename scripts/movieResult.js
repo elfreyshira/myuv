@@ -22,6 +22,7 @@ angularModule.directive('movieResult', function() {
                 return $first ? 'small-offset-' + (6 - resultLength) : '';
             };
 
+            scope.showMoreInfo = false;
         },
         templateUrl: 'templates/movie-result.html'
 

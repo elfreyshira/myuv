@@ -19,15 +19,17 @@
 
     </div>
     <div class="row">
-        <div class="movie-title small-centered small-{{movie.sources.length * 2}} columns">
-            {{movie.title}} ({{movie.year}}) <span class="runtime">{{movie.runtime}}</span>
-            <span class="arrow-down"></span>
+        <div class="small-centered small-{{movie.sources.length * 2}} columns">
+            <div class="row movie-title">
+                {{movie.title}} ({{movie.year}})
+                <span
+                    ng-class="{'arrow-down': !showMoreInfo, 'arrow-up': showMoreInfo}"
+                    ng-click="showMoreInfo = !showMoreInfo"></span>
+            </div>
+            <div class="row more-info" ng-show="showMoreInfo">
+                <span>{{movie.runtime}}</span>
+                <span>{{movie.mpaaRating}}</span>
+            </div>
         </div>
-
     </div>
-    <!-- <div class="row">
-        <div class="movie-title small-centered small-{{movie.sources.length * 2}} columns">
-            hello world
-        </div>
-    </div> -->
 </div>

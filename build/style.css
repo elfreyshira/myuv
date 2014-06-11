@@ -28,27 +28,48 @@ ul.dropdown-menu {
 
 div[movie-result] {
   margin: 20px auto; }
-  div[movie-result] span.arrow-down {
-    cursor: pointer;
-    width: 0;
-    height: 0;
-    border-left: 0.6em solid transparent;
-    border-right: 0.6em solid transparent;
-    border-top: 0.6em solid white;
-    position: absolute;
-    opacity: 0.5;
-    right: 0.6em; }
+  div[movie-result] div.more-info {
+    color: #444444;
+    font-size: 0.8em;
+    padding: 5px; }
+    div[movie-result] div.more-info span {
+      display: inline-block;
+      border-radius: 2px;
+      border: 1px solid #999999;
+      background-color: white;
+      margin: 5px;
+      padding: 3px;
+      float: left; }
   div[movie-result] div.movie-title {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: #666666;
     border-left: 1px solid #333;
-    border-right: 1px solid #333; }
-    div[movie-result] div.movie-title span.runtime {
-      padding-left: 10px;
-      font-size: 0.8em;
-      color: #b7b7b7; }
+    border-right: 1px solid #333;
+    position: relative; }
+    div[movie-result] div.movie-title span.arrow-down {
+      cursor: pointer;
+      width: 0;
+      height: 0;
+      border-left: 0.6em solid transparent;
+      border-right: 0.6em solid transparent;
+      position: absolute;
+      opacity: 0.5;
+      right: 0.6em;
+      top: 0.6em;
+      border-top: 0.6em solid white; }
+    div[movie-result] div.movie-title span.arrow-up {
+      cursor: pointer;
+      width: 0;
+      height: 0;
+      border-left: 0.6em solid transparent;
+      border-right: 0.6em solid transparent;
+      position: absolute;
+      opacity: 0.5;
+      right: 0.6em;
+      top: 0.6em;
+      border-bottom: 0.6em solid white; }
   div[movie-result] div.movie-ratings div.columns {
     padding-left: 0;
     padding-right: 0;
