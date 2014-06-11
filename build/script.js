@@ -25,6 +25,23 @@ enter:function(c,b){return a(c,"ng-enter",b)},leave:function(c,b){return a(c,"ng
 
 },{}],"ng-animate":[function(require,module,exports){
 module.exports=require('xl63eE');
+},{}],"pmzTa1":[function(require,module,exports){
+/*
+ AngularJS v1.2.7
+ (c) 2010-2014 Google, Inc. http://angularjs.org
+ License: MIT
+*/
+(function(y,v,z){'use strict';function t(g,a,b){q.directive(g,["$parse","$swipe",function(l,n){var r=75,h=0.3,d=30;return function(p,m,k){function e(e){if(!u)return!1;var c=Math.abs(e.y-u.y);e=(e.x-u.x)*a;return f&&c<r&&0<e&&e>d&&c/e<h}var c=l(k[g]),u,f;n.bind(m,{start:function(e,c){u=e;f=!0},cancel:function(e){f=!1},end:function(a,f){e(a)&&p.$apply(function(){m.triggerHandler(b);c(p,{$event:f})})}})}}])}var q=v.module("ngTouch",[]);q.factory("$swipe",[function(){function g(a){var b=a.touches&&a.touches.length?
+a.touches:[a];a=a.changedTouches&&a.changedTouches[0]||a.originalEvent&&a.originalEvent.changedTouches&&a.originalEvent.changedTouches[0]||b[0].originalEvent||b[0];return{x:a.clientX,y:a.clientY}}return{bind:function(a,b){var l,n,r,h,d=!1;a.on("touchstart mousedown",function(a){r=g(a);d=!0;n=l=0;h=r;b.start&&b.start(r,a)});a.on("touchcancel",function(a){d=!1;b.cancel&&b.cancel(a)});a.on("touchmove mousemove",function(a){if(d&&r){var m=g(a);l+=Math.abs(m.x-h.x);n+=Math.abs(m.y-h.y);h=m;10>l&&10>n||
+(n>l?(d=!1,b.cancel&&b.cancel(a)):(a.preventDefault(),b.move&&b.move(m,a)))}});a.on("touchend mouseup",function(a){d&&(d=!1,b.end&&b.end(g(a),a))})}}}]);q.config(["$provide",function(g){g.decorator("ngClickDirective",["$delegate",function(a){a.shift();return a}])}]);q.directive("ngClick",["$parse","$timeout","$rootElement",function(g,a,b){function l(a,c,b){for(var f=0;f<a.length;f+=2)if(Math.abs(a[f]-c)<d&&Math.abs(a[f+1]-b)<d)return a.splice(f,f+2),!0;return!1}function n(a){if(!(Date.now()-m>h)){var c=
+a.touches&&a.touches.length?a.touches:[a],b=c[0].clientX,c=c[0].clientY;1>b&&1>c||l(k,b,c)||(a.stopPropagation(),a.preventDefault(),a.target&&a.target.blur())}}function r(b){b=b.touches&&b.touches.length?b.touches:[b];var c=b[0].clientX,d=b[0].clientY;k.push(c,d);a(function(){for(var a=0;a<k.length;a+=2)if(k[a]==c&&k[a+1]==d){k.splice(a,a+2);break}},h,!1)}var h=2500,d=25,p="ng-click-active",m,k;return function(a,c,d){function f(){q=!1;c.removeClass(p)}var h=g(d.ngClick),q=!1,s,t,w,x;c.on("touchstart",
+function(a){q=!0;s=a.target?a.target:a.srcElement;3==s.nodeType&&(s=s.parentNode);c.addClass(p);t=Date.now();a=a.touches&&a.touches.length?a.touches:[a];a=a[0].originalEvent||a[0];w=a.clientX;x=a.clientY});c.on("touchmove",function(a){f()});c.on("touchcancel",function(a){f()});c.on("touchend",function(a){var h=Date.now()-t,e=a.changedTouches&&a.changedTouches.length?a.changedTouches:a.touches&&a.touches.length?a.touches:[a],g=e[0].originalEvent||e[0],e=g.clientX,g=g.clientY,p=Math.sqrt(Math.pow(e-
+w,2)+Math.pow(g-x,2));q&&(750>h&&12>p)&&(k||(b[0].addEventListener("click",n,!0),b[0].addEventListener("touchstart",r,!0),k=[]),m=Date.now(),l(k,e,g),s&&s.blur(),v.isDefined(d.disabled)&&!1!==d.disabled||c.triggerHandler("click",[a]));f()});c.onclick=function(a){};c.on("click",function(b,c){a.$apply(function(){h(a,{$event:c||b})})});c.on("mousedown",function(a){c.addClass(p)});c.on("mousemove mouseup",function(a){c.removeClass(p)})}}]);t("ngSwipeLeft",-1,"swipeleft");t("ngSwipeRight",1,"swiperight")})(window,
+window.angular);
+//# sourceMappingURL=angular-touch.min.js.map
+
+},{}],"angular-touch":[function(require,module,exports){
+module.exports=require('pmzTa1');
 },{}],"angular":[function(require,module,exports){
 module.exports=require('NyiU0/');
 },{}],"NyiU0/":[function(require,module,exports){
@@ -232,7 +249,7 @@ ngSwitchWhen:Ae,ngSwitchDefault:Be,ngOptions:Fe,ngTransclude:Ce,ngModel:ce,ngLis
 A(Q).ready(function(){Sc(Q,Yb)})})(window,document);!angular.$$csp()&&angular.element(document).find("head").prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\\:form{display:block;}</style>');
 //# sourceMappingURL=angular.min.js.map
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -7032,7 +7049,7 @@ module.exports=require('BlreWs');
  * License: MIT
  */
 angular.module("ui.bootstrap",["ui.bootstrap.tpls","ui.bootstrap.position","ui.bootstrap.bindHtml","ui.bootstrap.typeahead"]),angular.module("ui.bootstrap.tpls",["template/typeahead/typeahead-match.html","template/typeahead/typeahead-popup.html"]),angular.module("ui.bootstrap.position",[]).factory("$position",["$document","$window",function(a,b){function c(a,c){return a.currentStyle?a.currentStyle[c]:b.getComputedStyle?b.getComputedStyle(a)[c]:a.style[c]}function d(a){return"static"===(c(a,"position")||"static")}var e=function(b){for(var c=a[0],e=b.offsetParent||c;e&&e!==c&&d(e);)e=e.offsetParent;return e||c};return{position:function(b){var c=this.offset(b),d={top:0,left:0},f=e(b[0]);f!=a[0]&&(d=this.offset(angular.element(f)),d.top+=f.clientTop-f.scrollTop,d.left+=f.clientLeft-f.scrollLeft);var g=b[0].getBoundingClientRect();return{width:g.width||b.prop("offsetWidth"),height:g.height||b.prop("offsetHeight"),top:c.top-d.top,left:c.left-d.left}},offset:function(c){var d=c[0].getBoundingClientRect();return{width:d.width||c.prop("offsetWidth"),height:d.height||c.prop("offsetHeight"),top:d.top+(b.pageYOffset||a[0].body.scrollTop||a[0].documentElement.scrollTop),left:d.left+(b.pageXOffset||a[0].body.scrollLeft||a[0].documentElement.scrollLeft)}}}}]),angular.module("ui.bootstrap.bindHtml",[]).directive("bindHtmlUnsafe",function(){return function(a,b,c){b.addClass("ng-binding").data("$binding",c.bindHtmlUnsafe),a.$watch(c.bindHtmlUnsafe,function(a){b.html(a||"")})}}),angular.module("ui.bootstrap.typeahead",["ui.bootstrap.position","ui.bootstrap.bindHtml"]).factory("typeaheadParser",["$parse",function(a){var b=/^\s*(.*?)(?:\s+as\s+(.*?))?\s+for\s+(?:([\$\w][\$\w\d]*))\s+in\s+(.*)$/;return{parse:function(c){var d=c.match(b);if(!d)throw new Error("Expected typeahead specification in form of '_modelValue_ (as _label_)? for _item_ in _collection_' but got '"+c+"'.");return{itemName:d[3],source:a(d[4]),viewMapper:a(d[2]||d[1]),modelMapper:a(d[1])}}}}]).directive("typeahead",["$compile","$parse","$q","$timeout","$document","$position","typeaheadParser",function(a,b,c,d,e,f,g){var h=[9,13,27,38,40];return{require:"ngModel",link:function(i,j,k,l){var m,n=i.$eval(k.typeaheadMinLength)||1,o=i.$eval(k.typeaheadWaitMs)||0,p=i.$eval(k.typeaheadEditable)!==!1,q=b(k.typeaheadLoading).assign||angular.noop,r=b(k.typeaheadOnSelect),s=k.typeaheadInputFormatter?b(k.typeaheadInputFormatter):void 0,t=k.typeaheadAppendToBody?b(k.typeaheadAppendToBody):!1,u=b(k.ngModel).assign,v=g.parse(k.typeahead),w=angular.element("<div typeahead-popup></div>");w.attr({matches:"matches",active:"activeIdx",select:"select(activeIdx)",query:"query",position:"position"}),angular.isDefined(k.typeaheadTemplateUrl)&&w.attr("template-url",k.typeaheadTemplateUrl);var x=i.$new();i.$on("$destroy",function(){x.$destroy()});var y=function(){x.matches=[],x.activeIdx=-1},z=function(a){var b={$viewValue:a};q(i,!0),c.when(v.source(i,b)).then(function(c){if(a===l.$viewValue&&m){if(c.length>0){x.activeIdx=0,x.matches.length=0;for(var d=0;d<c.length;d++)b[v.itemName]=c[d],x.matches.push({label:v.viewMapper(x,b),model:c[d]});x.query=a,x.position=t?f.offset(j):f.position(j),x.position.top=x.position.top+j.prop("offsetHeight")}else y();q(i,!1)}},function(){y(),q(i,!1)})};y(),x.query=void 0;var A;l.$parsers.unshift(function(a){return m=!0,a&&a.length>=n?o>0?(A&&d.cancel(A),A=d(function(){z(a)},o)):z(a):(q(i,!1),y()),p?a:a?(l.$setValidity("editable",!1),void 0):(l.$setValidity("editable",!0),a)}),l.$formatters.push(function(a){var b,c,d={};return s?(d.$model=a,s(i,d)):(d[v.itemName]=a,b=v.viewMapper(i,d),d[v.itemName]=void 0,c=v.viewMapper(i,d),b!==c?b:a)}),x.select=function(a){var b,c,d={};d[v.itemName]=c=x.matches[a].model,b=v.modelMapper(i,d),u(i,b),l.$setValidity("editable",!0),r(i,{$item:c,$model:b,$label:v.viewMapper(i,d)}),y(),j[0].focus()},j.bind("keydown",function(a){0!==x.matches.length&&-1!==h.indexOf(a.which)&&(a.preventDefault(),40===a.which?(x.activeIdx=(x.activeIdx+1)%x.matches.length,x.$digest()):38===a.which?(x.activeIdx=(x.activeIdx?x.activeIdx:x.matches.length)-1,x.$digest()):13===a.which||9===a.which?x.$apply(function(){x.select(x.activeIdx)}):27===a.which&&(a.stopPropagation(),y(),x.$digest()))}),j.bind("blur",function(){m=!1});var B=function(a){j[0]!==a.target&&(y(),x.$digest())};e.bind("click",B),i.$on("$destroy",function(){e.unbind("click",B)});var C=a(w)(x);t?e.find("body").append(C):j.after(C)}}}]).directive("typeaheadPopup",function(){return{restrict:"EA",scope:{matches:"=",query:"=",active:"=",position:"=",select:"&"},replace:!0,templateUrl:"template/typeahead/typeahead-popup.html",link:function(a,b,c){a.templateUrl=c.templateUrl,a.isOpen=function(){return a.matches.length>0},a.isActive=function(b){return a.active==b},a.selectActive=function(b){a.active=b},a.selectMatch=function(b){a.select({activeIdx:b})}}}}).directive("typeaheadMatch",["$http","$templateCache","$compile","$parse",function(a,b,c,d){return{restrict:"EA",scope:{index:"=",match:"=",query:"="},link:function(e,f,g){var h=d(g.templateUrl)(e.$parent)||"template/typeahead/typeahead-match.html";a.get(h,{cache:b}).success(function(a){f.replaceWith(c(a.trim())(e))})}}}]).filter("typeaheadHighlight",function(){function a(a){return a.replace(/([.?*+^$[\]\\(){}|-])/g,"\\$1")}return function(b,c){return c?b.replace(new RegExp(a(c),"gi"),"<strong>$&</strong>"):b}}),angular.module("template/typeahead/typeahead-match.html",[]).run(["$templateCache",function(a){a.put("template/typeahead/typeahead-match.html",'<a tabindex="-1" bind-html-unsafe="match.label | typeaheadHighlight:query"></a>')}]),angular.module("template/typeahead/typeahead-popup.html",[]).run(["$templateCache",function(a){a.put("template/typeahead/typeahead-popup.html",'<ul class="dropdown-menu" ng-style="{display: isOpen()&&\'block\' || \'none\', top: position.top+\'px\', left: position.left+\'px\'}">\n    <li ng-repeat="match in matches" ng-class="{active: isActive($index) }" ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)">\n        <div typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>\n    </li>\n</ul>')}]),angular.module("template/typeahead/typeahead.html",[]).run(["$templateCache",function(a){a.put("template/typeahead/typeahead.html",'<ul class="typeahead dropdown-menu" ng-style="{display: isOpen()&&\'block\' || \'none\', top: position.top+\'px\', left: position.left+\'px\'}">\n    <li ng-repeat="match in matches" ng-class="{active: isActive($index) }" ng-mouseenter="selectActive($index)">\n        <a tabindex="-1" ng-click="selectMatch($index)" ng-bind-html-unsafe="match.label | typeaheadHighlight:query"></a>\n    </li>\n</ul>')}]);
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7057,12 +7074,14 @@ TODO: switch rating and source text position.
 **/
 
 require('angular');
+require('angular-touch');
 require('ng-animate');
 require('ng-bootstrap');
 
 var myApp = angular.module('myuv', [
         'ngAnimate',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ngTouch'
 ]);
 
 myApp.constant('RT_API_KEY', 'f278acux2dr8vmmueege9bfv')
@@ -7070,7 +7089,7 @@ myApp.constant('RT_API_KEY', 'f278acux2dr8vmmueege9bfv')
 .constant('METACRITIC_API_KEY' ,'iR4qVOE5vZSwTxgEfqalscz1ycR8G21K');
 
 module.exports = myApp;
-},{"angular":"NyiU0/","ng-animate":"xl63eE","ng-bootstrap":"BlreWs"}],9:[function(require,module,exports){
+},{"angular":"NyiU0/","angular-touch":"pmzTa1","ng-animate":"xl63eE","ng-bootstrap":"BlreWs"}],11:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('./app');
@@ -7102,7 +7121,7 @@ angularModule.controller('MainController',
         }
 
     });
-},{"./app":8}],10:[function(require,module,exports){
+},{"./app":10}],12:[function(require,module,exports){
 var startingResults = [
     {
         "title": "Inception",
@@ -7155,7 +7174,7 @@ var startingResults = [
 module.exports = {
     startingResults: startingResults
 };
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7232,7 +7251,7 @@ angularModule.factory('getImdbByTitle', function($q, httpImdbService) {
 
     };
 });
-},{"../app":8}],12:[function(require,module,exports){
+},{"../app":10}],14:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app'),
@@ -7293,7 +7312,7 @@ angularModule.factory('getMetacriticByTitle', function($q, httpMetacriticService
 
     };
 });
-},{"../app":8,"lodash":5}],13:[function(require,module,exports){
+},{"../app":10,"lodash":7}],15:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7434,7 +7453,7 @@ angular.module('myuv').factory('getRottenListByTitle', function($q, httpRottenSe
         return promise;
     };
 });
-},{"../app":8,"lodash":5}],14:[function(require,module,exports){
+},{"../app":10,"lodash":7}],16:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7471,7 +7490,7 @@ angularModule.factory('getTmdbById', function($q, httpTmdbService) {
 
     };
 });
-},{"../app":8}],15:[function(require,module,exports){
+},{"../app":10}],17:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7543,7 +7562,7 @@ angularModule.factory('httpImdbBackupService', function($http) {
     };
 });
 
-},{"../app":8}],16:[function(require,module,exports){
+},{"../app":10}],18:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7576,7 +7595,7 @@ angularModule.factory('httpImdbService', function($http) {
     };
 });
 
-},{"../app":8}],17:[function(require,module,exports){
+},{"../app":10}],19:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7607,7 +7626,7 @@ angularModule.factory('httpMetacriticService', function($http, METACRITIC_API_KE
 
 });
 
-},{"../app":8}],18:[function(require,module,exports){
+},{"../app":10}],20:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7645,7 +7664,7 @@ angularModule.factory('httpRottenService', function($http, RT_API_KEY) {
 
 });
 
-},{"../app":8}],19:[function(require,module,exports){
+},{"../app":10}],21:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7681,7 +7700,7 @@ angularModule.factory('httpTmdbService', function($http, TMDB_API_KEY) {
 
 });
 
-},{"../app":8}],20:[function(require,module,exports){
+},{"../app":10}],22:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('./app');
@@ -7713,7 +7732,7 @@ angularModule.directive('movieResult', function() {
     };
 
 });
-},{"./app":8}],21:[function(require,module,exports){
+},{"./app":10}],23:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('./app');
@@ -7811,7 +7830,7 @@ angularModule.directive('resultBar', function(barColor) {
     };
 
 });
-},{"./app":8}],22:[function(require,module,exports){
+},{"./app":10}],24:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7889,7 +7908,7 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
 
 });
 
-},{"../app":8,"lodash":5}],23:[function(require,module,exports){
+},{"../app":10,"lodash":7}],25:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7914,7 +7933,7 @@ angularModule.factory('readableTime', function() {
     };
 
 });
-},{"../app":8}],24:[function(require,module,exports){
+},{"../app":10}],26:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7961,4 +7980,4 @@ angularModule.factory('urlManager', function($location) {
     };
 
 });
-},{"../app":8,"lodash":5}]},{},[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24])
+},{"../app":10,"lodash":7}]},{},[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26])

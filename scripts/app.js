@@ -22,12 +22,14 @@ TODO: switch rating and source text position.
 **/
 
 require('angular');
+require('angular-touch');
 require('ng-animate');
 require('ng-bootstrap');
 
 var myApp = angular.module('myuv', [
         'ngAnimate',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ngTouch'
 ]);
 
 myApp.constant('RT_API_KEY', 'f278acux2dr8vmmueege9bfv')

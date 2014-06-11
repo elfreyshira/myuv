@@ -57,7 +57,8 @@ div[movie-result] {
       position: absolute;
       opacity: 0.5;
       right: 0.6em;
-      top: 0.6em;
+      top: 50%;
+      margin-top: -0.3em;
       border-top: 0.6em solid white; }
     div[movie-result] div.movie-title span.arrow-up {
       cursor: pointer;
@@ -68,7 +69,8 @@ div[movie-result] {
       position: absolute;
       opacity: 0.5;
       right: 0.6em;
-      top: 0.6em;
+      top: 50%;
+      margin-top: -0.3em;
       border-bottom: 0.6em solid white; }
   div[movie-result] div.movie-ratings div.columns {
     padding-left: 0;

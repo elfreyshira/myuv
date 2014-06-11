@@ -78,7 +78,8 @@ div[movie-result] {
             position: absolute;
             opacity: 0.5;
             right: $arrow-size;
-            top: $arrow-size;
+            top: 50%;
+            margin-top: -$arrow-size/2;
         }
         span.arrow-down {
             @include arrow;

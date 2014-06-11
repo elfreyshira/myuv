@@ -41,6 +41,7 @@ module.exports = function(grunt) {
                 options: {
                     alias: [
                         './bower_components/angular/angular.min.js:angular',
+                        './bower_components/angular-touch/angular-touch.min.js:angular-touch',
                         './bower_components/angular-animate/angular-animate.min.js:ng-animate',
                         './resources/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.min.js:ng-bootstrap'
                     ]
