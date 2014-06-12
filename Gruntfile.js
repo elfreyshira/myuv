@@ -41,9 +41,15 @@ module.exports = function(grunt) {
                 options: {
                     alias: [
                         './bower_components/angular/angular.min.js:angular',
-                        './bower_components/angular-touch/angular-touch.min.js:angular-touch',
+                        './bower_components/angular-touch/angular-touch.min.js:ng-touch',
                         './bower_components/angular-animate/angular-animate.min.js:ng-animate',
-                        './resources/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.min.js:ng-bootstrap'
+                        './resources/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.min.js:ng-bootstrap',
+                        './bower_components/angularfire/angularfire.min.js:angularfire',
+                        './bower_components/firebase-simple-login/firebase-simple-login.js:firebase-simple-login',
+                        './bower_components/firebase/firebase.js:firebase'
+                        /*
+                        lodash
+                        */
                     ]
                 }
             }

@@ -14,7 +14,6 @@ angularModule.controller('MainController',
             $scope.queryObj = '';
         }
 
-
         $scope.autocomplete = function(query) {
             return getRottenListByTitle(query);
         };
