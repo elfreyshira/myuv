@@ -43,6 +43,7 @@ div.login {
     margin-bottom: 40px;
 }
 
+$arrow-size: .6em;
 div[movie-result] {
 
     margin: 20px auto;
@@ -73,7 +74,6 @@ div[movie-result] {
 
         position: relative;
 
-        $arrow-size: .6em;
         @mixin arrow {
             cursor: pointer;
             width: 0; 
@@ -132,5 +132,66 @@ div[movie-result] {
             } /* max-width 640px, mobile-only styles, use when QAing mobile issues */
         }
 
+    }
+}
+
+
+$heart-size: 1em;
+.heart {
+    cursor: pointer;
+    position: absolute;
+    opacity: 0.5;
+
+    right: $heart-size + $arrow-size*2;
+    width: $heart-size;
+    height: $heart-size*0.9;
+
+    &:hover {
+        opacity: 0.75;
+    }
+
+    &:active {
+        opacity: 1.0;
+    }
+
+    &:before, &:after {
+        position: absolute;
+        content: "";
+        left: $heart-size/2;
+        top: 0;
+        width: $heart-size/2;
+        height: $heart-size*0.8;
+        background-color: rgb(255, 50, 50);
+
+        -moz-border-radius: $heart-size/2 $heart-size/2 0 0;
+        border-radius: $heart-size/2 $heart-size/2 0 0;
+
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+
+        -webkit-transform-origin: 0 100%;
+        -moz-transform-origin: 0 100%;
+        -ms-transform-origin: 0 100%;
+        -o-transform-origin: 0 100%;
+        transform-origin: 0 100%;
+    }
+
+    &:after {
+        left: 0;
+
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+
+        -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+        -o-transform-origin: 100% 100%;
+        transform-origin :100% 100%;
     }
 }

@@ -5,8 +5,7 @@ var angularModule = require('./app');
 // var fixtures = require('./fixtures');
 
 angularModule.controller('MainController',
-    function($scope, getRottenListByTitle, fetchResults, $location,
-        urlManager, $firebase, $firebaseSimpleLogin, $window) {
+    function($scope, getRottenListByTitle, fetchResults, urlManager, loginManager) {
 
         // $scope.movieSearchResults = fixtures.startingResults;
         $scope.movieSearchResults = [];
@@ -31,46 +30,26 @@ angularModule.controller('MainController',
         /***
         Firebase stuff
         ****/
-        var firebaseReference = new Firebase('https://elfreyshira.firebaseio.com');
 
-        var loginObj = $firebaseSimpleLogin(firebaseReference);
-
-        $scope.loggedIn = true;
-
-        loginObj.$getCurrentUser().then(function(user) {
-            if (!user) {
-                $scope.loggedIn = false;
-            }
-        });
+        $scope.isLoggedIn = loginManager.isLoggedIn;
 
         $scope.register = function(email, password, repeatPassword) {
-            
             if (password !== repeatPassword) {
                 alert("Your passwords don't match. Come on.");
                 return;
             }
             console.log('Registering...');
-            loginObj.$createUser(email, password, false).then(function(user) {
-                $scope.login(email, password);
-            });
+            loginManager.register(email, password);
         };
 
         $scope.login = function(email, password) {
             console.log('Logging in...');
-            loginObj.$login('password', {
-                email: email,
-                password: password
-            }).then(function(user) {
-                $scope.loggedIn = true;
-                console.log('Hello ' + user.email);
-            });
-
+            loginManager.login(email, password);
         };
 
         $scope.logout = function() {
             console.log('Logging out... Goodbye!');
-            loginObj.$logout();
-            $scope.loggedIn = false;
+            loginManager.logout();
         };
 
     });

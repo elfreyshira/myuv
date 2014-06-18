@@ -35,7 +35,7 @@
         <span>by <a href="http://elfreyshira.com">Elfrey</a></span>
     </div>
 
-    <div class="row" ng-if="!loggedIn">
+    <div class="row" ng-if="!isLoggedIn()">
         <div class="medium-4 medium-centered columns">
             
             <p>
@@ -66,7 +66,7 @@
 
         </div>
     </div>
-    <div class="row" ng-if="loggedIn">
+    <div class="row" ng-if="isLoggedIn()">
         <p>
             <a href="" ng-click="logout()">Logout</a>
         </p>
@@ -96,9 +96,10 @@
     </div>
 
     <!-- Movie search results -->
-    <div ng-include src="'templates/search-results.html'"></div>
-
-    <pre>{{ favorites | json }}</pre>
+    <div class="row" ng-repeat="movie in movieSearchResults">
+        <div movie-result movie="movie"></div>
+    </div>
+    <!-- <div ng-include src="'templates/search-results.html'"></div> -->
 
 
     <script src="build/script.js"></script>

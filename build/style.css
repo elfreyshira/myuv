@@ -103,3 +103,47 @@ div[movie-result] {
       @media only screen and (max-width: 40em) {
         div[movie-result] div.movie-ratings div.columns .source-rating-container {
           font-size: 0.6em; } }
+
+.heart {
+  cursor: pointer;
+  position: absolute;
+  opacity: 0.5;
+  right: 2.2em;
+  width: 1em;
+  height: 0.9em; }
+  .heart:hover {
+    opacity: 0.75; }
+  .heart:active {
+    opacity: 1; }
+  .heart:before, .heart:after {
+    position: absolute;
+    content: "";
+    left: 0.5em;
+    top: 0;
+    width: 0.5em;
+    height: 0.8em;
+    background-color: #ff3232;
+    -moz-border-radius: 0.5em 0.5em 0 0;
+    border-radius: 0.5em 0.5em 0 0;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 0 100%;
+    -moz-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
+    -o-transform-origin: 0 100%;
+    transform-origin: 0 100%; }
+  .heart:after {
+    left: 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%; }

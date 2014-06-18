@@ -7430,8 +7430,7 @@ var angularModule = require('./app');
 // var fixtures = require('./fixtures');
 
 angularModule.controller('MainController',
-    function($scope, getRottenListByTitle, fetchResults, $location,
-        urlManager, $firebase, $firebaseSimpleLogin, $window) {
+    function($scope, getRottenListByTitle, fetchResults, urlManager, loginManager) {
 
         // $scope.movieSearchResults = fixtures.startingResults;
         $scope.movieSearchResults = [];
@@ -7456,46 +7455,26 @@ angularModule.controller('MainController',
         /***
         Firebase stuff
         ****/
-        var firebaseReference = new Firebase('https://elfreyshira.firebaseio.com');
 
-        var loginObj = $firebaseSimpleLogin(firebaseReference);
-
-        $scope.loggedIn = true;
-
-        loginObj.$getCurrentUser().then(function(user) {
-            if (!user) {
-                $scope.loggedIn = false;
-            }
-        });
+        $scope.isLoggedIn = loginManager.isLoggedIn;
 
         $scope.register = function(email, password, repeatPassword) {
-            
             if (password !== repeatPassword) {
                 alert("Your passwords don't match. Come on.");
                 return;
             }
             console.log('Registering...');
-            loginObj.$createUser(email, password, false).then(function(user) {
-                $scope.login(email, password);
-            });
+            loginManager.register(email, password);
         };
 
         $scope.login = function(email, password) {
             console.log('Logging in...');
-            loginObj.$login('password', {
-                email: email,
-                password: password
-            }).then(function(user) {
-                $scope.loggedIn = true;
-                console.log('Hello ' + user.email);
-            });
-
+            loginManager.login(email, password);
         };
 
         $scope.logout = function() {
             console.log('Logging out... Goodbye!');
-            loginObj.$logout();
-            $scope.loggedIn = false;
+            loginManager.logout();
         };
 
     });
@@ -8231,6 +8210,59 @@ angularModule.directive('resultBar', function() {
 'use strict';
 
 var angularModule = require('../app');
+
+angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) {
+
+    var firebaseReference = new Firebase('https://elfreyshira.firebaseio.com');
+    var loginObj = $firebaseSimpleLogin(firebaseReference);
+
+    var loggedIn = false;
+
+    function isLoggedIn() {
+        return loggedIn;
+    }
+
+    loginObj.$getCurrentUser().then(function(user) {
+        if (user) {
+            console.log('Welcome back ' + user.email);
+            loggedIn = true;
+        }
+    });
+
+    function login(email, password) {
+        return loginObj.$login('password', {
+            email: email,
+            password: password
+        }).then(function(user) {
+            console.log('Hello ' + user.email);
+            loggedIn = true;
+            return user;
+        });
+    }
+
+    function register(email, password) {
+        loginObj.$createUser(email, password).then(function(user) {
+            login(email, password);
+        });
+    }
+
+    function logout() {
+        loggedIn = false;
+        loginObj.$logout();
+    }
+
+    return {
+        isLoggedIn: isLoggedIn,
+        login: login,
+        register: register,
+        logout: logout
+    };
+
+});
+},{"../app":16}],31:[function(require,module,exports){
+'use strict';
+
+var angularModule = require('../app');
 var _ = require('lodash');
 
 angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, getImdbByTitle,
@@ -8305,7 +8337,7 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
 
 });
 
-},{"../app":16,"lodash":13}],31:[function(require,module,exports){
+},{"../app":16,"lodash":13}],32:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8330,7 +8362,7 @@ angularModule.factory('readableTime', function() {
     };
 
 });
-},{"../app":16}],32:[function(require,module,exports){
+},{"../app":16}],33:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8377,4 +8409,4 @@ angularModule.factory('urlManager', function($location) {
     };
 
 });
-},{"../app":16,"lodash":13}]},{},[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32])
+},{"../app":16,"lodash":13}]},{},[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33])
