@@ -5,6 +5,7 @@ $mobile-font-size: 0.6em;
 body {
     background-color: $background;
     color: $font-color;
+    text-align: center;
 }
 
 h1 {
@@ -36,6 +37,10 @@ ul.dropdown-menu {
             opacity: 1.0;
         }
     }
+}
+
+div.login {
+    margin-bottom: 40px;
 }
 
 div[movie-result] {

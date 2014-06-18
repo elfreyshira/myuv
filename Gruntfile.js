@@ -11,7 +11,9 @@ module.exports = function(grunt) {
             options: {
                 node: true,
                 globals: {
-                    angular: true
+                    angular: true,
+                    Firebase: true,
+                    alert: true
                 }
             },
             all: allJsFiles

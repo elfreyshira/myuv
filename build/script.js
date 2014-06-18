@@ -7430,7 +7430,8 @@ var angularModule = require('./app');
 // var fixtures = require('./fixtures');
 
 angularModule.controller('MainController',
-    function($scope, getRottenListByTitle, fetchResults, $location, urlManager) {
+    function($scope, getRottenListByTitle, fetchResults, $location,
+        urlManager, $firebase, $firebaseSimpleLogin, $window) {
 
         // $scope.movieSearchResults = fixtures.startingResults;
         $scope.movieSearchResults = [];
@@ -7452,7 +7453,53 @@ angularModule.controller('MainController',
             $scope.fetchResults(movieHashQueryObj);
         }
 
+        /***
+        Firebase stuff
+        ****/
+        var firebaseReference = new Firebase('https://elfreyshira.firebaseio.com');
+
+        var loginObj = $firebaseSimpleLogin(firebaseReference);
+
+        $scope.loggedIn = true;
+
+        loginObj.$getCurrentUser().then(function(user) {
+            if (!user) {
+                $scope.loggedIn = false;
+            }
+        });
+
+        $scope.register = function(email, password, repeatPassword) {
+            
+            if (password !== repeatPassword) {
+                alert("Your passwords don't match. Come on.");
+                return;
+            }
+            console.log('Registering...');
+            loginObj.$createUser(email, password, false).then(function(user) {
+                $scope.login(email, password);
+            });
+        };
+
+        $scope.login = function(email, password) {
+            console.log('Logging in...');
+            loginObj.$login('password', {
+                email: email,
+                password: password
+            }).then(function(user) {
+                $scope.loggedIn = true;
+                console.log('Hello ' + user.email);
+            });
+
+        };
+
+        $scope.logout = function() {
+            console.log('Logging out... Goodbye!');
+            loginObj.$logout();
+            $scope.loggedIn = false;
+        };
+
     });
+
 },{"./app":16}],18:[function(require,module,exports){
 var startingResults = [
     {
@@ -8108,52 +8155,48 @@ var GREEN_COLOR = {
     blue: 36
 };
 
+
+var min = RED_COLOR;
+var mid = YELLOW_COLOR;
+var max = GREEN_COLOR;
+
+function rgbRound(num) {
+    return Math.min(255, Math.round(num));
+}
+
+/*
+@param {object} low: color object for the lower rating
+@param {object} high: color object for the higher rating
+@param {number} percentage: 0 <= x <= 1
+@return {string} rgb
+*/
+function rgbColor(low, high, percentage) {
+    
+    var red = rgbRound(low.red + ((high.red - low.red) * percentage));
+    var green = rgbRound(low.green + ((high.green - low.green) * percentage));
+    var blue = rgbRound(low.blue + ((high.blue - low.blue) * percentage));
+
+    return 'rgb(' + [red, green, blue].join(',') + ')';
+    
+}
+
 /*
 @param {number <= 1.0} percentage
 @returns {object} with keys "red", "green", "blue". numerical values.
 */
-angularModule.factory('barColor', function() {
-
-    var min = RED_COLOR;
-    var mid = YELLOW_COLOR;
-    var max = GREEN_COLOR;
-
-    function rgbRound(num) {
-        return Math.min(255, Math.round(num));
+function barColor(percentage) {
+    var newPercent;
+    if (percentage < 0.5) {
+        newPercent = percentage * 2;
+        return rgbColor(min, mid, newPercent);
     }
-
-    /*
-    @param {object} low: color object for the lower rating
-    @param {object} high: color object for the higher rating
-    @param {number} percentage: 0 <= x <= 1
-    @return {string} rgb
-    */
-    function rgbColor(low, high, percentage) {
-        
-        var red = rgbRound(low.red + ((high.red - low.red) * percentage));
-        var green = rgbRound(low.green + ((high.green - low.green) * percentage));
-        var blue = rgbRound(low.blue + ((high.blue - low.blue) * percentage));
-
-        return 'rgb(' + [red, green, blue].join(',') + ')';
-        
+    else {
+        newPercent = (percentage - 0.5) * 2;
+        return rgbColor(mid, max, newPercent);
     }
+}
 
-    return function(percentage) {
-
-        var newPercent;
-        if (percentage < 0.5) {
-            newPercent = percentage * 2;
-            return rgbColor(min, mid, newPercent);
-        }
-        else {
-            newPercent = (percentage - 0.5) * 2;
-            return rgbColor(mid, max, newPercent);
-        }
-    };
-
-});
-
-angularModule.directive('resultBar', function(barColor) {
+angularModule.directive('resultBar', function() {
 
     /*
         <div result-bar rating="85" out-of="%"></div>

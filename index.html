@@ -35,6 +35,44 @@
         <span>by <a href="http://elfreyshira.com">Elfrey</a></span>
     </div>
 
+    <div class="row" ng-if="!loggedIn">
+        <div class="medium-4 medium-centered columns">
+            
+            <p>
+                <a href="" ng-click="loginView = !loginView; registerView = false;">Login</a>
+                |
+                <a href="" ng-click="registerView = !registerView; loginView = false;">Register</a>
+            </p>
+            <div ng-if="loginView">
+
+                <form ng-submit="login(user.email, user.password)">
+                    <input ng-model="user.email" type="email" placeholder="login email">
+                    <input ng-model="user.password" type="password" placeholder="password">
+                    <input type="submit" class="button" value="Login">
+                </form>
+
+            </div>
+
+            <div ng-if="registerView">
+
+                <form ng-submit="register(user.email, user.password, user.repeatPassword)">
+                    <input ng-model="user.email" type="email" placeholder="register email">
+                    <input ng-model="user.password" type="password" placeholder="new password">
+                    <input ng-model="user.repeatPassword" type="password" placeholder="repeat new password">
+                    <input type="submit" class="button" value="Sign Up">
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row" ng-if="loggedIn">
+        <p>
+            <a href="" ng-click="logout()">Logout</a>
+        </p>
+    </div>
+
+
     <div class="row">
 
         <div class="medium-9 medium-centered columns">
@@ -59,6 +97,8 @@
 
     <!-- Movie search results -->
     <div ng-include src="'templates/search-results.html'"></div>
+
+    <pre>{{ favorites | json }}</pre>
 
 
     <script src="build/script.js"></script>

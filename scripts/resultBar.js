@@ -19,52 +19,48 @@ var GREEN_COLOR = {
     blue: 36
 };
 
+
+var min = RED_COLOR;
+var mid = YELLOW_COLOR;
+var max = GREEN_COLOR;
+
+function rgbRound(num) {
+    return Math.min(255, Math.round(num));
+}
+
+/*
+@param {object} low: color object for the lower rating
+@param {object} high: color object for the higher rating
+@param {number} percentage: 0 <= x <= 1
+@return {string} rgb
+*/
+function rgbColor(low, high, percentage) {
+    
+    var red = rgbRound(low.red + ((high.red - low.red) * percentage));
+    var green = rgbRound(low.green + ((high.green - low.green) * percentage));
+    var blue = rgbRound(low.blue + ((high.blue - low.blue) * percentage));
+
+    return 'rgb(' + [red, green, blue].join(',') + ')';
+    
+}
+
 /*
 @param {number <= 1.0} percentage
 @returns {object} with keys "red", "green", "blue". numerical values.
 */
-angularModule.factory('barColor', function() {
-
-    var min = RED_COLOR;
-    var mid = YELLOW_COLOR;
-    var max = GREEN_COLOR;
-
-    function rgbRound(num) {
-        return Math.min(255, Math.round(num));
+function barColor(percentage) {
+    var newPercent;
+    if (percentage < 0.5) {
+        newPercent = percentage * 2;
+        return rgbColor(min, mid, newPercent);
     }
-
-    /*
-    @param {object} low: color object for the lower rating
-    @param {object} high: color object for the higher rating
-    @param {number} percentage: 0 <= x <= 1
-    @return {string} rgb
-    */
-    function rgbColor(low, high, percentage) {
-        
-        var red = rgbRound(low.red + ((high.red - low.red) * percentage));
-        var green = rgbRound(low.green + ((high.green - low.green) * percentage));
-        var blue = rgbRound(low.blue + ((high.blue - low.blue) * percentage));
-
-        return 'rgb(' + [red, green, blue].join(',') + ')';
-        
+    else {
+        newPercent = (percentage - 0.5) * 2;
+        return rgbColor(mid, max, newPercent);
     }
+}
 
-    return function(percentage) {
-
-        var newPercent;
-        if (percentage < 0.5) {
-            newPercent = percentage * 2;
-            return rgbColor(min, mid, newPercent);
-        }
-        else {
-            newPercent = (percentage - 0.5) * 2;
-            return rgbColor(mid, max, newPercent);
-        }
-    };
-
-});
-
-angularModule.directive('resultBar', function(barColor) {
+angularModule.directive('resultBar', function() {
 
     /*
         <div result-bar rating="85" out-of="%"></div>
