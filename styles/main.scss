@@ -146,14 +146,6 @@ $heart-size: 1em;
     width: $heart-size;
     height: $heart-size*0.9;
 
-    &:hover {
-        opacity: 0.75;
-    }
-
-    &:active {
-        opacity: 1.0;
-    }
-
     &:before, &:after {
         position: absolute;
         content: "";
@@ -161,7 +153,7 @@ $heart-size: 1em;
         top: 0;
         width: $heart-size/2;
         height: $heart-size*0.8;
-        background-color: rgb(255, 50, 50);
+        background-color: rgb(200, 200, 200);
 
         -moz-border-radius: $heart-size/2 $heart-size/2 0 0;
         border-radius: $heart-size/2 $heart-size/2 0 0;
@@ -177,6 +169,7 @@ $heart-size: 1em;
         -ms-transform-origin: 0 100%;
         -o-transform-origin: 0 100%;
         transform-origin: 0 100%;
+
     }
 
     &:after {
@@ -193,5 +186,14 @@ $heart-size: 1em;
         -ms-transform-origin: 100% 100%;
         -o-transform-origin: 100% 100%;
         transform-origin :100% 100%;
+    }
+
+    $heart-color: rgb(255, 50, 50);
+    &:hover:before, &:hover:after {
+        background-color: lighten($heart-color, 20%);
+    }
+
+    &:active:before, &:active:after {
+        background-color: $heart-color;
     }
 }

@@ -111,10 +111,6 @@ div[movie-result] {
   right: 2.2em;
   width: 1em;
   height: 0.9em; }
-  .heart:hover {
-    opacity: 0.75; }
-  .heart:active {
-    opacity: 1; }
   .heart:before, .heart:after {
     position: absolute;
     content: "";
@@ -122,7 +118,7 @@ div[movie-result] {
     top: 0;
     width: 0.5em;
     height: 0.8em;
-    background-color: #ff3232;
+    background-color: #c8c8c8;
     -moz-border-radius: 0.5em 0.5em 0 0;
     border-radius: 0.5em 0.5em 0 0;
     -webkit-transform: rotate(-45deg);
@@ -147,3 +143,7 @@ div[movie-result] {
     -ms-transform-origin: 100% 100%;
     -o-transform-origin: 100% 100%;
     transform-origin: 100% 100%; }
+  .heart:hover:before, .heart:hover:after {
+    background-color: #ff9898; }
+  .heart:active:before, .heart:active:after {
+    background-color: #ff3232; }
