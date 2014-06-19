@@ -35,41 +35,45 @@
         <span>by <a href="http://elfreyshira.com">Elfrey</a></span>
     </div>
 
-    <div class="row" ng-if="!isLoggedIn()">
-        <div class="medium-4 medium-centered columns">
-            
-            <p>
-                <a href="" ng-click="loginView = !loginView; registerView = false;">Login</a>
-                |
-                <a href="" ng-click="registerView = !registerView; loginView = false;">Register</a>
-            </p>
-            <div ng-if="loginView">
+    <div class="login-container">
+        
+        <div class="row" ng-if="!isLoggedIn()">
+            <div class="medium-4 medium-centered columns">
+                
+                <p>
+                    <a href="" ng-click="loginView = !loginView; registerView = false;">Login</a>
+                    |
+                    <a href="" ng-click="registerView = !registerView; loginView = false;">Register</a>
+                </p>
+                <div ng-if="loginView">
 
-                <form ng-submit="login(user.email, user.password)">
-                    <input ng-model="user.email" type="email" placeholder="login email">
-                    <input ng-model="user.password" type="password" placeholder="password">
-                    <input type="submit" class="button" value="Login">
-                </form>
+                    <form ng-submit="login(user.email, user.password)">
+                        <input ng-model="user.email" type="email" placeholder="login email">
+                        <input ng-model="user.password" type="password" placeholder="password">
+                        <input type="submit" class="button" value="Login">
+                    </form>
+
+                </div>
+
+                <div ng-if="registerView">
+
+                    <form ng-submit="register(user.email, user.password, user.repeatPassword)">
+                        <input ng-model="user.email" type="email" placeholder="register email">
+                        <input ng-model="user.password" type="password" placeholder="new password">
+                        <input ng-model="user.repeatPassword" type="password" placeholder="repeat new password">
+                        <input type="submit" class="button" value="Sign Up">
+                    </form>
+
+                </div>
 
             </div>
-
-            <div ng-if="registerView">
-
-                <form ng-submit="register(user.email, user.password, user.repeatPassword)">
-                    <input ng-model="user.email" type="email" placeholder="register email">
-                    <input ng-model="user.password" type="password" placeholder="new password">
-                    <input ng-model="user.repeatPassword" type="password" placeholder="repeat new password">
-                    <input type="submit" class="button" value="Sign Up">
-                </form>
-
-            </div>
-
         </div>
-    </div>
-    <div class="row" ng-if="isLoggedIn()">
-        <p>
-            <a href="" ng-click="logout()">Logout</a>
-        </p>
+        <div class="row" ng-if="isLoggedIn()">
+            <p>
+                {{userEmail}} | <a href="" ng-click="logout()">Logout</a>
+            </p>
+        </div>
+        
     </div>
 
 

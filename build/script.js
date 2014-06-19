@@ -7417,7 +7417,7 @@ var angularModule = angular.module('myuv', [
         'firebase'
 ]);
 
-angularModule.constant('RT_API_KEY', 'f278acux2dr8vmmueege9bfv')
+angularModule.constant('RT_API_KEY', '7p4y4f3nqf96e64sqqg3ustq')
 .constant('TMDB_API_KEY' ,'bb0d9620f620e8097998203a8af18aec')
 .constant('METACRITIC_API_KEY' ,'iR4qVOE5vZSwTxgEfqalscz1ycR8G21K');
 
@@ -7457,6 +7457,11 @@ angularModule.controller('MainController',
         ****/
 
         $scope.isLoggedIn = loginManager.isLoggedIn;
+        loginManager.qCurrentUser.then(function(user) {
+            if (user) {
+                $scope.userEmail = user.email;
+            }
+        });
 
         $scope.register = function(email, password, repeatPassword) {
             if (password !== repeatPassword) {
@@ -7469,7 +7474,9 @@ angularModule.controller('MainController',
 
         $scope.login = function(email, password) {
             console.log('Logging in...');
-            loginManager.login(email, password);
+            loginManager.login(email, password).then(function(user) {
+                $scope.userEmail = user.email;
+            });
         };
 
         $scope.logout = function() {
@@ -8084,6 +8091,7 @@ angularModule.factory('httpTmdbService', function($http, TMDB_API_KEY) {
 'use strict';
 
 var angularModule = require('./app');
+var _ = require('lodash');
 
 angularModule.directive('movieResult', function() {
 
@@ -8112,7 +8120,49 @@ angularModule.directive('movieResult', function() {
     };
 
 });
-},{"./app":16}],29:[function(require,module,exports){
+
+angularModule.directive('favorite', function(loginManager) {
+
+    var userFavorites;
+    loginManager.qUserFavorites.then(function(favorites) {
+        userFavorites = favorites;
+    });
+
+    return {
+        scope: {
+            rtId: '=favorite'
+        },
+        link: function link(scope, element, attrs) {
+
+            scope.saveAsFavorite = function() {
+                var rottenTomatoesId = scope.rtId;
+                if (userFavorites) {
+                    if (!scope.isFavorited()) {
+                        userFavorites.$add(rottenTomatoesId);
+                    }
+                    else if (scope.isFavorited()) {
+                        var keyToRemove = _.findKey(userFavorites, function(rtId, databaseKey){
+                            return rtId === rottenTomatoesId;
+                        });
+                        userFavorites.$remove(keyToRemove);
+                    }
+                }
+                else {
+                    alert('You must be logged in to favorite movies. Sorry.');
+                }
+            };
+
+            scope.isFavorited = function() {
+                return _.contains(userFavorites, scope.rtId);
+            };
+
+        },
+        replace: true,
+        templateUrl: 'templates/favorite.html'
+
+    };
+});
+},{"./app":16,"lodash":13}],29:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('./app');
@@ -8215,6 +8265,7 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
 
     var firebaseReference = new Firebase('https://elfreyshira.firebaseio.com');
     var loginObj = $firebaseSimpleLogin(firebaseReference);
+    var ngFireBase = $firebase(firebaseReference);
 
     var loggedIn = false;
 
@@ -8222,12 +8273,22 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
         return loggedIn;
     }
 
-    loginObj.$getCurrentUser().then(function(user) {
+    var qCurrentUser = loginObj.$getCurrentUser();
+    qCurrentUser.then(function(user) {
         if (user) {
             console.log('Welcome back ' + user.email);
             loggedIn = true;
         }
+        else {
+            console.log('No user logged in.');
+        }
     });
+
+    var qUserFavorites = qCurrentUser.then(function(user) {
+            if (user) {
+                return ngFireBase.$child(['users', user.uid, 'favorites'].join('/'));
+            }
+        });
 
     function login(email, password) {
         return loginObj.$login('password', {
@@ -8255,7 +8316,9 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
         isLoggedIn: isLoggedIn,
         login: login,
         register: register,
-        logout: logout
+        logout: logout,
+        qUserFavorites: qUserFavorites,
+        qCurrentUser: qCurrentUser
     };
 
 });
@@ -8400,7 +8463,6 @@ angularModule.factory('urlManager', function($location) {
         else {
             return false;
         }
-
     }
 
     return {

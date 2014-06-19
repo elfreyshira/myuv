@@ -6,6 +6,7 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
 
     var firebaseReference = new Firebase('https://elfreyshira.firebaseio.com');
     var loginObj = $firebaseSimpleLogin(firebaseReference);
+    var ngFireBase = $firebase(firebaseReference);
 
     var loggedIn = false;
 
@@ -13,12 +14,22 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
         return loggedIn;
     }
 
-    loginObj.$getCurrentUser().then(function(user) {
+    var qCurrentUser = loginObj.$getCurrentUser();
+    qCurrentUser.then(function(user) {
         if (user) {
             console.log('Welcome back ' + user.email);
             loggedIn = true;
         }
+        else {
+            console.log('No user logged in.');
+        }
     });
+
+    var qUserFavorites = qCurrentUser.then(function(user) {
+            if (user) {
+                return ngFireBase.$child(['users', user.uid, 'favorites'].join('/'));
+            }
+        });
 
     function login(email, password) {
         return loginObj.$login('password', {
@@ -46,7 +57,9 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
         isLoggedIn: isLoggedIn,
         login: login,
         register: register,
-        logout: logout
+        logout: logout,
+        qUserFavorites: qUserFavorites,
+        qCurrentUser: qCurrentUser
     };
 
 });

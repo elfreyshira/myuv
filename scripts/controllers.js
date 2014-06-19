@@ -32,6 +32,11 @@ angularModule.controller('MainController',
         ****/
 
         $scope.isLoggedIn = loginManager.isLoggedIn;
+        loginManager.qCurrentUser.then(function(user) {
+            if (user) {
+                $scope.userEmail = user.email;
+            }
+        });
 
         $scope.register = function(email, password, repeatPassword) {
             if (password !== repeatPassword) {
@@ -44,7 +49,9 @@ angularModule.controller('MainController',
 
         $scope.login = function(email, password) {
             console.log('Logging in...');
-            loginManager.login(email, password);
+            loginManager.login(email, password).then(function(user) {
+                $scope.userEmail = user.email;
+            });
         };
 
         $scope.logout = function() {

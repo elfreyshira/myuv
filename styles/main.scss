@@ -5,7 +5,6 @@ $mobile-font-size: 0.6em;
 body {
     background-color: $background;
     color: $font-color;
-    text-align: center;
 }
 
 h1 {
@@ -39,8 +38,9 @@ ul.dropdown-menu {
     }
 }
 
-div.login {
-    margin-bottom: 40px;
+
+.login-container {
+    text-align: center;
 }
 
 $arrow-size: .6em;
@@ -65,6 +65,10 @@ div[movie-result] {
     }
 
     div.movie-title {
+
+        padding-left: $arrow-size;
+        padding-right: $arrow-size;
+
         text-align: center;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -142,7 +146,12 @@ $heart-size: 1em;
     position: absolute;
     opacity: 0.5;
 
-    right: $heart-size + $arrow-size*2;
+    margin-top: auto;
+    margin-bottom: auto;
+    top: 0;
+    bottom: 0;
+
+    left: $arrow-size;
     width: $heart-size;
     height: $heart-size*0.9;
 
@@ -193,7 +202,7 @@ $heart-size: 1em;
         background-color: lighten($heart-color, 20%);
     }
 
-    &:active:before, &:active:after {
+    &:active:before, &:active:after, &.favorited:before, &.favorited:after  {
         background-color: $heart-color;
     }
 }

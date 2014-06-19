@@ -35,7 +35,6 @@ angularModule.factory('urlManager', function($location) {
         else {
             return false;
         }
-
     }
 
     return {

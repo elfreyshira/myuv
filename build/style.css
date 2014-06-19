@@ -1,7 +1,6 @@
 body {
   background-color: #333;
-  color: #ddd;
-  text-align: center; }
+  color: #ddd; }
 
 h1 {
   color: #ddd; }
@@ -27,8 +26,8 @@ ul.dropdown-menu {
       background-color: #fff;
       opacity: 1; }
 
-div.login {
-  margin-bottom: 40px; }
+.login-container {
+  text-align: center; }
 
 div[movie-result] {
   margin: 20px auto; }
@@ -45,6 +44,8 @@ div[movie-result] {
       padding: 3px;
       float: left; }
   div[movie-result] div.movie-title {
+    padding-left: 0.6em;
+    padding-right: 0.6em;
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -108,7 +109,11 @@ div[movie-result] {
   cursor: pointer;
   position: absolute;
   opacity: 0.5;
-  right: 2.2em;
+  margin-top: auto;
+  margin-bottom: auto;
+  top: 0;
+  bottom: 0;
+  left: 0.6em;
   width: 1em;
   height: 0.9em; }
   .heart:before, .heart:after {
@@ -145,5 +150,5 @@ div[movie-result] {
     transform-origin: 100% 100%; }
   .heart:hover:before, .heart:hover:after {
     background-color: #ff9898; }
-  .heart:active:before, .heart:active:after {
+  .heart:active:before, .heart:active:after, .heart.favorited:before, .heart.favorited:after {
     background-color: #ff3232; }

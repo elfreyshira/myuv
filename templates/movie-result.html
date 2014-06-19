@@ -21,8 +21,10 @@
     <div class="row">
         <div class="small-centered small-{{movie.sources.length * 2}} columns">
             <div class="row movie-title">
-                {{movie.title}} ({{movie.year}})
-                <span class="heart"></span>
+                <span favorite="movie.rtId"></span>
+                <div class="small-11 small-centered columns">
+                    {{movie.title}} ({{movie.year}})
+                </div>
                 <span
                     ng-class="{'arrow-down': !showMoreInfo, 'arrow-up': showMoreInfo}"
                     ng-click="showMoreInfo = !showMoreInfo">
