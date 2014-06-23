@@ -40,7 +40,8 @@ angularModule.directive('favorite', function(loginManager) {
 
     return {
         scope: {
-            rtId: '=favorite'
+            rtId: '=',
+            title: '='
         },
         link: function link(scope, element, attrs) {
 
@@ -48,22 +49,42 @@ angularModule.directive('favorite', function(loginManager) {
                 var rottenTomatoesId = scope.rtId;
                 if (userFavorites) {
                     if (!scope.isFavorited()) {
-                        userFavorites.$add(rottenTomatoesId);
+                        userFavorites.$add({
+                            rtId: rottenTomatoesId,
+                            title: scope.title
+                        });
                     }
                     else if (scope.isFavorited()) {
-                        var keyToRemove = _.findKey(userFavorites, function(rtId, databaseKey){
-                            return rtId === rottenTomatoesId;
+                        var keyToRemove = _.findKey(userFavorites, function(favoriteObj, databaseKey) {
+                            var rtIdOfFavorite = favoriteObj.rtId;
+                            return rtIdOfFavorite === rottenTomatoesId;
                         });
                         userFavorites.$remove(keyToRemove);
                     }
+                    updateIsFavorite();
                 }
                 else {
                     alert('You must be logged in to favorite movies. Sorry.');
                 }
             };
 
+
+            var isFavorited = false;
+
+            function updateIsFavorite() {
+                loginManager.qUserFavorites.then(function() {
+                    if (userFavorites && userFavorites.$getIndex && userFavorites.$getIndex().length) {
+                        var favoritedKey = _.findKey(userFavorites, function(favoriteObj) {
+                            return favoriteObj.rtId === scope.rtId;
+                        });
+                        isFavorited = !_.isUndefined(favoritedKey);
+                    }
+                });
+            }
+            updateIsFavorite();
+
             scope.isFavorited = function() {
-                return _.contains(userFavorites, scope.rtId);
+                return isFavorited;
             };
 
         },
