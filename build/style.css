@@ -28,6 +28,13 @@ ul.dropdown-menu {
 
 .login-container {
   text-align: center; }
+  .login-container .list-of-favorites {
+    background-color: #595959;
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden; }
+    .login-container .list-of-favorites ul {
+      margin-bottom: 0; }
 
 div[movie-result] {
   margin: 20px auto; }

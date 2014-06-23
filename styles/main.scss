@@ -38,10 +38,21 @@ ul.dropdown-menu {
     }
 }
 
-
 .login-container {
     text-align: center;
+
+    .list-of-favorites {
+        background-color: lighten($background, 15%);
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        ul {
+            margin-bottom: 0;
+        }
+    }
 }
+
 
 $arrow-size: .6em;
 div[movie-result] {

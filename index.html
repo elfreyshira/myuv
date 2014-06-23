@@ -74,7 +74,21 @@
             </p>
         </div>
         
+        <div class="row" ng-if="isLoggedIn()">
+            <p>
+                <a href="" ng-click="showFavoritesList = !showFavoritesList">Favorites</a>
+                <div ng-show="showFavoritesList"
+                    class="text-center list-of-favorites column large-3
+                            medium-4 small-10 small-centered medium-centered large-centered">
+                    <ul class="no-bullet">
+                        <li ng-repeat="title in listOfFavoriteTitles">{{ title }}</li>
+                    </ul>
+                </div>
+            </p>
+
+        </div>
     </div>
+
 
 
     <div class="row">
@@ -99,9 +113,16 @@
 
     </div>
 
-    <!-- Movie search results -->
-    <div class="row" ng-repeat="movie in movieSearchResults">
-        <div movie-result movie="movie"></div>
+    <div class="row">
+        
+        <div class="column large-8 medium-9 small-11 small-centered medium-centered large-centered">
+
+            <!-- Movie search results -->
+            <div class="row" ng-repeat="movie in movieSearchResults">
+                <div movie-result movie="movie"></div>
+            </div>
+
+        </div>
     </div>
     <!-- <div ng-include src="'templates/search-results.html'"></div> -->
 

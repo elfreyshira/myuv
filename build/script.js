@@ -7426,6 +7426,7 @@ module.exports = angularModule;
 'use strict';
 
 var angularModule = require('./app');
+var _ = require('lodash');
 
 // var fixtures = require('./fixtures');
 
@@ -7484,9 +7485,19 @@ angularModule.controller('MainController',
             loginManager.logout();
         };
 
+        $scope.listOfFavoriteTitles = [];
+        loginManager.qUserFavorites.then(function(favorites) {
+            $scope.listOfFavoriteTitles = _(favorites).values().reduce(function(favoritesList, favoriteObj) {
+                if (favoriteObj.title) {
+                    return favoritesList.concat(favoriteObj.title);
+                }
+                return favoritesList;
+            }, []);
+        });
+
     });
 
-},{"./app":16}],18:[function(require,module,exports){
+},{"./app":16,"lodash":13}],18:[function(require,module,exports){
 var startingResults = [
     {
         "title": "Inception",

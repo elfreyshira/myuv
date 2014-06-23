@@ -1,6 +1,7 @@
 'use strict';
 
 var angularModule = require('./app');
+var _ = require('lodash');
 
 // var fixtures = require('./fixtures');
 
@@ -58,5 +59,15 @@ angularModule.controller('MainController',
             console.log('Logging out... Goodbye!');
             loginManager.logout();
         };
+
+        $scope.listOfFavoriteTitles = [];
+        loginManager.qUserFavorites.then(function(favorites) {
+            $scope.listOfFavoriteTitles = _(favorites).values().reduce(function(favoritesList, favoriteObj) {
+                if (favoriteObj.title) {
+                    return favoritesList.concat(favoriteObj.title);
+                }
+                return favoritesList;
+            }, []);
+        });
 
     });
