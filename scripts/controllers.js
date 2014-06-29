@@ -39,6 +39,7 @@ angularModule.controller('MainController',
             }
         });
 
+
         $scope.register = function(email, password, repeatPassword) {
             if (password !== repeatPassword) {
                 alert("Your passwords don't match. Come on.");
@@ -60,14 +61,22 @@ angularModule.controller('MainController',
             loginManager.logout();
         };
 
-        $scope.listOfFavoriteTitles = [];
-        loginManager.qUserFavorites.then(function(favorites) {
-            $scope.listOfFavoriteTitles = _(favorites).values().reduce(function(favoritesList, favoriteObj) {
-                if (favoriteObj.title) {
-                    return favoritesList.concat(favoriteObj.title);
-                }
-                return favoritesList;
-            }, []);
+
+        $scope.favorites = [];
+        function populateFavorites() {
+            loginManager.qUserFavorites.then(function(favorites) {
+                $scope.favorites = favorites;
+            });
+        }
+        populateFavorites();
+
+        $scope.$watch('isLoggedIn()', function(isLoggedIn) {
+            if(isLoggedIn) {
+                populateFavorites();
+            }
+            else {
+                $scope.favorites = [];
+            }
         });
 
     });

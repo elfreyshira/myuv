@@ -76,12 +76,19 @@
         
         <div class="row" ng-if="isLoggedIn()">
             <p>
-                <a href="" ng-click="showFavoritesList = !showFavoritesList">Favorites</a>
+                <a href="" ng-click="showFavoritesList = !showFavoritesList" class="show-favorites">
+                    Favorites
+                    <span ng-class="{'arrow-down': !showFavoritesList, 'arrow-up': showFavoritesList}"></span>
+                </a>
                 <div ng-show="showFavoritesList"
                     class="text-center list-of-favorites column large-3
                             medium-4 small-10 small-centered medium-centered large-centered">
                     <ul class="no-bullet">
-                        <li ng-repeat="title in listOfFavoriteTitles">{{ title }}</li>
+                        <li ng-repeat="favorite in favorites">
+                            <a ng-click="fetchResults({id: favorite.rtId})">
+                                {{ favorite.title }}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </p>

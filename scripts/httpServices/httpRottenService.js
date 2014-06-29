@@ -22,7 +22,7 @@ angularModule.factory('httpRottenService', function($http, RT_API_KEY) {
         params.callback = 'JSON_CALLBACK';
 
         var url;
-        if (angular.isString(config.id)) {
+        if (config.id) {
             url = 'http://api.rottentomatoes.com/api/public/v1.0/movies/'+ config.id +'.json';
         }
         else if (angular.isString(config.query)) {

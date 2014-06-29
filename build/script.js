@@ -7464,6 +7464,7 @@ angularModule.controller('MainController',
             }
         });
 
+
         $scope.register = function(email, password, repeatPassword) {
             if (password !== repeatPassword) {
                 alert("Your passwords don't match. Come on.");
@@ -7485,14 +7486,22 @@ angularModule.controller('MainController',
             loginManager.logout();
         };
 
-        $scope.listOfFavoriteTitles = [];
-        loginManager.qUserFavorites.then(function(favorites) {
-            $scope.listOfFavoriteTitles = _(favorites).values().reduce(function(favoritesList, favoriteObj) {
-                if (favoriteObj.title) {
-                    return favoritesList.concat(favoriteObj.title);
-                }
-                return favoritesList;
-            }, []);
+
+        $scope.favorites = [];
+        function populateFavorites() {
+            loginManager.qUserFavorites.then(function(favorites) {
+                $scope.favorites = favorites;
+            });
+        }
+        populateFavorites();
+
+        $scope.$watch('isLoggedIn()', function(isLoggedIn) {
+            if(isLoggedIn) {
+                populateFavorites();
+            }
+            else {
+                $scope.favorites = [];
+            }
         });
 
     });
@@ -8049,7 +8058,7 @@ angularModule.factory('httpRottenService', function($http, RT_API_KEY) {
         params.callback = 'JSON_CALLBACK';
 
         var url;
-        if (angular.isString(config.id)) {
+        if (config.id) {
             url = 'http://api.rottentomatoes.com/api/public/v1.0/movies/'+ config.id +'.json';
         }
         else if (angular.isString(config.query)) {

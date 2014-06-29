@@ -55,6 +55,35 @@ ul.dropdown-menu {
 
 
 $arrow-size: .6em;
+
+a.show-favorites {
+    position: relative;
+    .arrow-down, .arrow-up {
+        right: -$arrow-size*3;
+    }
+}
+
+@mixin arrow {
+    cursor: pointer;
+    width: 0; 
+    height: 0; 
+    border-left: $arrow-size solid transparent;
+    border-right: $arrow-size solid transparent;
+    position: absolute;
+    opacity: 0.5;
+    right: $arrow-size;
+    top: 50%;
+    margin-top: -$arrow-size/2;
+}
+.arrow-down {
+    @include arrow;
+    border-top: $arrow-size solid white;
+}
+.arrow-up {
+    @include arrow;
+    border-bottom: $arrow-size solid white;
+}
+
 div[movie-result] {
 
     margin: 20px auto;
@@ -88,28 +117,6 @@ div[movie-result] {
         border-right: 1px solid $background;
 
         position: relative;
-
-        @mixin arrow {
-            cursor: pointer;
-            width: 0; 
-            height: 0; 
-            border-left: $arrow-size solid transparent;
-            border-right: $arrow-size solid transparent;
-            position: absolute;
-            opacity: 0.5;
-            right: $arrow-size;
-            top: 50%;
-            margin-top: -$arrow-size/2;
-        }
-        span.arrow-down {
-            @include arrow;
-            border-top: $arrow-size solid white;
-        }
-        span.arrow-up {
-            @include arrow;
-            border-bottom: $arrow-size solid white;
-        }
-
     }
 
     div.movie-ratings div.columns {

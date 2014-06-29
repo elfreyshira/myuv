@@ -36,6 +36,37 @@ ul.dropdown-menu {
     .login-container .list-of-favorites ul {
       margin-bottom: 0; }
 
+a.show-favorites {
+  position: relative; }
+  a.show-favorites .arrow-down, a.show-favorites .arrow-up {
+    right: -1.8em; }
+
+.arrow-down {
+  cursor: pointer;
+  width: 0;
+  height: 0;
+  border-left: 0.6em solid transparent;
+  border-right: 0.6em solid transparent;
+  position: absolute;
+  opacity: 0.5;
+  right: 0.6em;
+  top: 50%;
+  margin-top: -0.3em;
+  border-top: 0.6em solid white; }
+
+.arrow-up {
+  cursor: pointer;
+  width: 0;
+  height: 0;
+  border-left: 0.6em solid transparent;
+  border-right: 0.6em solid transparent;
+  position: absolute;
+  opacity: 0.5;
+  right: 0.6em;
+  top: 50%;
+  margin-top: -0.3em;
+  border-bottom: 0.6em solid white; }
+
 div[movie-result] {
   margin: 20px auto; }
   div[movie-result] div.more-info {
@@ -60,30 +91,6 @@ div[movie-result] {
     border-left: 1px solid #333;
     border-right: 1px solid #333;
     position: relative; }
-    div[movie-result] div.movie-title span.arrow-down {
-      cursor: pointer;
-      width: 0;
-      height: 0;
-      border-left: 0.6em solid transparent;
-      border-right: 0.6em solid transparent;
-      position: absolute;
-      opacity: 0.5;
-      right: 0.6em;
-      top: 50%;
-      margin-top: -0.3em;
-      border-top: 0.6em solid white; }
-    div[movie-result] div.movie-title span.arrow-up {
-      cursor: pointer;
-      width: 0;
-      height: 0;
-      border-left: 0.6em solid transparent;
-      border-right: 0.6em solid transparent;
-      position: absolute;
-      opacity: 0.5;
-      right: 0.6em;
-      top: 50%;
-      margin-top: -0.3em;
-      border-bottom: 0.6em solid white; }
   div[movie-result] div.movie-ratings div.columns {
     padding-left: 0;
     padding-right: 0;
