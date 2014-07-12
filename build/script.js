@@ -7436,7 +7436,7 @@ var _ = require('lodash');
 // var fixtures = require('./fixtures');
 
 angularModule.controller('MainController',
-    function($scope, getRottenListByTitle, fetchResults, urlManager, loginManager) {
+    function($scope, getRottenListByTitle, fetchResults, urlManager, loginManager, favoritesManager) {
 
         // $scope.movieSearchResults = fixtures.startingResults;
         $scope.movieSearchResults = [];
@@ -7463,7 +7463,7 @@ angularModule.controller('MainController',
         ****/
 
         $scope.isLoggedIn = loginManager.isLoggedIn;
-        loginManager.qCurrentUser.then(function(user) {
+        loginManager.login().then(function(user) {
             if (user) {
                 $scope.userEmail = user.email;
             }
@@ -7492,20 +7492,12 @@ angularModule.controller('MainController',
         };
 
 
-        $scope.favorites = [];
-        function populateFavorites() {
-            loginManager.qUserFavorites.then(function(favorites) {
-                $scope.favorites = favorites;
-            });
-        }
-        populateFavorites();
+        $scope.favorites = favoritesManager.getUserFavorites();
 
         $scope.$watch('isLoggedIn()', function(isLoggedIn) {
-            if(isLoggedIn) {
-                populateFavorites();
-            }
-            else {
-                $scope.favorites = [];
+            if (isLoggedIn) {
+                favoritesManager.populateUserFavorites();
+                $scope.favorites = favoritesManager.getUserFavorites();
             }
         });
 
@@ -8149,12 +8141,7 @@ angularModule.directive('movieResult', function() {
 
 });
 
-angularModule.directive('favorite', function(loginManager) {
-
-    var userFavorites;
-    loginManager.qUserFavorites.then(function(favorites) {
-        userFavorites = favorites;
-    });
+angularModule.directive('favorite', function(loginManager, favoritesManager) {
 
     return {
         scope: {
@@ -8165,44 +8152,41 @@ angularModule.directive('favorite', function(loginManager) {
 
             scope.saveAsFavorite = function() {
                 var rottenTomatoesId = scope.rtId;
-                if (userFavorites) {
+                var userFavorites = favoritesManager.getUserFavorites();
+
+                if (!_.isEmpty(userFavorites)) {
+
                     if (!scope.isFavorited()) {
                         userFavorites.$add({
                             rtId: rottenTomatoesId,
                             title: scope.title
                         });
                     }
-                    else if (scope.isFavorited()) {
-                        var keyToRemove = _.findKey(userFavorites, function(favoriteObj, databaseKey) {
-                            var rtIdOfFavorite = favoriteObj.rtId;
-                            return rtIdOfFavorite === rottenTomatoesId;
-                        });
+                    else {
+                        var keyToRemove = _.findKey(
+                            userFavorites,
+                            function(favoriteObj, databaseKey) {
+                                var rtIdOfFavorite = favoriteObj.rtId;
+                                return rtIdOfFavorite === rottenTomatoesId;
+                            }
+                        );
                         userFavorites.$remove(keyToRemove);
                     }
-                    updateIsFavorite();
+
                 }
                 else {
                     alert('You must be logged in to favorite movies. Sorry.');
                 }
             };
 
-
-            var isFavorited = false;
-
-            function updateIsFavorite() {
-                loginManager.qUserFavorites.then(function() {
-                    if (userFavorites && userFavorites.$getIndex && userFavorites.$getIndex().length) {
-                        var favoritedKey = _.findKey(userFavorites, function(favoriteObj) {
+            scope.isFavorited = function() {
+                var userFavorites = favoritesManager.getUserFavorites();
+                if (!_.isEmpty(userFavorites)) {
+                    var favoritedKey = _.findKey(userFavorites, function(favoriteObj) {
                             return favoriteObj.rtId === scope.rtId;
                         });
-                        isFavorited = !_.isUndefined(favoritedKey);
-                    }
-                });
-            }
-            updateIsFavorite();
-
-            scope.isFavorited = function() {
-                return isFavorited;
+                    return !_.isUndefined(favoritedKey);
+                }
             };
 
         },
@@ -8306,8 +8290,36 @@ angularModule.directive('resultBar', function() {
 
 });
 },{"./app":16}],31:[function(require,module,exports){
+'use strict';
 
-},{}],32:[function(require,module,exports){
+var angularModule = require('../app');
+
+angularModule.factory('favoritesManager', function(firebaseManager, loginManager) {
+
+    var userFavorites = {};
+
+    function populateUserFavorites() {
+        var currentUser = loginManager.getCurrentUser();
+
+        if (currentUser) {
+            var userUid = currentUser.uid;
+            userFavorites =  firebaseManager.ngFireBase.$child(['users', userUid, 'favorites'].join('/'));
+        }
+    }
+
+    function getUserFavorites() {
+        return userFavorites;
+    }
+
+    return {
+        populateUserFavorites: populateUserFavorites,
+        getUserFavorites: getUserFavorites,
+        userFavorites: userFavorites
+    };
+
+});
+
+},{"../app":16}],32:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8334,43 +8346,35 @@ angularModule.factory('loginManager', function(firebaseManager) {
     var loginObj = firebaseManager.loginObj;
     var ngFireBase = firebaseManager.ngFireBase;
 
+    var currentUser = false;
     var loggedIn = false;
 
     function isLoggedIn() {
         return loggedIn;
     }
 
-    var qCurrentUser = loginObj.$getCurrentUser();
-    qCurrentUser.then(function(user) {
-        if (user) {
-            console.log('Welcome back ' + user.email);
-            loggedIn = true;
-        }
-        else {
-            console.log('No user logged in.');
-        }
-    });
-
-    var qUserFavorites = qCurrentUser.then(function(user) {
-            if (user) {
-                return ngFireBase.$child(['users', user.uid, 'favorites'].join('/'));
-            }
-        });
-
-    function getUserFavorites() {
-        return qCurrentUser.then(function(user) {
-            if (user) {
-                return ngFireBase.$child(['users', user.uid, 'favorites'].join('/'));
-            }
-        });
-    }
-
     function login(email, password) {
+
+        if (!email && !password) {
+            return loginObj.$getCurrentUser().then(function(user) {
+                if (user) {
+                    console.log('Welcome back ' + user.email);
+                    currentUser = user;
+                    loggedIn = true;
+                }
+                else {
+                    console.log('No user logged in.');
+                }
+                return user;
+            });
+        }
+
         return loginObj.$login('password', {
             email: email,
             password: password
         }).then(function(user) {
             console.log('Hello ' + user.email);
+            currentUser = user;
             loggedIn = true;
             return user;
         });
@@ -8383,18 +8387,22 @@ angularModule.factory('loginManager', function(firebaseManager) {
     }
 
     function logout() {
+        currentUser = false;
         loggedIn = false;
         loginObj.$logout();
     }
 
+    function getCurrentUser() {
+        return currentUser;
+    }
+
     return {
-        isLoggedIn: isLoggedIn,
         login: login,
         register: register,
         logout: logout,
-        qUserFavorites: qUserFavorites,
-        qCurrentUser: qCurrentUser,
-        getUserFavorites: getUserFavorites
+        currentUser: currentUser,
+        getCurrentUser: getCurrentUser,
+        isLoggedIn: isLoggedIn
     };
 
 });

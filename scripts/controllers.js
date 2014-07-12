@@ -6,7 +6,7 @@ var _ = require('lodash');
 // var fixtures = require('./fixtures');
 
 angularModule.controller('MainController',
-    function($scope, getRottenListByTitle, fetchResults, urlManager, loginManager) {
+    function($scope, getRottenListByTitle, fetchResults, urlManager, loginManager, favoritesManager) {
 
         // $scope.movieSearchResults = fixtures.startingResults;
         $scope.movieSearchResults = [];
@@ -33,7 +33,7 @@ angularModule.controller('MainController',
         ****/
 
         $scope.isLoggedIn = loginManager.isLoggedIn;
-        loginManager.qCurrentUser.then(function(user) {
+        loginManager.login().then(function(user) {
             if (user) {
                 $scope.userEmail = user.email;
             }
@@ -62,20 +62,12 @@ angularModule.controller('MainController',
         };
 
 
-        $scope.favorites = [];
-        function populateFavorites() {
-            loginManager.qUserFavorites.then(function(favorites) {
-                $scope.favorites = favorites;
-            });
-        }
-        populateFavorites();
+        $scope.favorites = favoritesManager.getUserFavorites();
 
         $scope.$watch('isLoggedIn()', function(isLoggedIn) {
-            if(isLoggedIn) {
-                populateFavorites();
-            }
-            else {
-                $scope.favorites = [];
+            if (isLoggedIn) {
+                favoritesManager.populateUserFavorites();
+                $scope.favorites = favoritesManager.getUserFavorites();
             }
         });
 

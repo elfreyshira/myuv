@@ -31,12 +31,7 @@ angularModule.directive('movieResult', function() {
 
 });
 
-angularModule.directive('favorite', function(loginManager) {
-
-    var userFavorites;
-    loginManager.qUserFavorites.then(function(favorites) {
-        userFavorites = favorites;
-    });
+angularModule.directive('favorite', function(loginManager, favoritesManager) {
 
     return {
         scope: {
@@ -47,44 +42,41 @@ angularModule.directive('favorite', function(loginManager) {
 
             scope.saveAsFavorite = function() {
                 var rottenTomatoesId = scope.rtId;
-                if (userFavorites) {
+                var userFavorites = favoritesManager.getUserFavorites();
+
+                if (!_.isEmpty(userFavorites)) {
+
                     if (!scope.isFavorited()) {
                         userFavorites.$add({
                             rtId: rottenTomatoesId,
                             title: scope.title
                         });
                     }
-                    else if (scope.isFavorited()) {
-                        var keyToRemove = _.findKey(userFavorites, function(favoriteObj, databaseKey) {
-                            var rtIdOfFavorite = favoriteObj.rtId;
-                            return rtIdOfFavorite === rottenTomatoesId;
-                        });
+                    else {
+                        var keyToRemove = _.findKey(
+                            userFavorites,
+                            function(favoriteObj, databaseKey) {
+                                var rtIdOfFavorite = favoriteObj.rtId;
+                                return rtIdOfFavorite === rottenTomatoesId;
+                            }
+                        );
                         userFavorites.$remove(keyToRemove);
                     }
-                    updateIsFavorite();
+
                 }
                 else {
                     alert('You must be logged in to favorite movies. Sorry.');
                 }
             };
 
-
-            var isFavorited = false;
-
-            function updateIsFavorite() {
-                loginManager.qUserFavorites.then(function() {
-                    if (userFavorites && userFavorites.$getIndex && userFavorites.$getIndex().length) {
-                        var favoritedKey = _.findKey(userFavorites, function(favoriteObj) {
+            scope.isFavorited = function() {
+                var userFavorites = favoritesManager.getUserFavorites();
+                if (!_.isEmpty(userFavorites)) {
+                    var favoritedKey = _.findKey(userFavorites, function(favoriteObj) {
                             return favoriteObj.rtId === scope.rtId;
                         });
-                        isFavorited = !_.isUndefined(favoritedKey);
-                    }
-                });
-            }
-            updateIsFavorite();
-
-            scope.isFavorited = function() {
-                return isFavorited;
+                    return !_.isUndefined(favoritedKey);
+                }
             };
 
         },
