@@ -8306,15 +8306,33 @@ angularModule.directive('resultBar', function() {
 
 });
 },{"./app":16}],31:[function(require,module,exports){
+
+},{}],32:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
 
-angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) {
+angularModule.factory('firebaseManager', function($firebase, $firebaseSimpleLogin) {
 
     var firebaseReference = new Firebase('https://elfreyshira.firebaseio.com');
     var loginObj = $firebaseSimpleLogin(firebaseReference);
     var ngFireBase = $firebase(firebaseReference);
+
+    return {
+        firebaseReference: firebaseReference,
+        loginObj: loginObj,
+        ngFireBase: ngFireBase
+    };
+});
+},{"../app":16}],33:[function(require,module,exports){
+'use strict';
+
+var angularModule = require('../app');
+
+angularModule.factory('loginManager', function(firebaseManager) {
+
+    var loginObj = firebaseManager.loginObj;
+    var ngFireBase = firebaseManager.ngFireBase;
 
     var loggedIn = false;
 
@@ -8380,7 +8398,7 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
     };
 
 });
-},{"../app":16}],32:[function(require,module,exports){
+},{"../app":16}],34:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8458,7 +8476,7 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
 
 });
 
-},{"../app":16,"lodash":13}],33:[function(require,module,exports){
+},{"../app":16,"lodash":13}],35:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8483,7 +8501,7 @@ angularModule.factory('readableTime', function() {
     };
 
 });
-},{"../app":16}],34:[function(require,module,exports){
+},{"../app":16}],36:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8529,4 +8547,4 @@ angularModule.factory('urlManager', function($location) {
     };
 
 });
-},{"../app":16,"lodash":13}]},{},[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34])
+},{"../app":16,"lodash":13}]},{},[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36])

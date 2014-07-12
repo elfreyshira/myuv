@@ -2,11 +2,10 @@
 
 var angularModule = require('../app');
 
-angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) {
+angularModule.factory('loginManager', function(firebaseManager) {
 
-    var firebaseReference = new Firebase('https://elfreyshira.firebaseio.com');
-    var loginObj = $firebaseSimpleLogin(firebaseReference);
-    var ngFireBase = $firebase(firebaseReference);
+    var loginObj = firebaseManager.loginObj;
+    var ngFireBase = firebaseManager.ngFireBase;
 
     var loggedIn = false;
 
