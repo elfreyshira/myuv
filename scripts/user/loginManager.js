@@ -31,6 +31,14 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
             }
         });
 
+    function getUserFavorites() {
+        return qCurrentUser.then(function(user) {
+            if (user) {
+                return ngFireBase.$child(['users', user.uid, 'favorites'].join('/'));
+            }
+        });
+    }
+
     function login(email, password) {
         return loginObj.$login('password', {
             email: email,
@@ -59,7 +67,8 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
         register: register,
         logout: logout,
         qUserFavorites: qUserFavorites,
-        qCurrentUser: qCurrentUser
+        qCurrentUser: qCurrentUser,
+        getUserFavorites: getUserFavorites
     };
 
 });

@@ -7417,12 +7417,17 @@ var angularModule = angular.module('myuv', [
         'firebase'
 ]);
 
-angularModule.constant('RT_API_KEY', '7p4y4f3nqf96e64sqqg3ustq')
-.constant('TMDB_API_KEY' ,'bb0d9620f620e8097998203a8af18aec')
-.constant('METACRITIC_API_KEY' ,'iR4qVOE5vZSwTxgEfqalscz1ycR8G21K');
-
 module.exports = angularModule;
 },{"angular":"NyiU0/","angularfire":"l7BFQ/","firebase":"XWX+2a","firebase-simple-login":"nE76XQ","ng-animate":"xl63eE","ng-bootstrap":"BlreWs","ng-touch":"pmzTa1"}],17:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+    RT_API_KEY: '7p4y4f3nqf96e64sqqg3ustq',
+    TMDB_API_KEY: 'bb0d9620f620e8097998203a8af18aec',
+    METACRITIC_API_KEY: 'iR4qVOE5vZSwTxgEfqalscz1ycR8G21K'
+};
+
+},{}],18:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('./app');
@@ -7506,7 +7511,7 @@ angularModule.controller('MainController',
 
     });
 
-},{"./app":16,"lodash":13}],18:[function(require,module,exports){
+},{"./app":16,"lodash":13}],19:[function(require,module,exports){
 var startingResults = [
     {
         "title": "Inception",
@@ -7559,7 +7564,7 @@ var startingResults = [
 module.exports = {
     startingResults: startingResults
 };
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7636,7 +7641,7 @@ angularModule.factory('getImdbByTitle', function($q, httpImdbService) {
 
     };
 });
-},{"../app":16}],20:[function(require,module,exports){
+},{"../app":16}],21:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app'),
@@ -7697,7 +7702,7 @@ angularModule.factory('getMetacriticByTitle', function($q, httpMetacriticService
 
     };
 });
-},{"../app":16,"lodash":13}],21:[function(require,module,exports){
+},{"../app":16,"lodash":13}],22:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7860,7 +7865,7 @@ angular.module('myuv').factory('getRottenListByTitle', function($q, httpRottenSe
         return promise;
     };
 });
-},{"../app":16,"lodash":13}],22:[function(require,module,exports){
+},{"../app":16,"lodash":13}],23:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7897,7 +7902,7 @@ angularModule.factory('getTmdbById', function($q, httpTmdbService) {
 
     };
 });
-},{"../app":16}],23:[function(require,module,exports){
+},{"../app":16}],24:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -7969,7 +7974,7 @@ angularModule.factory('httpImdbBackupService', function($http) {
     };
 });
 
-},{"../app":16}],24:[function(require,module,exports){
+},{"../app":16}],25:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8002,10 +8007,11 @@ angularModule.factory('httpImdbService', function($http) {
     };
 });
 
-},{"../app":16}],25:[function(require,module,exports){
+},{"../app":16}],26:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
+var constants = require('../constants');
 
 /**
 Retrieves a JSON object from Metacritic using mashape.
@@ -8016,7 +8022,7 @@ Retrieves a JSON object from Metacritic using mashape.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angularModule.factory('httpMetacriticService', function($http, METACRITIC_API_KEY) {
+angularModule.factory('httpMetacriticService', function($http) {
 
     return function httpMetacriticService(config) {
 
@@ -8026,17 +8032,18 @@ angularModule.factory('httpMetacriticService', function($http, METACRITIC_API_KE
         var url = 'https://byroredux-metacritic.p.mashape.com/search/movie';
         data.title = config.query;
 
-        var headers = {"X-Mashape-Authorization": METACRITIC_API_KEY};
+        var headers = {"X-Mashape-Authorization": constants.METACRITIC_API_KEY};
 
         return $http.post(url, data, {headers: headers});
     };
 
 });
 
-},{"../app":16}],26:[function(require,module,exports){
+},{"../app":16,"../constants":17}],27:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
+var constants = require('../constants');
 
 /**
 Retrieves a JSON object from Rotten Tomatoes.
@@ -8048,12 +8055,12 @@ Retrieves a JSON object from Rotten Tomatoes.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angularModule.factory('httpRottenService', function($http, RT_API_KEY) {
+angularModule.factory('httpRottenService', function($http) {
 
     return function httpRottenService(config) {
 
         var params = {};
-        params.apiKey = RT_API_KEY;
+        params.apiKey = constants.RT_API_KEY;
         params.page_limit = config.limit || '1';
         params.callback = 'JSON_CALLBACK';
 
@@ -8071,10 +8078,11 @@ angularModule.factory('httpRottenService', function($http, RT_API_KEY) {
 
 });
 
-},{"../app":16}],27:[function(require,module,exports){
+},{"../app":16,"../constants":17}],28:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
+var constants = require('../constants');
 
 /**
 Retrieves a JSON object from TMDB.
@@ -8085,12 +8093,12 @@ Retrieves a JSON object from TMDB.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angularModule.factory('httpTmdbService', function($http, TMDB_API_KEY) {
+angularModule.factory('httpTmdbService', function($http) {
 
     return function httpTmdbService(config) {
 
         var params = {};
-        params.api_key = TMDB_API_KEY;
+        params.api_key = constants.TMDB_API_KEY;
         params.callback = 'JSON_CALLBACK';
 
         var url;
@@ -8107,7 +8115,7 @@ angularModule.factory('httpTmdbService', function($http, TMDB_API_KEY) {
 
 });
 
-},{"../app":16}],28:[function(require,module,exports){
+},{"../app":16,"../constants":17}],29:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('./app');
@@ -8203,7 +8211,7 @@ angularModule.directive('favorite', function(loginManager) {
 
     };
 });
-},{"./app":16,"lodash":13}],29:[function(require,module,exports){
+},{"./app":16,"lodash":13}],30:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('./app');
@@ -8297,7 +8305,7 @@ angularModule.directive('resultBar', function() {
     };
 
 });
-},{"./app":16}],30:[function(require,module,exports){
+},{"./app":16}],31:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8331,6 +8339,14 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
             }
         });
 
+    function getUserFavorites() {
+        return qCurrentUser.then(function(user) {
+            if (user) {
+                return ngFireBase.$child(['users', user.uid, 'favorites'].join('/'));
+            }
+        });
+    }
+
     function login(email, password) {
         return loginObj.$login('password', {
             email: email,
@@ -8359,11 +8375,12 @@ angularModule.factory('loginManager', function($firebase, $firebaseSimpleLogin) 
         register: register,
         logout: logout,
         qUserFavorites: qUserFavorites,
-        qCurrentUser: qCurrentUser
+        qCurrentUser: qCurrentUser,
+        getUserFavorites: getUserFavorites
     };
 
 });
-},{"../app":16}],31:[function(require,module,exports){
+},{"../app":16}],32:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8441,7 +8458,7 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
 
 });
 
-},{"../app":16,"lodash":13}],32:[function(require,module,exports){
+},{"../app":16,"lodash":13}],33:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8466,7 +8483,7 @@ angularModule.factory('readableTime', function() {
     };
 
 });
-},{"../app":16}],33:[function(require,module,exports){
+},{"../app":16}],34:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8512,4 +8529,4 @@ angularModule.factory('urlManager', function($location) {
     };
 
 });
-},{"../app":16,"lodash":13}]},{},[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33])
+},{"../app":16,"lodash":13}]},{},[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34])

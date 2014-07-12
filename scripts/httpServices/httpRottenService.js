@@ -1,6 +1,7 @@
 'use strict';
 
 var angularModule = require('../app');
+var constants = require('../constants');
 
 /**
 Retrieves a JSON object from Rotten Tomatoes.
@@ -12,12 +13,12 @@ Retrieves a JSON object from Rotten Tomatoes.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angularModule.factory('httpRottenService', function($http, RT_API_KEY) {
+angularModule.factory('httpRottenService', function($http) {
 
     return function httpRottenService(config) {
 
         var params = {};
-        params.apiKey = RT_API_KEY;
+        params.apiKey = constants.RT_API_KEY;
         params.page_limit = config.limit || '1';
         params.callback = 'JSON_CALLBACK';
 

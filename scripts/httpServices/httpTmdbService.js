@@ -1,6 +1,7 @@
 'use strict';
 
 var angularModule = require('../app');
+var constants = require('../constants');
 
 /**
 Retrieves a JSON object from TMDB.
@@ -11,12 +12,12 @@ Retrieves a JSON object from TMDB.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angularModule.factory('httpTmdbService', function($http, TMDB_API_KEY) {
+angularModule.factory('httpTmdbService', function($http) {
 
     return function httpTmdbService(config) {
 
         var params = {};
-        params.api_key = TMDB_API_KEY;
+        params.api_key = constants.TMDB_API_KEY;
         params.callback = 'JSON_CALLBACK';
 
         var url;

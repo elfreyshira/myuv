@@ -1,6 +1,7 @@
 'use strict';
 
 var angularModule = require('../app');
+var constants = require('../constants');
 
 /**
 Retrieves a JSON object from Metacritic using mashape.
@@ -11,7 +12,7 @@ Retrieves a JSON object from Metacritic using mashape.
 
 @returns {Promise} Follow up with 'success' or 'error'. Each function takes arguments: data, status, headers, config
 **/
-angularModule.factory('httpMetacriticService', function($http, METACRITIC_API_KEY) {
+angularModule.factory('httpMetacriticService', function($http) {
 
     return function httpMetacriticService(config) {
 
@@ -21,7 +22,7 @@ angularModule.factory('httpMetacriticService', function($http, METACRITIC_API_KE
         var url = 'https://byroredux-metacritic.p.mashape.com/search/movie';
         data.title = config.query;
 
-        var headers = {"X-Mashape-Authorization": METACRITIC_API_KEY};
+        var headers = {"X-Mashape-Authorization": constants.METACRITIC_API_KEY};
 
         return $http.post(url, data, {headers: headers});
     };
