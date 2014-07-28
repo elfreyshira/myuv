@@ -7440,6 +7440,7 @@ angularModule.controller('MainController',
 
         // $scope.movieSearchResults = fixtures.startingResults;
         $scope.movieSearchResults = [];
+        $scope.backgroundUrl = '';
 
         function resetInput() {
             $scope.queryObj = '';
@@ -7885,7 +7886,10 @@ angularModule.factory('getTmdbById', function($q, httpTmdbService) {
                 }
             ];
 
+            var backgroundUrl = 'http://image.tmdb.org/t/p/w600' + data.backdrop_path;
+
             deferred.resolve({
+                backgroundUrl: backgroundUrl,
                 sources: sources
             });
         });
@@ -8111,6 +8115,31 @@ angularModule.factory('httpTmdbService', function($http) {
 'use strict';
 
 var angularModule = require('./app');
+
+angularModule
+.directive('lazyImageBackground', function($document) {
+    return {
+        scope: {
+            lazyImageBackground: '='
+        },
+        link: function link(scope, element) {
+            scope.$watch('lazyImageBackground', function(newValue) {
+                var img = $document[0].createElement('img');
+                img.onload = function() {
+                    element.css({
+                        'background-image': 'url(' + this.src + ')'
+                    });
+                };
+                img.src = newValue;
+            });
+        }
+    };
+});
+
+},{"./app":16}],30:[function(require,module,exports){
+'use strict';
+
+var angularModule = require('./app');
 var _ = require('lodash');
 
 angularModule.directive('movieResult', function() {
@@ -8195,7 +8224,7 @@ angularModule.directive('favorite', function(loginManager, favoritesManager) {
 
     };
 });
-},{"./app":16,"lodash":13}],30:[function(require,module,exports){
+},{"./app":16,"lodash":13}],31:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('./app');
@@ -8289,7 +8318,7 @@ angularModule.directive('resultBar', function() {
     };
 
 });
-},{"./app":16}],31:[function(require,module,exports){
+},{"./app":16}],32:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8319,7 +8348,7 @@ angularModule.factory('favoritesManager', function(firebaseManager, loginManager
 
 });
 
-},{"../app":16}],32:[function(require,module,exports){
+},{"../app":16}],33:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8336,7 +8365,7 @@ angularModule.factory('firebaseManager', function($firebase, $firebaseSimpleLogi
         ngFireBase: ngFireBase
     };
 });
-},{"../app":16}],33:[function(require,module,exports){
+},{"../app":16}],34:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8406,7 +8435,7 @@ angularModule.factory('loginManager', function(firebaseManager) {
     };
 
 });
-},{"../app":16}],34:[function(require,module,exports){
+},{"../app":16}],35:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8416,7 +8445,7 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
     getTmdbById, getMetacriticByTitle, getRottenById, urlManager) {
 
     // After getting rotten, get the other sources
-    function getOtherSources(movieSearchResult) {
+    function getOtherSources($scope, movieSearchResult) {
 
         var imdbId = movieSearchResult.imdbId;
         var title = movieSearchResult.title;
@@ -8428,8 +8457,9 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
                 movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
             });
 
-            getTmdbById(imdbId).then(function(data){
+            getTmdbById(imdbId).then(function(data) {
                 movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                $scope.backgroundUrl = data.backgroundUrl;
             });
         }
         else {
@@ -8439,6 +8469,7 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
                 var imdbId = data.imdbId;
                 getTmdbById(imdbId).then(function(data) {
                     movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                    $scope.backgroundUrl = data.backgroundUrl;
                 });
             });
         }
@@ -8477,14 +8508,14 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
         return getRottenByQuery().then(function(data) {
             resetInput();
             $scope.movieSearchResults.unshift(data);
-            getOtherSources(data);
+            getOtherSources($scope, data);
         });
 
     };
 
 });
 
-},{"../app":16,"lodash":13}],35:[function(require,module,exports){
+},{"../app":16,"lodash":13}],36:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8509,7 +8540,7 @@ angularModule.factory('readableTime', function() {
     };
 
 });
-},{"../app":16}],36:[function(require,module,exports){
+},{"../app":16}],37:[function(require,module,exports){
 'use strict';
 
 var angularModule = require('../app');
@@ -8555,4 +8586,4 @@ angularModule.factory('urlManager', function($location) {
     };
 
 });
-},{"../app":16,"lodash":13}]},{},[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36])
+},{"../app":16,"lodash":13}]},{},[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37])

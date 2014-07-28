@@ -1,13 +1,38 @@
 body {
   background-color: #333;
-  color: #ddd; }
+  color: #ddd;
+  font-size: 16px; }
+
+@media only screen and (max-width: 40em) {
+  body {
+    font-size: 0.75em; } }
+
+/* max-width 640px, mobile-only styles, use when QAing mobile issues */
+.background-image {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.5;
+  background-size: cover;
+  -webkit-filter: blur(0.5em);
+  -moz-filter: blur(0.5em);
+  -ms-filter: blur(0.5em);
+  -o-filter: blur(0.5em);
+  -webkit-transition: background-image 1s ease-in-out;
+  -moz-transition: background-image 1s ease-in-out;
+  -ms-transition: background-image 1s ease-in-out;
+  -o-transition: background-image 1s ease-in-out;
+  transition: background-image 1s ease-in-out; }
 
 h1 {
   color: #ddd; }
 
 div.header {
   text-align: center;
-  margin-top: 50px;
+  padding-top: 50px;
   margin-bottom: 20px; }
 
 ul.dropdown-menu {
@@ -105,19 +130,11 @@ div[movie-result] {
       bottom: 0;
       left: 0;
       right: 0;
-      font-size: 0.8em;
-      /* max-width 640px, mobile-only styles, use when QAing mobile issues */ }
-      @media only screen and (max-width: 40em) {
-        div[movie-result] div.movie-ratings div.columns .source-label {
-          font-size: 0.6em; } }
+      font-size: 0.8em; }
     div[movie-result] div.movie-ratings div.columns .source-rating-container {
-      margin-top: -1.1em;
-      /* max-width 640px, mobile-only styles, use when QAing mobile issues */ }
+      margin-top: -1.1em; }
       div[movie-result] div.movie-ratings div.columns .source-rating-container .source-out-of {
         color: #919191; }
-      @media only screen and (max-width: 40em) {
-        div[movie-result] div.movie-ratings div.columns .source-rating-container {
-          font-size: 0.6em; } }
 
 .heart {
   cursor: pointer;

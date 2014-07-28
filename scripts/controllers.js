@@ -10,6 +10,7 @@ angularModule.controller('MainController',
 
         // $scope.movieSearchResults = fixtures.startingResults;
         $scope.movieSearchResults = [];
+        $scope.backgroundUrl = '';
 
         function resetInput() {
             $scope.queryObj = '';

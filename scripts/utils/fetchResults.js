@@ -7,7 +7,7 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
     getTmdbById, getMetacriticByTitle, getRottenById, urlManager) {
 
     // After getting rotten, get the other sources
-    function getOtherSources(movieSearchResult) {
+    function getOtherSources($scope, movieSearchResult) {
 
         var imdbId = movieSearchResult.imdbId;
         var title = movieSearchResult.title;
@@ -19,8 +19,9 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
                 movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
             });
 
-            getTmdbById(imdbId).then(function(data){
+            getTmdbById(imdbId).then(function(data) {
                 movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                $scope.backgroundUrl = data.backgroundUrl;
             });
         }
         else {
@@ -30,6 +31,7 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
                 var imdbId = data.imdbId;
                 getTmdbById(imdbId).then(function(data) {
                     movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+                    $scope.backgroundUrl = data.backgroundUrl;
                 });
             });
         }
@@ -68,7 +70,7 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
         return getRottenByQuery().then(function(data) {
             resetInput();
             $scope.movieSearchResults.unshift(data);
-            getOtherSources(data);
+            getOtherSources($scope, data);
         });
 
     };

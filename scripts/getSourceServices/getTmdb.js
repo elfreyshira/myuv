@@ -25,7 +25,10 @@ angularModule.factory('getTmdbById', function($q, httpTmdbService) {
                 }
             ];
 
+            var backgroundUrl = 'http://image.tmdb.org/t/p/w600' + data.backdrop_path;
+
             deferred.resolve({
+                backgroundUrl: backgroundUrl,
                 sources: sources
             });
         });
