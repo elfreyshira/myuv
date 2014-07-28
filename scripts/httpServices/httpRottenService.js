@@ -31,7 +31,7 @@ angularModule.factory('httpRottenService', function($http) {
             url = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json';
         }
 
-        return $http.jsonp(url, {params: params});
+        return $http.jsonp(url, {params: params, cache: true});
     };
 
 });

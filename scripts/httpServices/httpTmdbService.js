@@ -29,7 +29,7 @@ angularModule.factory('httpTmdbService', function($http) {
             url = 'http://api.themoviedb.org/3/search/movie';
         }
 
-        return $http.jsonp(url, {params: params});
+        return $http.jsonp(url, {params: params, cache: true});
     };
 
 });

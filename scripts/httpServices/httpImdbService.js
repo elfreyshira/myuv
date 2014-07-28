@@ -25,7 +25,7 @@ angularModule.factory('httpImdbService', function($http) {
             params.t = config.query;
         }
 
-        return $http.jsonp(url, {params: params});
+        return $http.jsonp(url, {params: params, cache: true});
 
     };
 });
