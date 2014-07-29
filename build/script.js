@@ -8400,7 +8400,8 @@ angularModule.factory('loginManager', function(firebaseManager) {
 
         return loginObj.$login('password', {
             email: email,
-            password: password
+            password: password,
+            rememberMe: true
         }).then(function(user) {
             console.log('Hello ' + user.email);
             currentUser = user;
