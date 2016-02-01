@@ -36,9 +36,10 @@ angularModule.factory('fetchResults', function(getRottenByTitle, getImdbById, ge
             });
         }
 
-        getMetacriticByTitle(title, releaseYear, runtime).then(function(data){
-            movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
-        });
+        // they kill the metacritic api. metacritic scores now come from omdbapi.com
+        // getMetacriticByTitle(title, releaseYear, runtime).then(function(data){
+        //     movieSearchResult.sources = movieSearchResult.sources.concat(data.sources);
+        // });
 
         return movieSearchResult;
 

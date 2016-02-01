@@ -6,6 +6,25 @@ function imdbDataIsBad(data) {
     return !parseFloat(data.imdbRating) || data.Response === "False";
 }
 
+function getSources(data, imdbId) {
+    var sources = [{
+        label: 'IMDB',
+        rating: parseFloat(data.imdbRating),
+        outOf: '10',
+        link: 'http://www.imdb.com/title/' + imdbId
+    }];
+
+    if (parseInt(data.Metascore)) {
+        sources.push({
+            label: 'Metacritics',
+            rating: parseInt(data.Metascore),
+            outOf: '100'
+        });
+    }
+
+    return sources;
+}
+
 angularModule.factory('getImdbById', function($q, httpImdbService) {
 
     return function getImdbById(imdbId) {
@@ -20,14 +39,7 @@ angularModule.factory('getImdbById', function($q, httpImdbService) {
                 return;
             }
 
-            var sources = [
-                {
-                    label: 'IMDB',
-                    rating: parseFloat(data.imdbRating),
-                    outOf: '10',
-                    link: 'http://www.imdb.com/title/' + imdbId
-                }
-            ];
+            var sources = getSources(data, imdbId);
 
             deferred.resolve({
                 sources: sources
@@ -55,14 +67,7 @@ angularModule.factory('getImdbByTitle', function($q, httpImdbService) {
 
             var imdbId = data.imdbID;
 
-            var sources = [
-                {
-                    label: 'IMDB',
-                    rating: parseFloat(data.imdbRating),
-                    outOf: '10',
-                    link: 'http://www.imdb.com/title/' + imdbId
-                }
-            ];
+            var sources = getSources(data, imdbId);
 
             deferred.resolve({
                 sources: sources,

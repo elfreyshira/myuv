@@ -17,7 +17,7 @@ angularModule.factory('httpImdbService', function($http) {
         var params = {};
         params.callback = 'JSON_CALLBACK';
 
-        var url = 'http://www.imdbapi.com';
+        var url = 'http://www.omdbapi.com';
         if (angular.isString(config.id)) {
             params.i = config.id;
         }

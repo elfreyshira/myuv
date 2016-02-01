@@ -49,7 +49,7 @@ ul.dropdown-menu {
     padding: 10px 15px 10px 15px; }
     ul.dropdown-menu li.active {
       background-color: #fff;
-      opacity: 1; }
+      opacity: 1.0; }
 
 .login-container {
   text-align: center; }
@@ -96,7 +96,7 @@ div[movie-result] {
   margin: 20px auto; }
   div[movie-result] div.more-info {
     color: #444444;
-    font-size: 0.8em;
+    font-size: .8em;
     padding: 5px; }
     div[movie-result] div.more-info span {
       display: inline-block;
@@ -126,11 +126,12 @@ div[movie-result] {
     word-wrap: break-word;
     position: relative; }
     div[movie-result] div.movie-ratings div.columns .source-label {
+      color: #222;
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      font-size: 0.8em; }
+      font-size: .8em; }
     div[movie-result] div.movie-ratings div.columns .source-rating-container {
       margin-top: -1.1em; }
       div[movie-result] div.movie-ratings div.columns .source-rating-container .source-out-of {
